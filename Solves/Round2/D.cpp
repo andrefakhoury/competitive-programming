@@ -41,7 +41,7 @@ int main () {
 	pal.erase( unique( pal.begin(), pal.end() ), pal.end() );
 	
 	long double den = 1;
-	for (int i = 0; i < (int)pal.size(); i++) {
+	for (int i = 0; i < pal.size(); i++) {
 		int qt = rep[pal[i]];
 		den *= fatorial(qt);
 	}
