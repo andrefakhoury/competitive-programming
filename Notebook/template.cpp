@@ -2,6 +2,7 @@
 #define debugg(a) cout << ":" << (#a) << " : " << (a) << endl;
 #define mset(x, y) memset(x, y, sizeof x)
 #define pb push_back
+#define mp make_pair
 
 #define inf 0x3f3f3f3f
 #define MAXN 100000
