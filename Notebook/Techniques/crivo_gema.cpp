@@ -47,5 +47,9 @@ vector<ii> fatora(int n) {
 }
 
 int main() {
+	crivo();
+
+	
 	return 0;
+
 }
