@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 
 #define ll long long
+
 using namespace std;
 
 struct Point{
@@ -35,13 +36,21 @@ struct Point{
 };
 
 double Length(Point P) {
-	return sqrt(P.x*P.x + P.y*P.y);
+	return sqrt((double)P.x*P.x + (double)P.y*P.y);
 }
 
 int main () {
 	ll x, y, z, w;
-	cin >> x >> y >> z >> y;
-	cout << sqrt((double)x*x+y*y+z*z+w*w);
 
+	scanf("%lld %lld %lld %lld", &x, &y, &z, &w);
+	Point u(z-x, w-y);
+
+	scanf("%lld %lld %lld %lld", &x, &y, &z, &w);
+	Point v(z-x, w-y);
+
+	printf("%.9lf %.9lf\n", Length(u), Length(v));
+	printf("%.9lf %.9lf\n", (double)(u+v).x, (double)(u+v).y);
+	printf("%.9lf %.9lf\n", (double)(u*v), (double)(u^v));
+	printf("%.9lf\n", (double)0.5*(double)abs(u^v));
 	return 0;
 }
