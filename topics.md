@@ -2,14 +2,17 @@
 
 ## All
 - STL
-- Grafos: DFS, BFS, Dijkstra, Arvores
+- Graphs: DFS, BFS, Dijkstra, Trees
 - DP
 - LIS
 - Crivo
 - MST
 - DSU
-- Geometria Computacional
+- Geometry
 - Binary-Search
+- Fast Exponentional
+- Segment Tree
+- Strings
 
 ## STL
 
