@@ -24,18 +24,10 @@ int carta(string c) {
 vector<int> card;
 
 int testar(int x) {
-	int sum = 0, qt = 0, bk = 0;
-	for (int i = 0; i < card.size(); i++) {
-		sum += card[i]; qt++;
-		if (sum > x) {
-			return 0;
-		} else if (sum == x) {
-			sum = 0; 
-			bk = max(bk, qt);
-		} 
+	vector<int> bkp(card);
+	while(bkp.size()) {
+		
 	}
-
-	return bk;
 }
 
 int main () {
@@ -47,13 +39,18 @@ int main () {
 		card.pb(carta(c));
 		sum += card[i];
 	}
-	each = sum/p;
-	int tot = testar(each);
-	while(!tot) {
-		each++;
-		tot = testar(each);
-	} 
-	printf("%d %d\n", tot, each);
+	each = sum/p;	
+	sort(card.begin(), card.end());
+
+	//for (int i = 0; i < card.size(); i++) printf("%d ", card[i]);
+	//printf("\nSum: %d Each: %d\n", sum, each);
+
+
+
+
+	for (int i = 0, j = card.size()-1; i < card.size(); i++, j--) {
+
+	}
 
 	return 0;
 }
