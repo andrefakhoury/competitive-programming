@@ -16,7 +16,6 @@ Codes and more for competitive programming
 - Strings
 
 ## General
-- http://codeforces.com/problemset/problem/1004/A
 - http://codeforces.com/problemset/problem/1005/C
 - http://codeforces.com/problemset/problem/1005/D
 - http://codeforces.com/problemset/problem/1005/E1
@@ -28,8 +27,6 @@ Codes and more for competitive programming
 - https://www.urionlinejudge.com.br/judge/pt/problems/view/2446
 
 ## STL
-- https://www.hackerrank.com/challenges/vector-sort/problem
-- https://www.hackerrank.com/challenges/vector-erase/problem
 - https://www.hackerrank.com/challenges/cpp-lower-bound/problem
 - https://www.hackerrank.com/challenges/cpp-sets/problem
 - https://www.hackerrank.com/challenges/cpp-maps/problem
@@ -42,11 +39,10 @@ Codes and more for competitive programming
 ## Graphs
 
 ## DFS
-- http://codeforces.com/group/FvMjH7NV4I/contest/223527/problem/C
-- http://codeforces.com/group/FvMjH7NV4I/contest/223527/problem/B
+- Empty
 
 ## BFS
-- http://codeforces.com/group/FvMjH7NV4I/contest/223527/problem/E
+- Empty
 
 ## Dijkstra
 - http://codeforces.com/group/FvMjH7NV4I/contest/223713/problem/B
@@ -57,6 +53,7 @@ Codes and more for competitive programming
 - http://codeforces.com/problemset/problem/369/C
 - https://codeforces.com/problemset/problem/115/A
 - https://codeforces.com/problemset/problem/431/C
+- http://codeforces.com/contest/1006/problem/E
 
 ## DP
 - https://www.hackerrank.com/challenges/coin-change/problem
@@ -71,15 +68,12 @@ Codes and more for competitive programming
 - https://www.urionlinejudge.com.br/repository/UOJ_1224.html
 - http://codeforces.com/problemset/problem/580/D
 - https://www.spoj.com/problems/VOCV/
-- 
+- https://www.geeksforgeeks.org/longest-increasing-subsequence/
 
 ### DP References
 - https://www.quora.com/What-is-the-best-way-to-learn-dynamic-programming
 - https://www.topcoder.com/community/data-science/data-science-tutorials/dynamic-programming-from-novice-to-advanced/
 - http://codeforces.com/blog/entry/325
-
-### LIS
-- https://www.geeksforgeeks.org/longest-increasing-subsequence/
 
 ## Sieve
 - https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=1640
@@ -87,9 +81,6 @@ Codes and more for competitive programming
 - https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3194
 - https://uva.onlinejudge.org/external/101/p10139.pdf
 - http://codeforces.com/contest/566/problem/F
-
-### Sieve References
-- https://github.com/icmcgema/gema/blob/master/crivo.cpp
 
 ## MST
 - https://www.urionlinejudge.com.br/judge/en/problems/view/1152
@@ -126,15 +117,11 @@ Codes and more for competitive programming
 - http://codeforces.com/group/FvMjH7NV4I/contest/225072/problem/E
 
 ## Segment Tree
-- https://www.codepit.io/#/problems/5430d5af7455fe8016912915/view?index=0
 - https://www.codepit.io/#/problems/5369c35df6fa9de49e5c8073/view?index=1
 - https://www.codepit.io/#/problems/5369c2c5f6fa9de49e5c64fe/view?index=2
 - http://codeforces.com/problemset/problem/609/F
 - http://codeforces.com/problemset/problem/145/E
 - http://codeforces.com/problemset/problem/597/C
-
-### Segtree References
-- https://www.hackerearth.com/practice/notes/segment-tree-and-lazy-propagation/
 
 ## Strings
 - https://www.codepit.io/#/problems/56337f8a25b873c24feb7180/view?index=0

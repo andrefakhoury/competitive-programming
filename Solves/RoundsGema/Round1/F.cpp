@@ -19,13 +19,10 @@ int dp[20][20];
 
 int diferenca (int x, int y) {
 	if (dp[x][y] != -1) return dp[x][y];
+	int cima = y-x, baixo = 10-x-y;
 	
-	int ans = y-x;
-	while (abs(ans) > 5) {
-		if (ans < 0) ans+=10;
-		else ans = 10-ans;
-	}
-	return dp[x][y] = ans;
+	if (abs(cima) > abs(baixo)) return dp[x][y] = baixo;
+	return dp[x][y] = cima;
 }
 
 int solve() {
@@ -33,7 +30,6 @@ int solve() {
 	int ans = 0, dif;
 	for (int i = 0; i < n; i++) {
 		dif = diferenca(ini[i]%10, fim[i]%10);
-		//printf("(%d) %d -> %d (%d) : (%d)\n", i, ini[i], fim[i], dif, ans);
 		ans += abs(dif);
 		if (dif)
 			for (int j = i; j < i+k; j++) {
@@ -45,13 +41,20 @@ int solve() {
 }
 
 int main () {
-	scanf("%d%d", &n, &k);
+	/*scanf("%d%d", &n, &k);
 	for (int i = 0; i < n; i++) {
 		scanf("%d", &x); ini.pb(x);
 	}for (int i = 0; i < n; i++) {
 		scanf("%d", &x); fim.pb(x);
 	}
 	printf("%d\n", solve());
+*/
+	memset(dp, -1, sizeof(dp));
 
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			printf("%d,%d : %d\n", i, j, diferenca(i, j));
+		}
+	}
 	return 0;
 }
