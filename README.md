@@ -34,7 +34,6 @@ Codes and more for competitive programming
 - https://www.hackerrank.com/challenges/deque-stl/problem
 - http://codeforces.com/problemset/problem/567/D
 - http://codeforces.com/contest/528/problem/A
-- http://codeforces.com/problemset/problem/22/A
 
 ## Graphs
 
@@ -77,7 +76,8 @@ Codes and more for competitive programming
 
 ## Sieve
 - https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=1640
-- http://codeforces.com/contest/776/problem/Bhttp://www.spoj.com/problems/VECTAR8/
+- http://codeforces.com/contest/776/problem/B
+- http://www.spoj.com/problems/VECTAR8/
 - https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3194
 - https://uva.onlinejudge.org/external/101/p10139.pdf
 - http://codeforces.com/contest/566/problem/F
@@ -92,8 +92,6 @@ Codes and more for competitive programming
 - http://codeforces.com/problemset/problem/939/D
 
 ## Geometria Computacional
-- http://codeforces.com/group/3qadGzUdR4/contest/101706/problem/A
-- http://codeforces.com/group/3qadGzUdR4/contest/101706/problem/H
 - http://codeforces.com/group/3qadGzUdR4/contest/101706/problem/D
 - http://codeforces.com/group/3qadGzUdR4/contest/219560
 - http://codeforces.com/problemset/problem/961/D
