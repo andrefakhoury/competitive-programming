@@ -120,6 +120,7 @@ Codes and more for competitive programming
 - http://codeforces.com/problemset/problem/609/F
 - http://codeforces.com/problemset/problem/145/E
 - http://codeforces.com/problemset/problem/597/C
+- https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2397
 
 ## Strings
 - https://www.codepit.io/#/problems/56337f8a25b873c24feb7180/view?index=0

@@ -1,23 +1,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool cmp (int& a, int& b) {
-	return a > b;
-}
+#define pb push_back
+#define mp make_pair
+
+const int MAXN = 100005;
+typedef long long ll;
+
+char a[MAXN];
+int n;
 
 int main() {
+	ios::sync_with_stdio(false);
+
 	int t; scanf("%d", &t);
-	int n, k, s[100005], ans;
-
 	while(t--) {
-		ans = 0;
-		scanf("%d%d", &n, &k);
-		for (int i = 1; i <= n; i++) scanf("%d", s+i);
+		scanf("%d", &n);
+		scanf("%s", a+1);
 
-		sort(s+1, s+n+1, cmp);
-		for (int i = 1; i <= n; i++) if (s[i] >= s[k]) ans++;
-
-		printf("%d\n", ans);
+		printf("%d\n", solve(1));
 	}
+	
 	return 0;
 }

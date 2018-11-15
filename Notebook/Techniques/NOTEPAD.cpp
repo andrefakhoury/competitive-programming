@@ -287,7 +287,7 @@ void compressaoCoords() {
 	for (int i = 1; i <= n; i++) a[i] = lower_bound(v.begin(), v.end(), a[i]);
 }
 
-int LCS() {
+int LCS() { //O(NlogN)
 	map<int, int> idx;
 	int a[MAXN], b[MAXN];
 

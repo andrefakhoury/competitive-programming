@@ -7,7 +7,6 @@ using namespace std;
 
 const int MAXN = 1005;
 const int INF = 0x3f3f3f3f;
-const int B01 = 1; //0-based or 1-based
 
 int cap[MAXN][MAXN]; //capacity matrix
 int res[MAXN][MAXN]; //residual capacity
@@ -27,7 +26,7 @@ bool bfs(int s, int t, int V) {
 		int u = q.front();
 		q.pop();
 
-		for (int v = B01; v-B01 < V; v++) {
+		for (int v = 0; v < V; v++) {
 			if (!vis[v] && res[u][v] > 0) {
 				q.push(v);
 				parent[v] = u;
@@ -41,9 +40,12 @@ bool bfs(int s, int t, int V) {
 	return vis[t]; //if the sink is not visited, the path-finding is done
 }
 
-int fordFulkerson(int s, int t, int V) {
-	for (int i = B01; i-B01 < V; i++)
-		for (int j = B01; j-B01 < V; j++)
+//Ford-Fulkerson - Edmond Karp Implementation
+int fordFulkerson(int s, int t, int V) { //O(V*V + V*E*E)
+	if (s == t) return -1;
+
+	for (int i = 0; i < V; i++)
+		for (int j = 0; j < V; j++)
 			res[i][j] = cap[i][j];
 
 	mset(parent, 0);
