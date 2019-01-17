@@ -1,16 +1,3 @@
-/*
-	Given an array P of size N and an Integer S,
-	find 4 numbers (a, b, c, d) such that:
-	a + b + c + d = S, {a, b, c, d} in P
-*/
-
-/**
-	There's a problem with this approach. Using the meet in the middle method,
-	the elements can actually be repeated 2 times, and we don't want that.
-
-	How you can solve it? I don't know heheh
-*/
-
 import java.math.*;
 import java.util.*;
 import java.lang.*;
