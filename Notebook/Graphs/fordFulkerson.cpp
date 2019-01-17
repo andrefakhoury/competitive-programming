@@ -3,7 +3,6 @@ using namespace std;
 
 #define pb push_back
 #define mp make_pair
-#define mset(x, y) memset((x), (y), sizeof(x))
 
 const int MAXN = 1005;
 const int INF = 0x3f3f3f3f;
@@ -15,7 +14,7 @@ int parent[MAXN];	//i got introduced by parent[i]
 bool vis[MAXN];
 
 bool bfs(int s, int t, int V) {
-	mset(vis, 0);
+	memset(vis, 0, sizeof vis);
 
 	queue<int> q;
 	q.push(s);
@@ -48,7 +47,7 @@ int fordFulkerson(int s, int t, int V) { //O(V*V + V*E*E)
 		for (int j = 0; j < V; j++)
 			res[i][j] = cap[i][j];
 
-	mset(parent, 0);
+	memset(parent, 0, sizeof parent);
 	int maxFlow = 0;
 
 	while(bfs(s, t, V)) {
@@ -77,7 +76,7 @@ int main() {
 
 	int t; scanf("%d", &t);
 	while(t--) {
-		mset(cap, 0);
+		memset(cap, 0, sizeof cap);
 
 		int n, m, s, t, x, y, w; scanf("%d%d", &n, &m);
 		for (int i = 1; i <= m; i++) {

@@ -1,10 +1,11 @@
+
 vector<int> edges[MAXN];
-int vis[MAXN]; // visited positions
+bool vis[MAXN];
 
 void dfs(int u) {
-	vis[u] = 1;
-	for(int i = 0; i < edges[u].size(); ++i) {
+	vis[u] = true;
+	for (int i = 0; i < (int)edges[u].size(); i++) {
 		int v = edges[u][i];
-		if(vis[v] == 0) dfs(v);
+		if (!vis[v]) dfs(v);
 	}
 }
