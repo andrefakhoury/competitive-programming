@@ -51,7 +51,7 @@ int main() {
 	//gets the answer to the problem, analysing the two formed sets
 	long long ans = 0;
 	for (int i = 0; i < (int)X.size(); i++) {
-		int ind = lower_bound(Y.begin(), Y.end(), make_pair(w - X[i].first, 0LL)) - Y.begin() - 1;
+		int ind = lower_bound(Y.begin(), Y.end(), make_pair(w - X[i].first + 1, 0LL)) - Y.begin() - 1;
 		if (ind < 0) continue; //no element found
 		
 		//gets the maximum possible answer
