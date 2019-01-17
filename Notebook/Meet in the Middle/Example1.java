@@ -16,8 +16,6 @@
 /**
 	There's a problem with this approach. Using the meet in the middle method,
 	the elements can actually be repeated 2 times, and we don't want that.
-
-	How you can solve it? I don't know heheh
 */
 
 import java.math.*;
@@ -67,9 +65,11 @@ public class Example1 {
 			
 			a + b + c + d = S
 			
+			assuming that:
 			a + b = x
 			c + d = y
 			
+			we have:
 			x + y = s
 			x = s - y
 
