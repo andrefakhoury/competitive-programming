@@ -18,11 +18,11 @@ Essa coleção de resumos foi feita com o objetivo de introduzir e facilitar o e
 - DP - Programação Dinâmica
 - Problemas envolvendo Árvores
 - LIS - Longest Increasing Subsequence
-- Geometria Computacional (https://www.facebook.com/events/219720538830325/)
+- Geometria Computacional
 - Hash
-- Number Theory (https://www.facebook.com/events/308086706584384/)
+- Number Theory
 - Max Flow, Min Cut (Ford Fulkerson-Edmond Karp, Dinic)
-- Otimização de DP (https://www.facebook.com/events/629818927352910/)
+- Otimização de DP
 - Aho Corasick
 - Trie
 - Crivo de Eratóstenes
