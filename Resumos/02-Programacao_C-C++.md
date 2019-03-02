@@ -13,14 +13,14 @@ Recomendamos que, durante a leitura, você tente fazer os códigos ou pelo menos
 
 ```c
 int main() { //função principal do código, a partir da qual a execuço é iniciada
-    return 0; //simplesmente retorna o valor 0 para o sistema operacional
+    // aqui voce escreve seu código
 }
 ```
 
 Falaremos agora sobre **variáveis**.
 
 Variáveis são tipos de dados, que podem armazenar determinados valores, de acordo com suas especificações. Os principais tipos de dados são:
-1. *int* - armazena números inteiros, no intervalo de -2^31 até +(2^31) - 1.
+1. *int* - armazena números inteiros, no intervalo de -2^31 até +(2^31) - 1 (da ordem de -10^9 para 10^9).
 2. *char* - armazena números pequenos (-128 a 127) ou caracteres do tipo ASCII.
 3. *float* - armazena valores reais.
 4. *double* - armazena valores reais, com maior capacidade de precisão.
@@ -97,28 +97,28 @@ Sem crise até aqui, certo? Vamos falar agora sobre operações que podemos faze
 2. a - b, subtrai b de a
 3. a * b, multiplica a e b
 4. a / b, divide a por b
-5. a % b, retorna o resto da divisão de a por b
+5. a % b, resto da divisão de a por b
 
 ```c
 int main() {
     int x = 15, y = 2;
     
-    int a = x + y; //a = 15+2, ou seja, a = 17
-    int b = x - y; //b = 13
-    int c = x * y; //c = 30
+    int soma = x + y; //a = 15+2, ou seja, soma = 17
+    int subt = x - y; //subt = 13
+    int mult = x * y; //mult = 30
     
-    int d = x / y; //d = 15/2, ou seja, d = 7 (hm... blz né, é inteiro...)
-    float dd = x / y; //dd = 7 (eita, mas agora é float... não deveria ser 7.5??)
+    int div = x / y; //div = 15/2, ou seja, div = 7 (hm... blz né, é inteiro...)
+    float div_real = x / y; //div_real = 7 (eita, mas agora é float... não deveria ser 7.5??)
     
-    int e = x % y; //d = 15%2, ou seja, d = 1 (pois 15 dividido por 2 temos resto 1)
+    int resto = x % y; //resto = 15%2, ou seja, resto = 1 (pois 15 dividido por 2 temos resto 1)
     
     return 0;
 }
 ```
 
-Simples, não? Agora, por que 15/2 retornou 7 mesmo com a variável dd sendo do tipo float?
+Simples, não? Agora, por que 15/2 é igual a 7 mesmo com a variável div_real sendo do tipo float?
 
-Estamos falando de operações com **números inteiros**. Ou seja, não podemos considerá-los números reais. Quando vamos mexer com variáveis inteiras em C ou em C++, todas as operações envolvidas com elas retornarão valores inteiros. Portanto, se quisermos que 15/2 retorna algo como 7.5, devemos converter algum número inicial (15 ou 2) para um tipo real (float ou double) ou fazer o chamado "casting", ou seja, forçar uma variável a atuar como se fosse de outro tipo. Desse jeito:
+Estamos falando de operações com **números inteiros**. Ou seja, não podemos considerá-los números reais. Quando vamos mexer com variáveis inteiras em C ou em C++, todas as operações envolvidas com elas resultarão valores inteiros. Portanto, se quisermos que 15/2 resulte algo como 7.5, devemos converter algum número inicial (15 ou 2) para um tipo real (float ou double) ou fazer o chamado "casting", ou seja, forçar uma variável a atuar como se fosse de outro tipo. Desse jeito:
 
 ```c
 int main() {
@@ -159,12 +159,12 @@ int main() {
 
 Deu pra ter uma base, certo? Caso a condiço dentro dos parenteses seja satisfeita (verdadeira), serão executados os comandos que estão dentro das chaves após o *if*. Caso contrário (se a condição for falsa), poderemos adicionar também um comando *else* (senão). Essa condição é estabelecida de acordo com alguns operadores:
 
-1. a == b -> retorna *true* caso a seja **igual** a b (importante notar que caso queiramos fazer uma comparação, devemos utilizar '=='. Apenas um '=' significa uma atribuição, como já vimos)
-2. a != b -> retorna *true* caso a seja **diferente** de b
-3. a < b -> retorna *true* caso a seja **menor** que b
-4. a > b -> retorna *true* caso a seja **maior** que b
-5. a <= b -> retorna *true* caso a seja **menor ou igual** a b
-6. a >= b -> retorna *true* caso a seja **maior ou igual** a b
+1. a == b -> a expressão é *verdadeira* caso a seja **igual** a b (importante notar que caso queiramos fazer uma comparação, devemos utilizar '=='. Apenas um '=' significa uma atribuição, como já vimos)
+2. a != b -> a expressão é *verdadeira* caso a seja **diferente** de b
+3. a < b -> a expressão é *verdadeira* caso a seja **menor** que b
+4. a > b -> a expressão é *verdadeira* caso a seja **maior** que b
+5. a <= b -> a expressão é *verdadeira* caso a seja **menor ou igual** a b
+6. a >= b -> a expressão é *verdadeira* caso a seja **maior ou igual** a b
 
 No código abaixo vemos também um novo comando: "else if". Ele vem logo após um if e só será executado caso sua condição seja verdadeira e a condição do if anterior não tenha sido satisfeita.
 Sugerimos que você brinque um pouco com o código a seguir, testando comandos, valores e operadores diferentes.
@@ -209,6 +209,27 @@ int main() {
     }
     
     return 0;
+}
+```
+
+## Cuidado!
+
+É comum cometer **erros lógicos** ao se lidar com condicionais. Dentre eles, tentar comparar uma variável com diversos valores da seguinte forma:
+
+```c
+if(x == 1 || 2 || 3 || 4)
+```
+Lembre-se sempre que comparações sempre são interpretadas pelo computador em pares: no caso anterior, `x` está sendo comparado com `(1 || 2 || 3 || 4)`, e essa não era a nossa intenção. Portanto, a forma correta seria:
+
+```c
+if(x == 1 || x == 2 || x == 3 || x == 4)
+```
+
+Outro erro recorrente é trocar a comparação de igualdade `==` com a atribuição `=`:
+
+```c
+if(x = 1){
+    ...
 }
 ```
 
@@ -361,7 +382,8 @@ O laço é interrompido e para imediatamente.
 ```c++
     for (int i = 0; i < 5; i++) {
         int x; cin >> x;
-        if (x == 10) break;
+        if (x == 10) 
+            break;
     } //o for ira parar de executar quando o valor lido for igual a 10, ou quando forem lidos 5 valores.
 ```
 
@@ -370,8 +392,8 @@ Os comandos que estão após o *continue* não executam, porém o laço não é 
 
 ```c++
     for (int i = 0; i < 5; i++) {
-        if (i == 2) continue;
-
+        if (i == 2) 
+            continue;
         cout << i << " ";
     }
     // output desse programa: 0 1 3 4
@@ -384,6 +406,7 @@ O *while* fará outro tipo de laço de repetição. Ele é um pouco mais simples
 ```c++
     while (condicao_for_verdadeira) {
         // comandos que eu quero
+        ...
     }
 ```
 
