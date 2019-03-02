@@ -261,7 +261,7 @@ int main() {
 
 # Overflow e o tipo *long long*
 
-Bom, como dito dissemos anteriormente, cada tipo de variável possui um limite para os valores que pode armazenar. Isso se dá devido a quantidade de bits e bytes que uma variável reserva na memória. Portanto, se eu digitar um valor muito grande (ou muito pequeno) em algum dos tipos citados anteriormente, acontece o chamado *overflow* - a sua variável não possui bits necessários para representar o valor inserido, e fica com um valor totalmente diferente do esperado.
+Bom, como foi dito anteriormente, cada tipo de variável possui um limite para os valores que pode armazenar. Isso se dá devido a quantidade de bits e bytes que uma variável reserva na memória. Portanto, se eu digitar um valor muito grande (ou muito pequeno) em algum dos tipos citados anteriormente, acontece o chamado *overflow* - a sua variável não possui bits necessários para representar o valor inserido, e fica com um valor totalmente diferente do esperado.
 
 Esses valores dependem da arquitetura utilizada, mas, por exemplo, um tipo *int* possui, normalmente, 32 bits (4 bytes). Isso quer dizer que ele pode armazenar 2^32 números. Podemos calcular esse valor com aquele esquema de combinatória, uma vez que temos 32 "espaços" que podem ser preenchidos com 0 ou 1, a fim de representar número desejado. Se quiser saber mais sobre o sistema binário é só clicar [aqui](https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_bin%C3%A1rio).
 
