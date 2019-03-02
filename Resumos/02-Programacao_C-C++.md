@@ -3,22 +3,24 @@
 
 Introduziremos agora à linguagem C++ (e também um pouco da linguagem C), normalmente utilizada em programação competitiva pela sua eficiência e simplicidade.
 
-Antes de começar, é bom dizer que o que fazemos em C (e que estará mais a frente) também pode ser feito em C++, ou seja, se simplesmente pegarmos um código em C, e compilá-lo e salvá-lo como se fosse C++, tudo executaria normalmente.
+Antes de começar, é bom dizer que o que fazemos em C (e que estará mais a frente) também pode ser feito em C++, ou seja, se simplesmente pegarmos um código em C, salvarmos com a extensão .cpp e compilarmos, tudo será executado normalmente.
 
-As partes de código precedidas de *//* são comentários, ignorados no processo de compilação e execução do código.
+As partes de código precedidas de *//* são comentários. Eles são ignorados no processo de compilação e execução do código, mas facilitam o entendimento do programador e de outras pessoas que possam vir a ler o código.
+
+Recomendamos que, durante a leitura, você tente fazer os códigos ou pelo menos executar os exemplos mostrados.
 
 # Estrutura básica em C
 
 ```c
-int main() { //função principal do código, onde será baseada a sua execução
+int main() { //função principal do código, a partir da qual a execuço é iniciada
     return 0; //simplesmente retorna o valor 0 para o sistema operacional
 }
 ```
 
-Falaremos agora sobre variáveis.
+Falaremos agora sobre **variáveis**.
 
 Variáveis são tipos de dados, que podem armazenar determinados valores, de acordo com suas especificações. Os principais tipos de dados são:
-1. *int* - armazena números inteiros, no intervalo de -2^32-1 até +2^32-1 - 1.
+1. *int* - armazena números inteiros, no intervalo de -2^15 até +(2^15) - 1.
 2. *char* - armazena números pequenos (-128 a 127) ou caracteres do tipo ASCII.
 3. *float* - armazena valores reais.
 4. *double* - armazena valores reais, com maior capacidade de precisão.
@@ -30,30 +32,30 @@ Para declarar uma variavel, deve-se fazer o seguinte:
 
 int main() {
     //tipo_da_variavel nome_da_variavel
-    int x;
+    int x; //tipo int e nome x
     char c;
   
-    x = 10;
+    x = 10; //atribuição de valor à variável
     c = 'a'; // caracteres são representados por aspas simples
   
-    int n = 23; //também é possível iniciar o valor da variável assim
+    int n = 23; //também é possível atribuir um valor à variável na sua inicialização
   
     return 0;
 }
 ```
 
-Esse código não faz nada, apenas declara algumas variáveis e assinala algum valor à elas. Porém, podemos melhorar ele. Para isso, importaremos *bibliotecas*, que possuem algumas funções já implementadas, por exemplo, para a entrada e saída de dados.
+Nesse código apenas declaramos algumas variáveis e assinalamos algum valor à elas. Podemos, porém, melhorá-lo. Para isso, importaremos e utilizaremos *bibliotecas*, que são como códigos que possuem funções já implementadas, por exemplo, para a entrada e saída de dados.
 
 ```c
 #include <stdio.h> //biblioteca "standart input and output"
 
 int main() {
-    printf("Aoba\n");
+    printf("Hello World\n");
     return 0;
 }
 ```
 
-O código acima reproduz a mensagem "AOBA" de saída, com uma quebra de linha no final (o *\n* pula a linha da saída - falaremos mais sobre as máscaras do printf mais a frente). Portanto, o comando *printf()* serve para imprimir coisas na tela. E para ler algum input do usuário?
+O código acima imprime a mensagem "Hello World", com uma quebra de linha no final (o *\n* pula a linha da saída - falaremos mais sobre as chamadas 'máscaras' do printf mais a frente). Portanto, o comando *printf()* serve para imprimir coisas na tela. Mas e se quisermos ler uma entrada (input) do usuário?
 
 ```c
 #include <stdio.h>
@@ -68,14 +70,15 @@ int main() {
 }
 ```
 
-Essas funções podem parecer confusas no começo, porém elas funcionam assim: com "máscaras". Por exemplo, tempos as máscaras de formatação de alguma variável para a saída, como esse *%d* no printf e scanf. Isso representa um *sinal* à função, que saberá que deve imprimir um valor do tipo inteiro naquela parte do código. Essas são as principais máscaras:
+Essas funções podem parecer confusas no começo, mas elas são bastante úteis e comumente utilizadas. 
+Tanto o scanf quanto o printf funcionam com "máscaras", que dizem à função qual tipo de valor será lido/escrito. No código acima vemos o *%d* no printf e scanf. Isso representa um *sinal* à função, que saberá que deve imprimir um valor do tipo inteiro naquela parte do código. Essas são as principais máscaras:
 
 1. *%d* tipo inteiro
 2. *%f* tipo float
 3. *%lf* tipo double (long float)
 4. *%c* tipo char
 
-Para ler e imprimir mais de uma variável ao mesmo tempo:
+Também é possível ler e imprimir mais de uma variável ao mesmo tempo:
 
 ```c
 #include <stdio.h>
@@ -89,9 +92,9 @@ int main() {
 }
 ```
 
-Sem crise até aqui, certo? Vamos falar agora sobre operações q podemos fazer com variáveis. As principais são:
+Sem crise até aqui, certo? Vamos falar agora sobre operações que podemos fazer com variáveis. As principais são:
 1. a + b, soma a e b
-2. a - b, subtrai a e b
+2. a - b, subtrai b de a
 3. a * b, multiplica a e b
 4. a / b, divide a por b
 5. a % b, retorna o resto da divisão de a por b
@@ -107,15 +110,15 @@ int main() {
     int d = x / y; //d = 15/2, ou seja, d = 7 (hm... blz né, é inteiro...)
     float dd = x / y; //dd = 7 (eita, mas agora é float... não deveria ser 7.5??)
     
-    int e = x % y; //d = 15%2, ou seja, d = 1 (pois 15 dividido por 2 retorna resto 1)
+    int e = x % y; //d = 15%2, ou seja, d = 1 (pois 15 dividido por 2 temos resto 1)
     
     return 0;
 }
 ```
 
-Simples, não? Agora, por que 15/2 retornou 7?
+Simples, não? Agora, por que 15/2 retornou 7 mesmo com a variável dd sendo do tipo float?
 
-Estamos falando de operações com **números inteiros**. Ou seja, não podemos considerar números reais. Quando vamos mexer com variáveis inteiras em C, ele sempre irá mexer com tudo em inteiro. Portanto, se quisermos que 15/2 retorna algo como 7.5, devemos converter algum número inicial (15 ou 2) para um tipo real (float ou double). Desse jeito:
+Estamos falando de operações com **números inteiros**. Ou seja, não podemos considerá-los números reais. Quando vamos mexer com variáveis inteiras em C ou em C++, todas as operações envolvidas com elas retornarão valores inteiros. Portanto, se quisermos que 15/2 retorna algo como 7.5, devemos converter algum número inicial (15 ou 2) para um tipo real (float ou double) ou fazer o chamado "casting", ou seja, forçar uma variável a atuar como se fosse de outro tipo. Desse jeito:
 
 ```c
 int main() {
@@ -124,9 +127,9 @@ int main() {
     
     double a = x / y; //agora sim, a = 7.5
     
-    //também seria possível esse jeito:
+    //também seria possível fazer o casting:
     int xx = 15, yy = 2;
-    double aa = xx / (double)yy; //aqui, damos um "cast" de yy para o tipo double, fazendo com que ele vire um número real, possibilitando o resultado desejado.
+    double aa = xx / (double)yy;
     
     return 0;
 }
@@ -134,7 +137,7 @@ int main() {
 
 # Comandos Condicionais
 
-Também podemos fazer linhas de código que apenas executam caso alguma condição seja satisfeita. Desse jeito:
+Outros comandos muito úteis são os condicionais. Isto é, fazemos linhas de código que apenas executam caso alguma condição seja satisfeita. Desse jeito:
 
 
 ```c
@@ -154,15 +157,17 @@ int main() {
 }
 ```
 
-Deu pra ter uma base, certo? Os comandos que estão dentro das chaves após o *if* são executados caso a condição que está dentro dos parenteses seja verdadeira. Caso contrário, poderemos adicionar também um comando *else* (senão). Essa condição é estabelecida de acordo com alguns operadores:
-1. a == b -> retorna *true* caso a seja **igual** a b 
-2. a != b -> retorna *true* caso a seja **diferente** a b
+Deu pra ter uma base, certo? Caso a condiço dentro dos parenteses seja satisfeita (verdadeira), serão executados os comandos que estão dentro das chaves após o *if*. Caso contrário (se a condição for falsa), poderemos adicionar também um comando *else* (senão). Essa condição é estabelecida de acordo com alguns operadores:
+
+1. a == b -> retorna *true* caso a seja **igual** a b (importante notar que caso queiramos fazer uma comparação, devemos utilizar '=='. Apenas um '=' significa uma atribuição, como já vimos)
+2. a != b -> retorna *true* caso a seja **diferente** de b
 3. a < b -> retorna *true* caso a seja **menor** que b
 4. a > b -> retorna *true* caso a seja **maior** que b
 5. a <= b -> retorna *true* caso a seja **menor ou igual** a b
 6. a >= b -> retorna *true* caso a seja **maior ou igual** a b
 
-
+No código abaixo vemos também um novo comando: "else if". Ele vem logo após um if e só será executado caso sua condição seja verdadeira e a condição do if anterior não tenha sido satisfeita.
+Sugerimos que você brinque um pouco com o código a seguir, testando comandos, valores e operadores diferentes.
 ```c
 #include <stdio.h>
 
@@ -186,6 +191,7 @@ int main() {
 ```
 
 Podemos também aprimorar as condições com as cláusulas and e or.
+Para o and (&&), o if será executado apenas se ambas as condições forem satisfeitas. Já utilizando o or (||), basta que no mínimo uma delas seja verdadeira, como pode ser observado a seguir.
 
 ```c
 #include <stdio.h>
@@ -208,9 +214,11 @@ int main() {
 
 Bom, essa é uma introdução à programação em C. Agora, vamos ver algumas coisas que podemos fazer em C++, e que ajudarão na maratona de programação.
 
+Como foi dito no início, podemos usar em C++ os mesmos comandos que utilizamos em C. Mas também podemos fazer as coisas de um jeito um pouco diferente. Podemos, por exemplo, utilizar os comandos 'cin' e 'cout' para substituir o scanf e o printf, uma vez que, com eles, não precisamos das máscaras para os diferentes tipos de variáveis.
+
 ```c++
-#include <bits/stdc++.h> //vamos incluir essa biblioteca aqui, que possui todas as funções que precisaremos
-using namespace std; //indicaremos que estamos usando o namespace std - você entenderá isso mais pra frente
+#include <bits/stdc++.h> //em vez de usar bibliotecas específicas, vamos usar essa aqui que tem tipo TUDO
+using namespace std; //indicaremos que estamos usando o namespace std, mas não precisa entender isso agora. Só aceita por enquanto
 
 int main() {
     int x;
@@ -218,9 +226,10 @@ int main() {
     
     cout << "X vale: " << x << "\n"; //equivalente ao printf("X vale %d\n", x);
     
-    int a, b;
-    cin >> a >> b; //lendo a e b
-    if (a == 2 and b == 3) { //em C++, podemos também usar "and" e "or"
+    int a;
+    double b;
+    cin >> a >> b; //lendo a e b mesmo sendo de tipos diferentes
+    if (a == 2 and b == 3.0) { //em C++, podemos também usar "and" e "or"
         printf("a é 2 e b é 3.\n");
     }
     
@@ -230,11 +239,11 @@ int main() {
 
 # Overflow e o tipo *long long*
 
-Bom, como dito anteriormente nos tipos de variável, deu pra perceber que as variáveis possuem um limite para armazenar seus valores. Isso se dá devido a quantidade de bits e bytes que uma variável reserva da memória. Portanto, se eu digitar um valor muito grande (ou muito pequeno) em algum dos tipos citados anteriormente, acontece o chamado *overflow* - a sua variável não possui bits necessários para representar o valor inserido, e fica com um valor totalmente diferente do esperado.
+Bom, como dito dissemos anteriormente, cada tipo de variável possui um limite para os valores que pode armazenar. Isso se dá devido a quantidade de bits e bytes que uma variável reserva na memória. Portanto, se eu digitar um valor muito grande (ou muito pequeno) em algum dos tipos citados anteriormente, acontece o chamado *overflow* - a sua variável não possui bits necessários para representar o valor inserido, e fica com um valor totalmente diferente do esperado.
 
-Por exemplo, um tipo *int* possui, normalmente, 32 bits. Isso quer dizer que ele possui 32 zeros ou uns, que representarão o número desejado. Você pode saber mais sobre o sistema binário [aqui](https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_bin%C3%A1rio).
+Esses valores dependem da arquitetura utilizada, mas, por exemplo, um tipo *int* possui, normalmente, 32 bits (4 bytes). Isso quer dizer que ele pode armazenar 2^32 números. Podemos calcular esse valor com aquele esquema de combinatória, uma vez que temos 32 "espaços" que podem ser preenchidos com 0 ou 1, a fim de representar número desejado. Se quiser saber mais sobre o sistema binário é só clicar [aqui](https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_bin%C3%A1rio).
 
-Portanto, um *int* suporta valores até aproximadamente 2.10^9. Para valores maiores, existe o tipo *long long*, que possui 64 bits. Portanto, ele pode suportar valores até aproximadamente 9.10^18, normalmente o necessário para as contas em programação competitiva. Mesmo assim, em alguns exercícios específicos, isso pode não ser o suficiente, sendo necessário o tipo BigInt - mas não precisa se preocupar com isso (ainda).
+Portanto, um *int* suporta valores até aproximadamente 2 * 10^9. Se precisarmos utilizar valores maiores, existe o tipo *long long*, que possui 64 bits (8 bytes). Portanto, ele pode suportar o dobro de valores de um int, valores, estes, que vão até aproximadamente 9.10^18, normalmente o necessário para as contas em programação competitiva. Mesmo assim, em alguns exercícios específicos, isso pode não ser o suficiente, sendo necessário o tipo BigInt - mas não precisa se preocupar com isso (ainda).
 
 ```c++
 #include <bits/stdc++.h>
@@ -252,7 +261,8 @@ int main() {
 
 # O tipo boolean
 
-Existe também outro tipo de variável interessante que é bastante utilizado. Esse é o tipo *bool*, que simplesmente armazena dois valores - *true* ou *false*. Ele é útil, entre outras coisas, para armazenar alguma informação que depois será usada em um comando condicional *(if e else)*. Abaixo, um exemplo (um tanto quanto inútil) de funcionamento:
+Existe também outro tipo de variável interessante que é bastante utilizado. Esse é o tipo *bool*, que tem apenas um bit, ou seja simplesmente armazena dois valores - *true* ou *false* (1 ou 0). Em C, é preciso adicionar uma biblioteca para poder utilizá-los, mas em C++ ele é um tipo nativo.
+Ele é útil, dentre outras coisas, para armazenar alguma informação que depois será usada em um comando condicional *(if e else)*. Abaixo, um exemplo (um tanto quanto inútil) de funcionamento:
 
 ```c++
 #include <bits/stdc++.h>
