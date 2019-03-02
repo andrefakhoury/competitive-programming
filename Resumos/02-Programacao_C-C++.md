@@ -212,7 +212,8 @@ int main() {
 }
 ```
 
-Bom, essa é uma introdução à programação em C. Agora, vamos ver algumas coisas que podemos fazer em C++, e que ajudarão na maratona de programação.
+# C++
+Bom, essa é foi introdução à programação em C. Agora, vamos ver algumas coisas que podemos fazer em C++, e que ajudarão na maratona de programação.
 
 Como foi dito no início, podemos usar em C++ os mesmos comandos que utilizamos em C. Mas também podemos fazer as coisas de um jeito um pouco diferente. Podemos, por exemplo, utilizar os comandos 'cin' e 'cout' para substituir o scanf e o printf, uma vez que, com eles, não precisamos das máscaras para os diferentes tipos de variáveis.
 
