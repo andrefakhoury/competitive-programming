@@ -2,13 +2,14 @@
 
 # Vetores
 
-Os vetores (ou arrays) servem para armazenar várias variáveis de uma só vez. Podemos representar arrays da seguinte forma:
+Os vetores (ou arrays) servem para armazenar várias variáveis (de mesmo tipo) de uma só vez. Podemos representar arrays da seguinte forma:
 
 ```c++
     #include <bits/stdc++.h>
     using namespace std;
     
     int main() {
+        // tipo nome[tamanho]
         int vec[10];
         for (int i = 0; i < 10; i++) {
             int x;
@@ -21,15 +22,9 @@ Os vetores (ou arrays) servem para armazenar várias variáveis de uma só vez. 
     }
 ```
 
-Nesse caso, lemos 10 números inteiros e os armazenamos no array *vec*. Ou seja, os arrays são representados assim:
+Nesse caso, lemos 10 números inteiros e os armazenamos no array *vec*. As posições do array são representadas com valores de 0 até tamanho_var. Ou seja, um array de tamanho 10 tem posições de 0 até 9. Elas podem ser acessadas utilizando indices dentro dos colchetes, para acessar o valor que está na posição 5, por exemplo, podemos escrever vec[4].
 
-```c++
-     tipo_var nome_var[tamanho_var];
-```
-
-E as posições do array são representadas de 0 até tamanho_var. Ou seja, um array de tamanho 10 tem posições de 0 até 9.
-
-Outro exemplo:
+Também é possível inicializar um array com valores, da seguinte forma:
 
 ```c++
     #include <bits/stdc++.h>

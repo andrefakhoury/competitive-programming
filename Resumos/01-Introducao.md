@@ -43,7 +43,7 @@ Saída:
 7
 ```
 
-Bom, você deve ter percebido que a solução deste problema é apenas somar os dois valores de entrada. Nele, podemos perceber as situações que destaquei acima: o título do problema *(que realmente não tem nada a ajudar na solução em si)*; a história *(que tem muita coisa inútil, porém é nela que está descrito o problema)*. Nesse caso, as *constraints* são dadas também no enunciado (tanto *n* quanto *m* são valores inteiros entre 1 e 99, inclusive); e a restrição de tempo do problema é 1 segundo - isto é, a execução do seu problema não pode ultrapassar 1 segundo.
+Bom, você deve ter percebido que a solução deste problema é apenas somar os dois valores de entrada. Nele, podemos perceber as situações que destaquei acima: o título do problema *(que realmente não tem nada a ajudar na solução em si)*; a história *(que tem muita coisa inútil, porém é nela que está descrito o problema)*. Nesse caso, as *constraints* são dadas também no enunciado (tanto *n* quanto *m* são valores inteiros entre 1 e 99, inclusive), isso nos ajuda a escollher os tipos de variáveis que vamos utilizar; e a restrição de tempo do problema é 1 segundo - isto é, a execução do seu problema não pode ultrapassar 1 segundo - vamos ver mais para frente como saber se seu programa será executado dentro do tempo limite.
 
 ## Introdução à Programação em C++
 
@@ -92,7 +92,11 @@ Após submeter seu código, você pode receber alguma resposta do site em que ma
 
 #### Em português
 [CodCad](http://www.codcad.com/)\
-[GitHub do Fakhoury](githubdofakhourylink)
+[GitHub do Fakhoury](https://github.com/andrefakhoury)
+[GitHub do Forbes](https://github.com/VictorXjoeY)
+[GitHub do David](https://github.com/davidcairuz)
+[GitHub da lmoura](https://github.com/lusmoura)
+[GitHub do loppA](https://github.com/LoppA)
 
 #### Em inglês
 [Geeks for Geeks](https://www.geeksforgeeks.org/)\
