@@ -20,7 +20,7 @@ int main() { //função principal do código, a partir da qual a execuço é ini
 Falaremos agora sobre **variáveis**.
 
 Variáveis são tipos de dados, que podem armazenar determinados valores, de acordo com suas especificações. Os principais tipos de dados são:
-1. *int* - armazena números inteiros, no intervalo de -2^15 até +(2^15) - 1.
+1. *int* - armazena números inteiros, no intervalo de -2^31 até +(2^31) - 1.
 2. *char* - armazena números pequenos (-128 a 127) ou caracteres do tipo ASCII.
 3. *float* - armazena valores reais.
 4. *double* - armazena valores reais, com maior capacidade de precisão.
