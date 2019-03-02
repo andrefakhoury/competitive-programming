@@ -92,7 +92,11 @@ Após submeter seu código, você pode receber alguma resposta do site em que ma
 
 #### Em português
 [CodCad](http://www.codcad.com/)\
-[GitHub do Fakhoury](githubdofakhourylink)
+[GitHub do Fakhoury](https://github.com/andrefakhoury)
+[GitHub do Forbes](https://github.com/VictorXjoeY)
+[GitHub do David](https://github.com/davidcairuz)
+[GitHub da lmoura](https://github.com/lusmoura)
+[GitHub do loppA](https://github.com/LoppA)
 
 #### Em inglês
 [Geeks for Geeks](https://www.geeksforgeeks.org/)\
