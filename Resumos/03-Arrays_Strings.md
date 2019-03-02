@@ -148,3 +148,68 @@ Porém, quando criamos variáveis globais, além delas poderem ser utilizadas em
 ```
 
 É bom ressaltar, porém, que apesar do uso de variáveis globais ser bastante útil para programação competitiva, é uma prática abominada na "programação normal". Como geralmente temos códigos grandes, com muitas variáveis e muitas funções (sério, juro que uma hora vamos falar delas), utilizar variáveis globais pode causar, por exemplo, conflitos de nomes. Então nos contests e questões pode usar e abusar dessas variáveis, mas vai com calma nos trabalhos de ICC.
+
+# Strings
+Strings são arrays de caracteres, isto é, palavras e frases. Em C não temos o tipo string, então seria preciso utilizar literalmente um vetor de caracteres ou adicionar uma biblioteca (string.h), mas em C++ já temos string como um tipo de variável.
+No código abaixo podemos ver como se faz leitura e escrita de palavras:
+
+```c++
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    int main() {
+        string s;
+        
+        cin >> s;
+        cout << s;
+    }
+```
+Para ler frases ou qualquer string que contenha um espaço (" "), em geral é feita a leitura de uma linha inteira com a função getline(). Ela é utilizada da seguinte forma:
+
+
+```c++
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    int main() {
+        string s;
+        
+        getline(cin, s); //getline(cin, nomeDaString)
+        cout << s;
+    }
+```
+
+Uma coisa interessante é que em C++ podemos "somar" strings. Essa operação concatena strings, ou seja, se somarmos as strings a e b (a + b), adicionaremos a string b ao final de a. O exemplo abaixo mostra essa operação:
+
+```c++
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    int main() {
+        string s = "Nao tenho";
+        string t = " criatividade";
+
+        s = s + t;
+        cout << t << endl; //endl = \n
+        //na tela será possível ler Nao tenho criatividade
+    }
+```
+
+Também é possível acessar uma string da mesma forma que vimos para arrays, isto é, utilizando [] para termos o valor de uma certa posição, que no caso da string é uma letra. Para fazer isso, geralmente é preciso utilizar a função size(), que retorna o tamanho da string. No código abaixo lemos uma string e imprimimos uma letra em cada linha.
+
+```c++
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    int main() {
+        string s;
+        
+        cin >> s;
+        int n = s.size();
+        for(int i = 0; i < n; i++){
+            cout << s[i] << endl;
+        }
+    }
+```
+
+Existem muitas funções e algorítmos para lidar com strings. Ao longo das aulas vamos ver outras formas de lidar com elas.
