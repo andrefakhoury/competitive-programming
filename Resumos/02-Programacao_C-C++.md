@@ -262,7 +262,7 @@ int main() {
 
 # O tipo boolean
 
-Existe também outro tipo de variável interessante que é bastante utilizado. Esse é o tipo *bool*, que tem apenas um bit, ou seja simplesmente armazena dois valores - *true* ou *false* (1 ou 0). Em C, é preciso adicionar uma biblioteca para poder utilizá-los, mas em C++ ele é um tipo nativo.
+Existe também outro tipo de variável interessante que é bastante utilizado. Esse é o tipo *bool*, que tem apenas um byte, ou seja simplesmente armazena dois valores - *true* ou *false* (1 ou 0). Em C, é preciso adicionar uma biblioteca para poder utilizá-los, mas em C++ ele é um tipo nativo.
 Ele é útil, dentre outras coisas, para armazenar alguma informação que depois será usada em um comando condicional *(if e else)*. Abaixo, um exemplo (um tanto quanto inútil) de funcionamento:
 
 ```c++
