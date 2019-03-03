@@ -88,7 +88,7 @@ Após submeter seu código, você pode receber alguma resposta do site em que ma
 ## Referências
 
 ### Sites para aprender
-É sempre bom ler sobre algoritmos em diferentes sites, para ter diferentes perspectivas sobre um tópico. Entre estes sites, eu recomendo:
+É sempre bom ler sobre algoritmos em diferentes sites, para ter diferentes perspectivas sobre um tópico. Entre estes sites, recomendamos:
 
 #### Em português
 [CodCad](http://www.codcad.com/)\
@@ -116,3 +116,12 @@ Após ter certa noção de programação competitiva, você já pode começar a 
 [CsAcademy](https://www.csacademy.com)\
 [UVA](https://uva.onlinejudge.org/)\
 [URI](https://www.urionlinejudge.com.br)
+
+### Livro de programação competitiva
+O livro mais utilizado por aqueles que estão aprendendo algoritmos e técnicas para maratonas de programação é o **Competitive Programming 3**, de Steven e Felix Halim. O livro conta com ótimas explicações e código em C++, além de recomendar diversos problemas para cada assunto estudado.
+
+Os problemas recomendados estão todos no [UVA](https://uva.onlinejudge.org/), um dos sites citados acima, e seu progresso na resolução de cada tópico do livro pode ser acompanhado em [uHunt](https://uhunt.onlinejudge.org/).
+
+Uma ótima forma de utilizar esse livro é combinando-o a alguns outros recursos citados aqui. Como já foi dito anteriormente, é importante tentar ter diferentes perspectivas sobre um mesmo tópico.
+
+A biblioteca do ICMC conta com apenas uma cópia, mas o livro também pode ser encontrado na internet.
