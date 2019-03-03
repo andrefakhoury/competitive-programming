@@ -92,11 +92,12 @@ Após submeter seu código, você pode receber alguma resposta do site em que ma
 
 #### Em português
 [CodCad](http://www.codcad.com/)\
-[GitHub do Fakhoury](https://github.com/andrefakhoury)
-[GitHub do Forbes](https://github.com/VictorXjoeY)
-[GitHub do David](https://github.com/davidcairuz)
-[GitHub da lmoura](https://github.com/lusmoura)
-[GitHub do loppA](https://github.com/LoppA)
+[GitHub do Fakhoury](https://github.com/andrefakhoury)\
+[GitHub do Forbes](https://github.com/VictorXjoeY)\
+[GitHub do LoppA](https://github.com/LoppA)\
+[GitHub da lmoura](https://github.com/lusmoura)\
+[GitHub do Preischadt](https://github.com/thiagop-usp)\
+[GitHub do David](https://github.com/davidcairuz)\
 
 #### Em inglês
 [Geeks for Geeks](https://www.geeksforgeeks.org/)\
@@ -104,7 +105,8 @@ Após submeter seu código, você pode receber alguma resposta do site em que ma
 [HackerEarth](https://www.hackerearth.com/)\
 [CP-Algorithms](https://cp-algorithms.com/)\
 Canal do [Abdul Bari](https://www.youtube.com/channel/UCZCFT11CWBi3MHNlGf019nw/) no youtube\
-Canal do [Tushar Roy](https://www.youtube.com/user/tusharroy2525) no youtube
+Canal do [Tushar Roy](https://www.youtube.com/user/tusharroy2525) no youtube\
+[Texto do João Gui sobre deliberate practice](https://joaogui1.github.io/CP/training/)
 
 ### Sites para competir
 Após ter certa noção de programação competitiva, você já pode começar a treinar e competir. Para isso, existem vários sites que te dão problemas para resolver, e alguns promovem campeonatos *(contests)* periodicamente, e dão um certo *rating* de acordo com os problemas resolvidos. Entre os melhores (*em minha opinião*) estão:
