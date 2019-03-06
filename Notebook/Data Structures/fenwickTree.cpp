@@ -2,38 +2,35 @@
 using namespace std;
 
 const int MAXN = 100005;
-int BIT[MAXN];
 
-void update(int i, int val) {
-	while (i < MAXN) {
-		BIT[i] += val;
-		i += i&-i;
+class BIT {
+	ll bt[MAXN+10];
+
+	public:
+	BIT() {
+		memset(bt, 0, sizeof bt);
 	}
-}
 
-int sum(int i) {
-	int ret = 0;
-	while (i > 0) {
-		ret += BIT[i];
-		i -= i&-i;
-	}
-	return ret;
-}
-
-int rangeSum(int i, int j) {
-	return sum(j) - sum(i-1);
-}
-
-int main() {
-	int q; scanf("%d", &q);
-	while(q--) {
-		int op; scanf("%d", &op);
-		if (op == 1) {
-			int i, x; scanf("%d%d", &i, &x);
-			update(i, x);
-		} else {
-			int i, j; scanf("%d%d", &i, &j);
-			printf("%d\n", rangeSum(i, j));
+	void update(int i, int val) {
+		while (i <= MAXN) {
+			bt[i] += val;
+			i += i&-i;
 		}
 	}
-}
+
+	ll query(int i) {
+		ll ret = 0;
+		while (i > 0) {
+			ret += bt[i];
+			i -= i&-i;
+		}
+		return ret;
+	}
+
+	ll query(int i, int j) {
+		if (i > j) return 0;
+		if (i == j) return query(i);
+		
+		return query(j) - query(i-1);
+	}
+};
