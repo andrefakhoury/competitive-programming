@@ -10,7 +10,7 @@ const int INF = 0x3f3f3f3f;
 int cap[MAXN][MAXN]; //capacity matrix
 int res[MAXN][MAXN]; //residual capacity
 
-int parent[MAXN];	//i got introduced by parent[i]
+int parent[MAXN]; //i got introduced by parent[i]
 bool vis[MAXN];
 
 bool bfs(int s, int t, int V) {
