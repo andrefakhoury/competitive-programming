@@ -12,7 +12,7 @@ typedef pair<int, int> pii;
 
 
 void solve(int i, int n, int cur_qtt, int cur_val, int max_qtt, int max_val, vector<int>& nice, map<int, int>& freq) {
-	printf("%d : %d %d\n", i, cur_qtt, cur_val);
+	// printf("%d : %d %d\n", i, cur_qtt, cur_val);
 
 	if (cur_qtt > max_qtt || cur_val > max_val) return;
 	if (i == n) {
@@ -72,7 +72,7 @@ int main() {
 
 		int op_upper = 0, op_lower = 0;
 
-		printf("X{%d %d} Y_u{%d %d: %d} Y_l{%d %d: %d}\n", x.first, x.second, Y_upper[ind_upper].first, Y_upper[ind_upper].second, maximum_upper[ind_upper], Y_lower[ind_lower].first, Y_lower[ind_lower].second, maximum_lower[ind_lower]);
+		// printf("X{%d %d} Y_u{%d %d: %d} Y_l{%d %d: %d}\n", x.first, x.second, Y_upper[ind_upper].first, Y_upper[ind_upper].second, maximum_upper[ind_upper], Y_lower[ind_lower].first, Y_lower[ind_lower].second, maximum_lower[ind_lower]);
 
 		if (ind_upper > -1) op_upper = maximum_upper[ind_upper];
 		if (ind_lower > -1) op_lower = maximum_lower[ind_lower];
