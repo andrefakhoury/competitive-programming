@@ -29,11 +29,13 @@ void dfsColor(int u, int curColor) {
 		if (!color[v]) dfsColor(v, curColor);
 }
 
-void css(int n) {
+void kosaraju(int n) {
 	for (int i = 1; i <= n; i++)
 		if (!vis[i]) dfsOrder(i);
-
 	reverse(order.begin(), order.end());
+
+	for (int u : order) printf("%d ", u);
+	printf("\n");
 
 	int curColor = 0;
 	for (int u : order)
@@ -56,5 +58,5 @@ int main() {
 		invrs[v].push_back(u);
 	}
 
-	css(n);
+	kosaraju(n);
 }
