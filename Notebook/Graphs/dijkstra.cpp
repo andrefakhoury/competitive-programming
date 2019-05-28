@@ -11,7 +11,7 @@ void dijkstra(int s) {
 	memset(dist, INF, sizeof dist);
 
 	dist[s] = 0;
-	priority_queue<pair<int, int> > pq; //pair<weight, vertex>
+	priority_queue<pair<int, int> > pq; //pair<-weight, vertex>
 	pq.push(make_pair(0, s));
 
 	while(pq.size()) {
