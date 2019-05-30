@@ -1,20 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-	string s; cin >> s;
-	int n = s.size();
+struct point {
+	int x, y;
 
-	string tmp = "";
-	for (int i = 0; i < n; i++) {
-		if (i <= n-3 && s[i] == "W" && s[i+1] == "U" && s[i+2] == "B") {
-			if (tmp != "") {
-				cout << tmp << " ";
-			}
-			tmp.clear();
-			i += 2;
-		} else tmp.push_back(s[i]);
+	bool operator<(point p) {
+		if (x == p.x) return y < p.y;
+		return x < p.x;
 	}
-	cout << tmp << endl;
+}
+
+int main() {
+	int n; cin >> n;
+	vector<point> pos;
+	while(n--) {
+		int x, y; cin >> x >> y;
+		pos.emplace_back(x, y);
+	}
+
 	return 0;
 }

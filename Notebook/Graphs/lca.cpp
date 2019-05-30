@@ -36,6 +36,17 @@ int lca(int u, int v) {
 	return par[0][u];
 }
 
+int walk(int u, int p) {	
+	for (int i = MAXL-1; i > -1; i--) {
+		if (p & (1 << i)) {
+			if (level[u] == 0) return 0;
+			u = par[i][u];
+		}
+	}
+
+	return u;
+}
+
 /** Preprocess the levels and stuff */
 void pre(int n, int root) {
 	memset(level, -1, sizeof level);
