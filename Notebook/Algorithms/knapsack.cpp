@@ -5,6 +5,7 @@ const int MAXN = 1e3, INF = 0x3f3f3f3f;
 
 int r[MAXN], w[MAXN];
 
+// O(ns) time; O(s) memory
 int zeroOne_it(int n, int s) {
 	vector<int> memo(s+1);
 	fill(memo.begin(), memo.end(), -INF);
@@ -25,7 +26,10 @@ int zeroOne_rc(int i, int cur, int n, int s) {
 	if (cur > s) return -INF;
 	if (i > n) return 0;
 
-	return max(zeroOne_rc(i+1, cur, n, s), zeroOne_rc(i+1, cur+w[i], n, s) + r[i]);
+	int ntke = zeroOne_rc(i+1, cur, n, s);
+	int take = zeroOne_rc(i+1, cur+w[i], n, s) + r[i];
+
+	return max(take, ntke);
 }
 
 int zeroInf_it(int n, int s) {

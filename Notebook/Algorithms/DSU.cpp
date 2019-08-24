@@ -74,6 +74,8 @@ struct UF_union {
 	void merge(int u, int v) {
 		int a = find(u);
 		int b = find(v);
+		if (a == b) return;
+		
 		if (siz[a] > siz[b]) swap(a, b);
 		par[a] = b;
 		siz[b] += siz[a];
