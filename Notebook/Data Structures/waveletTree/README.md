@@ -4,7 +4,7 @@ Estrutura de dados que particiona recursivamente uma sequência A em uma árvore
 
 Pode ser utilizada em operações de *query* e *update*, e inclusive combinada com outras estruturas de dados para obter melhor performance e mais utilidade.
 
-## Utilidades Utilidades
+## Utilidades
 
 Operações de *query*, como:
 

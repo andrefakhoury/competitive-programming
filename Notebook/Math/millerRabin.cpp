@@ -3,11 +3,12 @@ using namespace std;
 
 typedef long long ll;
 
-int bases[] = {61, 7, 2};
+int bases[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 61};
 
 // miller rabin primality test of N, according to the bases of the vector
-bool isProbablePrime(ll n, vector<ll>& bases) {
+bool isProbablePrime(ll n) {
 
+	if (n == 1) return false;
 	if (n > 2 && n%2 == 0) return false;
 	if (n > 3 && n%3 == 0) return false;
 	if (n > 5 && n%5 == 0) return false;
@@ -21,9 +22,7 @@ bool isProbablePrime(ll n, vector<ll>& bases) {
 		q /= 2;
 	}
 
-	for (ll i = 0; i < bases.size(); i++) {
-		ll b = bases[i];
-
+	for (int b : bases) {
 		if (n == b) continue;
 
 		ll last = -1, p2 = 1;
@@ -57,7 +56,7 @@ bool isPrime(ll n) { // O(sqrt(n))
 int main() {
 	ll x;
 	while (cin >> x) {
-		cout << (isPrime(x) ? "Prime" : "Not Prime") << endl;
+		cout << (isProbablePrime(x) ? "Prime" : "Not Prime") << endl;
 	}
 
 	return 0;

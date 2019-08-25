@@ -1,5 +1,5 @@
 // Given a range [l, r] tells the element that has
-// tha maximum number of divisors
+// that countains the maximum number of divisors
 
 #include <iostream>
 #include <unordered_map>

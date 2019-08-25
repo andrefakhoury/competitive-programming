@@ -1,5 +1,5 @@
-// given a binary number N and a prime P, tells
-// if N is divisible by P.
+// given a binary number S and a integer n, tells
+// if S is divisible by n.
 
 #include <iostream>
 #include <string>
