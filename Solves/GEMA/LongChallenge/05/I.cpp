@@ -4,70 +4,57 @@ using namespace std;
 #define pb push_back
 #define eb emplace_back
 #define mp make_pair
-#define fi first
-#define se second
 
 typedef long long ll;
 typedef pair<int, int> pii;
 
-const int MAXN = 2e5 + 5;
+const int MAXN = 3e5 + 5;
 
-struct DOHASH {
-	ll hash;
-	int n, k;
+int n, m;
+map<int, bool> vis;
+map<int, string> memo;
+map<int, char> s;
+map<int, vector<int> > edges;
 
-	DOHASH() {
-		hash = n = k = 0;
-	}
+string solve(int u, int T) {
+	if (u <= 0 || u > n) return "A";
 
-	DOHASH& operator+=(char c) {
-
-	}
-};
-
-char s[MAXN];
-DOHASH dist[MAXN];
-vector<int> edges[MAXN];
-
-bool vis[MAXN];
-bool dfs(int u, int T) {
+	if (vis[u]) return memo[u];
 	vis[u] = true;
-	bool ret = u == T;
-	for (int v : edges[u]) if (!vis[v])
-		ret |= dfs(v, T);
-	return ret;
+
+	if (u == T) return memo[u] = s[u];
+	if (memo[u] != "A") return memo[u];
+
+	string ret;
+	for (int v : edges[u]) {
+		string cur = solve(v, T);
+
+		if (cur != "A") {
+			if (ret.empty()) ret = s[u] + cur;
+			else ret = min(ret, s[u] + cur);
+		}
+	}
+
+	return memo[u] = ret.empty() ? string("A") : ret;
 }
 
 int main() {
-	int n, m; scanf("%d%d", &n, &m);
-	scanf(" %s", s+1);
+	scanf("%d%d", &n, &m);
+	for (int i = 1; i <= n; i++) {
+		char c; scanf(" %c", &c);
+		s[i] = c;
+		memo[i] = "A";
+	}
 
 	while(m--) {
 		int u, v; scanf("%d%d", &u, &v);
 		edges[u].push_back(v);
+
+		assert(u > 0 && v > 0 && u <= n && v <= n);
 	}
 
 	int a, b; scanf("%d%d", &a, &b);
-	if (!dfs(a, b)) return !printf("No way\n");
+	string ans = solve(a, b);
 
-	dist[a] += s[a];
-	priority_queue<pair<string, int>, vector<pair<string, int> >, greater<pair<string, int> > > pq;
-	pq.emplace(dist[a], a);
-
-	while(pq.size()) {
-		string d = pq.top().first;
-		int u = pq.top().second;
-		pq.pop();
-		if (d > dist[u]) continue;
-
-		for (int v : edges[u]) {
-			string w = dist[u] + s[v];
-			if (dist[v].empty() || dist[v] > w) {
-				dist[v] = w;
-				pq.emplace(dist[v], v);
-			}
-		}
-	}
-
-	printf("%s\n", dist[b].c_str());
+	printf("%s\n", ans == "A" || ans.empty() ? "No way" : ans.c_str());
 }

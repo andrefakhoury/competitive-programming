@@ -21,6 +21,14 @@ struct Pair {
 		return Pair(fi + p, se + p);
 	}
 
+	Pair operator-(ll p) const {
+		return Pair(fi - p, se - p);
+	}
+
+	Pair operator-(Pair p) const {
+		return Pair(fi - p.fi, se - p.se);
+	}
+
 	Pair operator*(Pair p) const {
 		return Pair(fi * p.fi, se * p.se);
 	}
@@ -56,7 +64,7 @@ Pair<ll> getHash(string const& s) {
 	Pair<ll> curPow(1, 1);
 
 	for (char c : s) {
-		hash = (hash + p * ll(c - 'a' + 1)) % m;
+		hash = (hash + curPow * ll(c - 'a' + 1)) % m;
 		curPow = (curPow * p) % m;
 	}
 
