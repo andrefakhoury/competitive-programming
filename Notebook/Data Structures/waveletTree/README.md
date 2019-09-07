@@ -55,6 +55,7 @@ Aqui vai uma lista de problemas que podem ser passados com wavelet tree. Todos e
 - [ILKQUERY](https://www.spoj.com/problems/ILKQUERY/) - problemas sugeridos pelos autores do paper [Solução](https://ideone.com/VJtUTO)
 - [ILKQUERY2](https://www.spoj.com/problems/ILKQUERY2/) - precisa saber como dar toggle em elementos - O(n log^2) [Solução](https://ideone.com/M6uwpr)
 - [ILKQUERY3](https://www.spoj.com/problems/ILKQUERYIII/) - precisa da nocao de swap a[i] e a[i+1]. [Solução](https://ideone.com/BDDrk3)
+- [CNTINDX](https://www.spoj.com/problems/CNTINDX/) - ideia de push_back() e pop_back(). [Solução](https://ideone.com/t48OOZ)
 
 ## Referências
 

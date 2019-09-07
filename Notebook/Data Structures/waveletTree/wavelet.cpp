@@ -185,6 +185,37 @@ struct waveletTree {
 		}
 	}
 
+	/** Push element k to end of array */
+	void push_back(int k) {
+		if (lo == hi) {
+			mapLeft.push_back(mapLeft.back() + 1);
+		} else {
+			int mi = (lo + hi) / 2;
+			if (k <= mi) {
+				mapLeft.push_back(mapLeft.back() + 1);
+				mapRight.push_back(mapRight.back());
+				L->push_back(k);
+			} else {
+				mapRight.push_back(mapRight.back() + 1);
+				mapLeft.push_back(mapLeft.back());
+				R->push_back(k);
+			}
+		}
+	}
+
+	/** Pop element k from the end of array */
+	void pop_back(int k) {
+		if (lo == hi) {
+			mapLeft.pop_back();
+		} else {
+			int mi = (lo + hi) / 2;
+			mapLeft.pop_back();
+			mapRight.pop_back();
+			if (k <= mi) L->pop_back(k);
+			else R->pop_back(k);
+		}
+	}
+
 #ifdef TOGGLE
 	/** Set i-th position to active/innactive */
 	void toggleActive(int i) { // in case of rank operations, this update is necessary only in the leaf node
