@@ -42,10 +42,6 @@ O filho da direita de S - chamado de rigth(S) - é a subsequência de S que poss
 
 A recursão para ao chegar em um nó folha: todos os elementos são iguais - ou seja, low(S) = high(S)
 
-### Exemplo
-
-![GeeksForGeeks](https://cdncontribute.geeksforgeeks.org/wp-content/uploads/Wavelet_Tress-1.png)
-
 ## Dados sobre a árvore
 
 Considere que o tamanho do alfabeto em questão seja σ (por exemplo, o range de elementos é 1, 2, ..., σ). A cada nó novo, ocorre a divisão do intervalo pela metade. Logo, percebe-se que a altura máxima da árvore será *log(σ)*. A cada nível, teremos no pior caso *n* elementos, portanto a construção de uma wavelet tree simples (sem a adição de estruturas adicionais) tem uma complexidade de *O(n log(σ))*. Operações de *update* e *query*, que serão vistas posteriormente, também possuirão uma complexidade média de *O(log(σ))*.
@@ -55,8 +51,8 @@ Considere que o tamanho do alfabeto em questão seja σ (por exemplo, o range de
 Aqui vai uma lista de problemas que podem ser passados com wavelet tree. Todos eles podem ser resolvidos de outras maneiras (segtree persistente, mergesort tree e afins), mas tente fazer com wavelet :)
 
 - [MKTHNUM](https://www.spoj.com/problems/MKTHNUM/) - OBS: o range de valores é muito alto (compressão talvez ajude). [Solução](https://ideone.com/sLdGYQ)
-- [Destiny](https://codeforces.com/contest/840/problem/D) - esse problema fica bem direto com wavelet :) [Solução](https://codeforces.com/contest/840/submission/60193131)
-- [ILKQUERY](https://www.spoj.com/problems/ILKQUERY/) - problemas sugeridos pelo autor do paper [Solução](https://ideone.com/VJtUTO)
+- [Destiny](https://codeforces.com/contest/840/problem/D) - esse problema fica (bem) direto com wavelet :) [Solução](https://codeforces.com/contest/840/submission/60193131)
+- [ILKQUERY](https://www.spoj.com/problems/ILKQUERY/) - problemas sugeridos pelos autores do paper [Solução](https://ideone.com/VJtUTO)
 - [ILKQUERY2](https://www.spoj.com/problems/ILKQUERY2/) - precisa saber como dar toggle em elementos - O(n log^2) [Solução](https://ideone.com/M6uwpr)
 - [ILKQUERY3](https://www.spoj.com/problems/ILKQUERYIII/) - precisa da nocao de swap a[i] e a[i+1]. [Solução](https://ideone.com/BDDrk3)
 
