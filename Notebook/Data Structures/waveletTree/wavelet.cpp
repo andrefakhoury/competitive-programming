@@ -1,102 +1,271 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+const int MAXN = 1e6 + 5;
 
-// Wavelet Tree - 0-based pls
-struct Wavelet {
-	vector<int> mapLeft, mapRight;
-	ll lo, hi, mi;
-	int sz;
-	Wavelet *L, *R;
+#define TOGGLE
 
-	Wavelet(vector<ll>& v) {
-		lo = *min_element(v.begin(), v.end());
-		hi = *max_element(v.begin(), v.end());
-		mi = (lo + hi) / 2;
+/** Wavelet Tree data structure. 1-based pls :) */
+struct waveletTree {
+	int lo, hi; // minimum and maximum element on array
+	waveletTree *L, *R; // children
 
+#ifdef TOGGLE
+	/** bit to count active nodes from [1..i] when toggle updates are necessary */
+	struct BIT { // simple sum BIT
+		vector<int> bt;
+		int maxi;
+
+		BIT() {}
+
+		BIT(int qtt) {
+			maxi = qtt;
+			bt.resize(qtt + 10);
+		}
+
+		void update(int i, int val) {
+			while (i < maxi) {
+				bt[i] += val;
+				i += i&-i;
+			}
+		}
+
+		int query(int i) {
+			int ret = 0;
+			while (i > 0) {
+				ret += bt[i];
+				i -= i&-i;
+			}
+			return ret;
+		}
+
+		int query(int i, int j) {
+			if (i > j) return 0;
+			return query(j) - query(i-1);
+		}
+	} activeLeft;
+#endif
+
+	vector<int> mapLeft, mapRight; // indexes to map left and right children
+
+	/** Builds the wavelet tree, with elements on range [lo..hi] */
+	waveletTree(int *beg, int *end, int lo, int hi) { // O(nlogA). obs: the input array is 0 based
 		L = R = NULL;
 
+		this->lo = lo;
+		this->hi = hi;
+
+		if (beg >= end) return; // no elements to insert
+
 		if (lo == hi) { // leaf node
-			sz = v.size();
-		} else { // non leaf node
-			sz = v.size();
-			mapLeft.resize(sz);
-			mapRight.resize(sz);
+			mapLeft.reserve(end - beg + 1);
+			mapLeft.push_back(0);
 
-			mapLeft[0] = v[0] <= mi;
-			mapRight[0] = v[0] > mi;
+#ifdef TOGGLE
+			activeLeft = BIT(end - beg + 2); // BIT que informa quantos ativos estao presentes ate i
+#endif
+			for (auto it = beg; it != end; it++) {
+				mapLeft.push_back(mapLeft.back() + 1);
+				activeLeft.update(mapLeft.back(), 1);
+			}
+		} else {
+			
+			int mi = (lo + hi) / 2;
+			auto f = [mi](int x) { // lambda function to help index
+				return x <= mi;
+			};
 
-			vector<ll> l, r;
+			mapLeft.reserve(end - beg + 1);
+			mapRight.reserve(end - beg + 1);
 
-			if (v[0] <= mi) l.push_back(v[0]);
-			else r.push_back(v[0]);
+			mapLeft.push_back(0);
+			mapRight.push_back(0);
 
-			for (int i = 1; i < sz; i++) {
-				mapLeft[i] = mapLeft[i-1] + (v[i] <= mi);
-				mapRight[i] = mapRight[i-1] + (v[i] > mi);
-
-				if (v[i] <= mi) l.push_back(v[i]);
-				else r.push_back(v[i]);
+			for (auto it = beg; it != end; it++) {
+				mapLeft.push_back(mapLeft.back() + f(*it));
+				mapRight.push_back(mapRight.back() + !f(*it));
 			}
 
-			L = new Wavelet(l);
-			R = new Wavelet(r);
+			auto pivot = stable_partition(beg, end, f); // split the vector
+			L = new waveletTree(beg, pivot, lo, mi);
+			R = new waveletTree(pivot, end, mi + 1, hi);
 		}
 	}
 
-	/** frequency of X on interval [0..i] */
-	int rank(int x, int i) {
-		if (i < 0) return 0;
+	/** Frequency of k on range [1..i] */
+	int rank(int k, int i) {
+		if (i <= 0) return 0; // out of bounds
 
-		if (lo == hi) { // leaf node
-			if (x == lo) return i + 1;
+		if (lo == hi) { // leaf node - just one value available :)
+			if (k == lo) return i;
+			else return 0; // I think this isn't necessary, but just in case
+		} else { // keep searching
+			int mi = (lo + hi) / 2;
+			if (k <= mi) return L->rank(k, mapLeft[i]);
+			else return R->rank(k, mapRight[i]);
+		}
+	}
+
+	/** Frequency of k in range [i..j] */
+	int rank(int k, int i, int j) {
+		return rank(k, j) - rank(k, i - 1); // similar to prefix sum
+	}
+
+	/** K-th smallest element on range[l..r] */
+	int kthSmallest(int k, int l, int r) {
+		if (l > r) return -1; // out of bounds
+		if (lo == hi) return lo; // leaf node
+
+		int inLeft = mapLeft[r] - mapLeft[l-1];
+		if (k <= inLeft) return L->kthSmallest(k, mapLeft[l-1]+1, mapLeft[r]);
+		else return R->kthSmallest(k-inLeft, mapRight[l-1]+1, mapRight[r]);
+	}
+
+#ifdef TOGGLE
+	/** Frequency of k in range [1..j] when TOGGLE is defined */
+	int rankToggle(int k, int i) {
+		if (i == 0) return 0;
+
+		if (lo == hi) {
+			if (k == lo) return activeLeft.query(i);
 			else return 0;
 		} else {
-			if (x <= mi) return L->rank(x, mapLeft[i] - 1);
-			else return R->rank(x, mapRight[i] - 1);
+			int mi = (lo + hi) / 2;
+			if (k <= mi) return L->rankToggle(k, mapLeft[i]);
+			else return R->rankToggle(k, mapRight[i]);
 		}
 	}
 
-	/** frequency of X on interval [i..j] */
-	int rank(int x, int i, int j) {
-		return rank(x, j) - rank(x, i - 1);
+	/** Frequency of k in range [i..j] when TOGGLE is defined */
+	int rankToggle(int k, int i, int j) {
+		return rankToggle(k, j) - rankToggle(k, i - 1);
+	}
+#endif
+
+	/** Qtt of elements between [x..y] in array[l..r] */
+	int rangeCount(int x, int y, int l, int r) {
+		if (l > r) return 0;
+		if (lo > y || hi < x) return 0; // out of bounds
+		if (lo >= x && hi <= y) return r - l + 1; // total fit
+		
+		int mi = (lo + hi) / 2;
+		return L->rangeCount(x, mi, mapLeft[l-1]+1, mapLeft[r]) +  // same idea of segtree
+			   R->rangeCount(mi+1, y, mapRight[l-1]+1, mapRight[r]);
 	}
 
-	/** Find the k-th smallest element in range [i..j] */
-	ll kthSmallest(int k, int i, int j) {
-		i = max(i, 0); j = max(j, 0);
+	/** Find minimum X such that freq[x] on interval l..r is strictly greater thank k */
+	int findFreqGreater(int k, int l, int r) {
+		if (r - l + 1 <= k) return -1;
+		if (lo == hi) return lo;
 
-		if (i > j) return -1; // out of bounds
-		if (lo == hi) return lo; // leaf node;
+		int cur = L->findFreqGreater(k, mapLeft[l-1]+1, mapLeft[r]);
+		if (cur != -1) return cur;
 
-		int qtL = i == 0 ? 0 : mapLeft[i-1];
-		int qtR = mapLeft[j];
-		int inLeft = qtR - qtL;
-
-		if (k <= inLeft) return L->kthSmallest(k, mapLeft[i] - 1, mapLeft[j] - 1);
-		else return R->kthSmallest(k - inLeft, mapRight[i] - 1, mapRight[j] - 1);
+		return R->findFreqGreater(k, mapRight[l-1]+1, mapRight[r]); 
 	}
 
-	~Wavelet() {
+	/** Swap elements a[i] and a[i+1] */
+	void swapContiguous(int i) {
+		if (lo == hi) return; // leaf node, no need to swap
+		int mi = (lo + hi) / 2;
+
+		bool iLeft = mapLeft[i] == mapLeft[i-1] + 1; // if a[i] <= mi
+		bool i1Left = mapLeft[i+1] == mapLeft[i] + 1; // if a[i+1] <= mi
+
+		if (iLeft && !i1Left) {
+			mapLeft[i]--;
+			mapRight[i]++;
+		} else if (iLeft && i1Left) {
+			L->swapContiguous(mapLeft[i]);
+		} else if (!iLeft && i1Left) {
+			mapLeft[i]++;
+			mapRight[i]--;
+		} else {
+			R->swapContiguous(mapRight[i]);
+		}
+	}
+
+#ifdef TOGGLE
+	/** Set i-th position to active/innactive */
+	void toggleActive(int i) { // in case of rank operations, this update is necessary only in the leaf node
+		if (lo == hi) {
+			if (activeLeft.query(i, i) == 1) {
+				activeLeft.update(i, -1);
+			} else activeLeft.update(i, 1);		
+		} else {
+			if (mapLeft[i] == mapLeft[i-1] + 1) L->toggleActive(mapLeft[i]);
+			if (mapRight[i] == mapRight[i-1] + 1) R->toggleActive(mapRight[i]);
+		}
+
+	}
+#endif
+
+	~waveletTree() {
 		if (L) delete L;
 		if (R) delete R;
 	}
 };
 
+int a[MAXN], b[MAXN], n, q;
+map<int, int> original, mapTo;
+map<int, vector<int> > ind;
+ 
+int compress() {
+	set<int> all;
+	for (int i = 1; i <= n; i++) all.insert(a[i]);
+ 
+	int cur = 0;
+	for (int i : all) {
+		mapTo[i] = ++cur;
+		original[cur] = i;
+	}
+ 
+	for (int i = 1; i <= n; i++) a[i] = mapTo[a[i]];
+ 
+	return cur;
+}
+ 
 int main() {
-	ios::sync_with_stdio(false); cin.tie(NULL);
-
-	int n, q; cin >> n >> q;
-	vector<ll> a(n);
-	for (ll& i : a) {
-		cin >> i;
-		i += 2e9;
+	scanf("%d%d", &n, &q);
+	for (int i = 1; i <= n; i++) {
+		scanf("%d", a+i);
+		b[i] = a[i];
+		ind[a[i]].push_back(i - 1);
 	}
-
-	Wavelet T(a);
+ 
+	int N = compress();
+	waveletTree T(a+1, a+n+1, 1, N);
+ 
 	while(q--) {
-		int k, l, r; cin >> l >> r >> k;
-		cout << ll(T.kthSmallest(k, l - 1, r - 1) - 2e9) << '\n';
+		int op; scanf("%d", &op);
+		if (op == 0) {
+			int k, i, l; scanf("%d%d%d", &i, &l, &k);
+ 
+			int d = T.kthSmallest(k, 1, i + 1);
+			d = original[d];
+ 
+			int ans;
+			if (ind[d].size() < l) ans = -1;
+			else ans = ind[d][l-1];
+ 
+			printf("%d\n", ans);
+		} else {
+			int i; scanf("%d", &i);
+			T.swapContiguous(++i);
+ 
+			// agora, precisa trocar os valores de ind[b[i]] e ind[b[i+1]] tambem
+			// basta acha-los e somar/subtrair 1
+			auto it = lower_bound(ind[b[i]].begin(), ind[b[i]].end(), i-1) - ind[b[i]].begin();
+			ind[b[i]][it]++;
+ 
+			it = lower_bound(ind[b[i+1]].begin(), ind[b[i+1]].end(), i) - ind[b[i+1]].begin();
+			ind[b[i+1]][it]--;
+ 
+			// swap no array original tambem
+			swap(b[i], b[i+1]);
+		}
+ 
 	}
+ 
+	return 0;
 }
