@@ -7,54 +7,71 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> pii;
+typedef pair<string, int> psi;
 
 const int MAXN = 3e5 + 5;
 
-int n, m;
-map<int, bool> vis;
-map<int, string> memo;
-map<int, char> s;
-map<int, vector<int> > edges;
+struct HASH {
+	unsigned long long fi, se;
 
-string solve(int u, int T) {
-	if (u <= 0 || u > n) return "A";
-
-	if (vis[u]) return memo[u];
-	vis[u] = true;
-
-	if (u == T) return memo[u] = s[u];
-	if (memo[u] != "A") return memo[u];
-
-	string ret;
-	for (int v : edges[u]) {
-		string cur = solve(v, T);
-
-		if (cur != "A") {
-			if (ret.empty()) ret = s[u] + cur;
-			else ret = min(ret, s[u] + cur);
-		}
+	HASH() {
+		fi = se = 0;
 	}
 
-	return memo[u] = ret.empty() ? string("A") : ret;
-}
+	char* str() {
+		
+	}
+
+	bool operator>(HASH const& h) const {
+		return fi == h.fi ? se > h.se : fi > h.fi;
+	}
+
+	bool operator<(HASH const& h) const {
+		return fi == h.fi ? se < h.se : fi < h.fi;
+	}
+
+	HASH& operator+(char c) {
+		fi ^= (c << 13) + fi*0x123affb3141 + 0xf3f4f1fa75fb*c + 0xaf;
+		se ^= (c << 30) + se*0xdeadbeef123 + 0x12cdef1e7571*c + 0xfa;
+	}
+
+	bool empty() {
+		return fi == 0 && se == 0;
+	}
+};
+
+int n, m;
+vector<int> edges[MAXN];
+HASH dist[MAXN];
+char s[MAXN];
 
 int main() {
 	scanf("%d%d", &n, &m);
-	for (int i = 1; i <= n; i++) {
-		char c; scanf(" %c", &c);
-		s[i] = c;
-		memo[i] = "A";
-	}
+	scanf(" %s", s+1);
 
 	while(m--) {
 		int u, v; scanf("%d%d", &u, &v);
 		edges[u].push_back(v);
-
-		assert(u > 0 && v > 0 && u <= n && v <= n);
 	}
 
 	int a, b; scanf("%d%d", &a, &b);
-	string ans = solve(a, b);
+	priority_queue<pair<HASH, int> > pq;
+	dist[a] = dist[a] + s[a];
+	pq.emplace(dist[a], a);
 
-	printf("%s\n", ans == "A" || ans.empty() ? "No way" : ans.c_str());
+	while(pq.size()) {
+		int u = pq.top().second;
+		HASH d = pq.top().first;
+		pq.pop();
+
+		if (d > dist[u]) continue;
+		for (int v : edges[u]) {
+			if (dist[v].empty() || dist[v] > dist[u] + s[v]) {
+				dist[v] = dist[u] + s[v];
+				pq.emplace(dist[v], v);
+			}
+		}
+	}
+
+	printf("%s\n", dist[b].empty() ? "No way" : dist[b].str());
 }

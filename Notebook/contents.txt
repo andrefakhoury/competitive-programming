@@ -1,0 +1,53 @@
+# Any line followed by a '#' character is ignored
+# Section headings must be in square brackets
+# Subsections within a section should follow the format:
+#   [filename within code directory][tab character \t][subsection title]
+
+[Template]
+General/template.cpp	CPP Template
+General/template.java	JAVA Template
+
+[Algorithms]
+Algorithms/DSU.cpp	Union Find
+Algorithms/kadane.cpp	Kadane
+Algorithms/knapsack.cpp	Knapsack
+Algorithms/matrixExpo.cpp	Matrix Exponentiation
+Algorithms/Meet-in-the-Middle/Example2.cpp	Meet-in-the-Middle (Kadane)
+Algorithms/Meet-in-the-Middle/Example3.cpp	Meet-in-the-Middle (Some subset problem)
+Algorithms/Mo/Mo.cpp	Mo
+
+[Data Structures]
+Data-Structures/fenwickTree.cpp	BIT
+Data-Structures/minQueue.cpp	MinQueue
+Data-Structures/orderedSet.cpp	Ordered Set
+Data-Structures/segtree.cpp	Segment Tree
+Data-Structures/segtreeLazy.cpp	Segment Tree (Lazy)
+Data-Structures/sqrtDecomposition.cpp	SQRT Decomposition
+Data-Structures/waveletTree/wavelet.cpp	Wavelet Tree
+
+[Geometry]
+Geometry/shoelace.cpp	Shoelace Algorithm
+
+[Graphs]
+Graphs/bellmanFord.cpp	Bellman-Ford
+Graphs/bridges.cpp	Find Bridges
+Graphs/fordFulkerson.cpp	Ford Fulkerson
+Graphs/lca.cpp	LCA
+Graphs/tarjan.cpp	TARJAN
+Graphs/floydWarshall.cpp	Floyd-Warshall
+Graphs/kruskal.cpp	Kruskal
+Graphs/scc.cpp	SCC Kosaraju
+Graphs/tarjanLCA.cpp	Tarjan-LCA
+
+[Math / Number Theory]
+Math/binaryDivisibleByNumber.cpp	Binary Divisibility
+Math/linearSieve.cpp	Linear Sieve
+Math/millerRabin.cpp	Miller Rabin
+Math/segmentedSieve.cpp	Segmented Sieve
+Math/BinExpo.cpp	Binary Exponentiation
+Math/maxDivisorsRange.cpp	Max Divisors Range
+Math/millerRabin.py	Miller Rabin (py)
+Math/sieve.cpp	Sieve
+Math/discrete.cpp	Discrete Mathematics
+Math/mDividesNfac.cpp	M Divides N Fac
+Math/pascalTriangle.cpp	Pascal Triangle
