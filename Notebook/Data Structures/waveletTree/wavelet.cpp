@@ -3,48 +3,10 @@ using namespace std;
 
 const int MAXN = 1e6 + 5;
 
-#define TOGGLE
-
 /** Wavelet Tree data structure. 1-based pls :) */
 struct waveletTree {
 	int lo, hi; // minimum and maximum element on array
 	waveletTree *L, *R; // children
-
-#ifdef TOGGLE
-	/** bit to count active nodes from [1..i] when toggle updates are necessary */
-	struct BIT { // simple sum BIT
-		vector<int> bt;
-		int maxi;
-
-		BIT() {}
-
-		BIT(int qtt) {
-			maxi = qtt;
-			bt.resize(qtt + 10);
-		}
-
-		void update(int i, int val) {
-			while (i < maxi) {
-				bt[i] += val;
-				i += i&-i;
-			}
-		}
-
-		int query(int i) {
-			int ret = 0;
-			while (i > 0) {
-				ret += bt[i];
-				i -= i&-i;
-			}
-			return ret;
-		}
-
-		int query(int i, int j) {
-			if (i > j) return 0;
-			return query(j) - query(i-1);
-		}
-	} activeLeft;
-#endif
 
 	vector<int> mapLeft, mapRight; // indexes to map left and right children
 
@@ -61,12 +23,8 @@ struct waveletTree {
 			mapLeft.reserve(end - beg + 1);
 			mapLeft.push_back(0);
 
-#ifdef TOGGLE
-			activeLeft = BIT(end - beg + 2); // BIT que informa quantos ativos estao presentes ate i
-#endif
 			for (auto it = beg; it != end; it++) {
 				mapLeft.push_back(mapLeft.back() + 1);
-				activeLeft.update(mapLeft.back(), 1);
 			}
 		} else {
 			
@@ -120,27 +78,6 @@ struct waveletTree {
 		if (k <= inLeft) return L->kthSmallest(k, mapLeft[l-1]+1, mapLeft[r]);
 		else return R->kthSmallest(k-inLeft, mapRight[l-1]+1, mapRight[r]);
 	}
-
-#ifdef TOGGLE
-	/** Frequency of k in range [1..j] when TOGGLE is defined */
-	int rankToggle(int k, int i) {
-		if (i == 0) return 0;
-
-		if (lo == hi) {
-			if (k == lo) return activeLeft.query(i);
-			else return 0;
-		} else {
-			int mi = (lo + hi) / 2;
-			if (k <= mi) return L->rankToggle(k, mapLeft[i]);
-			else return R->rankToggle(k, mapRight[i]);
-		}
-	}
-
-	/** Frequency of k in range [i..j] when TOGGLE is defined */
-	int rankToggle(int k, int i, int j) {
-		return rankToggle(k, j) - rankToggle(k, i - 1);
-	}
-#endif
 
 	/** Qtt of elements between [x..y] in array[l..r] */
 	int rangeCount(int x, int y, int l, int r) {
@@ -215,21 +152,6 @@ struct waveletTree {
 			else R->pop_back(k);
 		}
 	}
-
-#ifdef TOGGLE
-	/** Set i-th position to active/innactive */
-	void toggleActive(int i) { // in case of rank operations, this update is necessary only in the leaf node
-		if (lo == hi) {
-			if (activeLeft.query(i, i) == 1) {
-				activeLeft.update(i, -1);
-			} else activeLeft.update(i, 1);		
-		} else {
-			if (mapLeft[i] == mapLeft[i-1] + 1) L->toggleActive(mapLeft[i]);
-			if (mapRight[i] == mapRight[i-1] + 1) R->toggleActive(mapRight[i]);
-		}
-
-	}
-#endif
 
 	~waveletTree() {
 		if (L) delete L;
