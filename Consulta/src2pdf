@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+tex_file="${PWD##*/}-$1"
+tex_file=${tex_file// /}
+
+cat<<EOF >$tex_file   ## Print the tex file header
+\documentclass{article}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}  %% Allow color names
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  xleftmargin=\parindent,
+  language=$1,   %% Change this to whatever you write in
+  breaklines=true, %% Wrap long lines
+  basicstyle=\footnotesize\ttfamily,
+  numbers=left,
+  tabsize=2,
+  commentstyle=\itshape\color{Gray},
+  stringstyle=\color{Black},
+  keywordstyle=\bfseries\color{blue},
+  identifierstyle=\color{black},
+  xleftmargin=-8em,
+}        
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref} 
+\begin{document}
+\tableofcontents
+
+EOF
+
+find . -depth -name '*_*' -execdir bash -c 'mv -- "$1" "${1//_/.}"' bash {} \; # Removing underscores from file names.
+find . -type f ! -regex ".*/\..*" ! -name ".*" ! -name "*~" ! -name 'src2pdf'|
+sed 's/^\..//' |                 ## Change ./foo/bar.src to foo/bar.src
+
+while read  i; do                ## Loop through each file
+  if [ "$i" != "$tex_file" ]; then
+    name=${i//_/\\_}             ## escape underscores
+    echo "\newpage" >> $tex_file   ## start each section on a new page
+    echo "\section{$i}" >> $tex_file  ## Create a section for each filename
+
+   ## This command will include the file in the PDF
+    echo "\lstinputlisting[style=customasm]{$i}" >>$tex_file
+  fi
+done &&
+echo "\end{document}" >> $tex_file &&
+pdflatex $tex_file -output-directory . && 
+pdflatex $tex_file -output-directory .  ## This needs to be run twice 
+                                           ## for the TOC to be generated   

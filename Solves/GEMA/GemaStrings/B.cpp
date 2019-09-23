@@ -1,154 +1,87 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+#define fi first
+#define se second
+#define mp make_pair
+
 typedef pair<int, int> pii;
+typedef long long ll;
 
-map<pair<pair<ll, ll>, ll>, ll> mapInv;
-
-ll fastExp(ll a, ll b, ll m) {
-	if (mapInv.count(make_pair(make_pair(a, b), m))) return mapInv[make_pair(make_pair(a, b), m)];
-
+inline int inv(int a, int m) {
 	a %= m;
-	ll res = 1;
+	int b = m - 2;
+	
+	int res = 1;
 	while (b > 0) {
-		if (b & 1) res = (res * a) % m;
-		a = (a * a) % m;
+		if (b & 1) res = (ll(res) * a) % m;
+		a = (ll(a) * a) % m;
 		b >>= 1;
 	}
+
 	return res;
 }
 
-template<typename T>
-struct Pair {
-	T fi, se;
+const int MAXN = 2e6 + 5;
+const int M[2] = {1000000007, 1000000009};
+const int p[2] = {163, 167};
+const int q[2] = {inv(p[0], M[0]), inv(p[1], M[1])};
+int curPow[2][MAXN];
 
-	Pair() {}
-	Pair(T a, T b) {
-		fi = a;
-		se = b;
+inline void solve(string& a, string& b) {
+	int n = min(a.size(), b.size());
+
+	pii hashA(0, 0);
+	for (int d = 0, i = a.size() - n; i < (int)a.size(); i++, d++) {
+		char c = a[i];
+		hashA.fi = (hashA.fi + (ll(curPow[0][d]) * c) % M[0]) % M[0];
+		hashA.se = (hashA.se + (ll(curPow[1][d]) * c) % M[1]) % M[1];
 	}
 
-	Pair operator*(ll p) const {
-		return Pair(fi * p, se * p);
-	}
-
-	Pair operator+(ll p) const {
-		return Pair(fi + p, se + p);
-	}
-
-	Pair operator-(ll p) const {
-		return Pair(fi - p, se - p);
-	}
-
-	Pair operator-(Pair p) const {
-		return Pair(fi - p.fi, se - p.se);
-	}
-
-	Pair operator*(Pair p) const {
-		return Pair(fi * p.fi, se * p.se);
-	}
-
-	Pair operator+(Pair p) const {
-		return Pair(fi + p.fi, se + p.se);
-	}
-
-	Pair operator%(Pair p) const {
-		return Pair(fi % p.fi, se % p.se);
-	}
-
-	bool operator<(const Pair& p) const {
-		return fi == p.fi ? se < p.se : fi < p.fi;
-	}
-
-	bool operator==(const Pair p) const {
-		return fi == p.fi && se == p.se;
-	}
-
-	T& operator[](size_t i) {
-		return i == 0 ? fi : se;
-	}
-
-	Pair inv(const Pair m) const {
-		return Pair(fastExp(fi, m.fi - 2, m.fi), fastExp(se, m.se - 2, m.se));
-	}
-};
-
-const Pair<ll> m(1e9+7, 1e9+9);
-const Pair<ll> p(131, 137);
-Pair<ll> curPow(1, 1);
-
-map<string, Pair<ll> > mapHash;
-map<string, vector<Pair<ll>>> mapHashVec;
-
-Pair<ll> getHash(string& s) {
-	if (mapHash.count(s)) return mapHash[s];
-
-	Pair<ll> hash(0, 0);
-	curPow = Pair<ll>(1, 1);
-
-	for (char c : s) {
-		hash = (hash + curPow * ll(c)) % m;
-		curPow = (curPow * p) % m;
-	}
-
-	curPow = curPow * curPow.inv(m);
-
-	return hash;
-}
-
-vector<Pair<ll>> getVecHash(string& s) {
-	if (mapHashVec.count(s)) return mapHashVec[s];
-
-	Pair<ll> hash(0, 0);
-	curPow = Pair<ll>(1, 1);
-
-	vector<Pair<ll>> ret;
-	for (char c : s) {
-		hash = (hash + curPow * ll(c)) % m;
-		curPow = (curPow * p) % m;
-		ret.emplace_back(hash);
-	}
-
-	curPow = curPow * curPow.inv(m);
-
-	return ret;
-}
-
-string solve(string& a, string& b) {
-	int n;
-	Pair<ll> hashA = getHash(a);
-	vector<Pair<ll>> hashB = getVecHash(b);
-	n = min(a.size(), b.size());
-
-	for (int i = 0; i + n < (int) a.size(); i++) {
-		hashA = ((hashA - ll(a[i])) % m + m) % m;
-		hashA = (hashA * p.inv(m)) % m;
+	vector<pii> hashB(b.size());
+	hashB[0] = {b[0], b[0]};
+	for (int i = 1; i < (int)b.size(); i++) {
+		char c = b[i];
+		hashB[i].fi = (hashB[i-1].fi + (ll(curPow[0][i]) * c) % M[0]) % M[0];
+		hashB[i].se = (hashB[i-1].se + (ll(curPow[1][i]) * c) % M[1]) % M[1];
 	}
 
 	for (int i = a.size() - n; i < (int) a.size(); i++) {
 		int tam = a.size() - i;
 
-		if (hashA == hashB[tam-1]) return a + b.substr(tam, b.size());
+		if (hashA == hashB[tam-1]) {
+			a += b.substr(tam);
+			return;
+		}
 
-		hashA = ((hashA - ll(a[i])) % m + m) % m;
-		hashA = (hashA * p.inv(m)) % m;
+		hashA.fi = ((hashA.fi - a[i]) % M[0] + M[0]) % M[0];
+		hashA.se = ((hashA.se - a[i]) % M[1] + M[1]) % M[1];
+
+		hashA.fi = (ll(hashA.fi) * q[0]) % M[0];
+		hashA.se = (ll(hashA.se) * q[1]) % M[1];
 	}
 
-	return a + b;
+	a += b;
 }
 
+char aux[MAXN];
 int main () {
-	ios::sync_with_stdio(false); cin.tie(NULL);
-
-	int n; cin >> n;
-	string s; cin >> s;
-
-	for (int i = 1; i < n; i++) {
-		string t; cin >> t;
-		s = solve(s, t);
+	curPow[0][0] = curPow[1][0] = 1;
+	for (int i = 1; i < MAXN; i++) {
+		for (int j = 0; j < 2; j++) {
+			curPow[j][i] = (ll(curPow[j][i-1]) * p[j]) % M[j];
+		}
 	}
 
-	cout << s << '\n';
+	int k; scanf("%d %s", &k, aux);
+	string s(aux);
+
+	for (int xx = 1; xx < k; xx++) {
+		scanf(" %s", aux);
+		string b(aux);
+		solve(s, b);
+	}
+
+	printf("%s\n", s.c_str());
 	return 0;
 }
