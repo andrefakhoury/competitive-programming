@@ -22,10 +22,12 @@ suf(i) = substr(i, n-1)
 
 # Z-Function
 
+```
 Z[i] = {
 	0, i = 0
 	tamanho do maior prefixo comum entre s[0..n-1], s[i..n-1], cc
 }
+```
 
 
 ## Exemplos
@@ -100,4 +102,94 @@ p = abdab
 
 (padrao encontrado 2 vezes)
 a b c(d) a b c(d) a b
+```
+
+# Prefix Function
+
+## Border
+
+Todos os sufixos que tambem sao prefixos
+
+- abacaba: a aba abacaba
+
+## Proper Border
+
+Borda que nao seja a string inteira
+
+```
+pi[i] = {
+	tamanho da maior proper border de s[0..i-1]
+}
+```
+
+Ex:
+
+```
+s = a b a c a b a
+π = 0 0 1 0 1 0 3
+
+s = a b a b a b
+π = 0 0 1 2 3 4
+
+s = a a a a a
+π = 0 1 2 3 4
+```
+
+Entao pra pegar o matching, so faz aquele trick de z:
+
+p: aba
+t = abacaba
+
+```
+p#t = a b a # a b a c a b a
+  π = . . . . . . 3 .. . .. 
+```
+
+## Observacoes
+
+Maior valor de π[i] = ?
+
+```
+π[i] <= π[i-1] + 1
+```
+
+So precisa ir testando as bordas, porque nao faz sentido encontrar uma borda maior de `i` que nao seja borda de algum `i` anterior.
+
+Entao, vai testando as bordas:
+
+1a borda: π[i-1]
+2a borda: π[π[i-1]]
+...
+
+## Algoritmo
+
+```C++
+vector<int> pi(s.size());
+for (int i = 1; i < s.size(); i++) {
+	pi[i] = pi[i-1];
+	while(pi[i] > 0 && s[pi[i]] != s[i])
+		pi[i] = pi[pi[i]-1];
+	if (s[i] == s[pi[i]]) pi[i]++;
+}
+```
+
+# KMP
+
+```C++
+vector<int> pi = prefix_function(p + "#");
+int k = 0;
+for (int i = 0; i < t.size(); i++) {
+	while (k > 0 && p[k] != t[i]) k = pi[k-1];
+	if (p[k] == t[i]) k++;
+	if (k == p.size()) // ACHEI
+}
+```
+
+## Proibida
+
+Tem que achar quantas strings de tamanho `k` nao possuem a substring `s`
+
+```
+dp[i][str] = quantas palavras de tamanho i tal que proibida nao ocorre em s[0..i-1]
+
 ```

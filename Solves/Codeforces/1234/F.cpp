@@ -17,6 +17,7 @@ inline int insert(int mask, int i) {
 }
 
 bool all[1 << N];
+int memo[(1 << N) + 5][N + 5];
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(NULL);
@@ -24,27 +25,37 @@ int main() {
 	string s; cin >> s;
 	int n = s.size();
 
-	vector<int> vec;
 	for (int i = 0; i < n; i++) {
 		int curMask = 0;
 		for (int j = 0; i + j < n && j < 20; j++) {
 			if (find(curMask, s[i+j]-'a')) break;
 			curMask = insert(curMask, s[i+j]-'a');
 			all[curMask] = true;
-			vec.pb(curMask);
 		}
 	}
 
-	sort(vec.begin(), vec.end());
-	vec.erase(unique(vec.begin(), vec.end()), vec.end());
-
 	int ans = 1;
-	for (int s1 : vec) {
-		int s2 = s1 ^ ((1 << N) - 1);
+	for (int mask = 0; mask < (1 << N); mask++) {
+		memo[mask][0] = 1;
+		
+		for (int i = 0; i < N; i++) {
+			if (mask & (1 << i)) {
+				memo[mask][i+1] = max(memo[mask][i], all[mask] * __builtin_popcount(mask^(1<<i)));
+			} else {
+				memo[mask][i+1] = memo[mask][i];
+			}
+		}
 
-		for (int i = s2; i > 0; i = (i - 1) & s2)
-			ans = max(ans, all[i] * __builtin_popcount(s1^i));
+		ans = max(ans, memo[mask][n]);
 	}
+
+	// int ans = 1;
+	// for (int s1 : vec) {
+	// 	int s2 = s1 ^ ((1 << N) - 1);
+
+	// 	for (int i = s2; i > 0; i = (i - 1) & s2)
+	// 		ans = max(ans, all[i] * __builtin_popcount(s1^i));
+	// }
 
 	printf("%d\n", ans);
 	return 0;
