@@ -66,7 +66,9 @@ struct waveletTree {
 #endif
 			for (auto it = beg; it != end; it++) {
 				mapLeft.push_back(mapLeft.back() + 1);
+#ifdef TOGGLE
 				activeLeft.update(mapLeft.back(), 1);
+#endif
 			}
 		} else {
 			
