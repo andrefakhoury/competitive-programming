@@ -47,11 +47,35 @@ struct waveletTree {
 		}
 	}
 
-	int solveG(int k, int l, int r) {
-		if (r - l + 1 < k) return 0;
-		if (lo == hi) return 1;
+	/** K-th smallest element on range[l..r] */
+	int kthSmallest(int k, int l, int r) {
+		if (l > r) return -1; // out of bounds
+		if (lo == hi) return lo; // leaf node
 
-		return L->solveG(k, mapLeft[l-1]+1, mapLeft[r]) + R->solveG(k, mapRight[l-1]+1, mapRight[r]);
+		int inLeft = mapLeft[r] - mapLeft[l-1];
+		if (k <= inLeft) return L->kthSmallest(k, mapLeft[l-1]+1, mapLeft[r]);
+		else return R->kthSmallest(k-inLeft, mapRight[l-1]+1, mapRight[r]);
+	}
+
+	/** Swap elements a[i] and a[i+1] */
+	void swapContiguous(int i) {
+		if (lo == hi) return; // leaf node, no need to swap
+		int mi = (lo + hi) / 2;
+
+		bool iLeft = mapLeft[i] == mapLeft[i-1] + 1; // if a[i] <= mi
+		bool i1Left = mapLeft[i+1] == mapLeft[i] + 1; // if a[i+1] <= mi
+
+		if (iLeft && !i1Left) {
+			mapLeft[i]--;
+			mapRight[i]++;
+		} else if (iLeft && i1Left) {
+			L->swapContiguous(mapLeft[i]);
+		} else if (!iLeft && i1Left) {
+			mapLeft[i]++;
+			mapRight[i]--;
+		} else {
+			R->swapContiguous(mapRight[i]);
+		}
 	}
 
 	~waveletTree() {
@@ -59,39 +83,44 @@ struct waveletTree {
 		if (R) delete R;
 	}
 };
-
+ 
 const int MAXN = 1e5 + 5;
 
-vector<int> edges[MAXN];
-int euler[MAXN], t_in[MAXN], t_out[MAXN], color[MAXN], curT;
+int a[MAXN];
+map<int, int> mp, inv;
 
-void dfs(int u) {
-	t_in[u] = ++curT;
-	euler[curT] = color[u];
+int compress(int n) {
+	set<int> all;
+	for (int i = 1; i <= n; i++) all.insert(a[i]);
 
-	for (int v : edges[u]) if (!t_in[v]) dfs(v);
-	t_out[u] = curT;
+	int cnt = 0;
+	for (int i : all) {
+		mp[i] = ++cnt;
+		inv[cnt] = i;
+	}
+
+	for (int i = 1; i <= n; i++) a[i] = mp[a[i]];
+
+	return cnt;
 }
- 
+
 int main() {
-	int n, m, M = -1; scanf("%d%d", &n, &m);
-	for (int i = 1; i <= n; i++) {
-		scanf("%d", color+i);
-		M = max(M, color[i]);
-	}
+	int n, q; scanf("%d%d", &n, &q);
+	for (int i = 1; i <= n; i++) scanf("%d", a+i);
 
-	for (int i = 2; i <= n; i++) {
-		int u, v; scanf("%d%d", &u, &v);
-		edges[u].push_back(v);
-		edges[v].push_back(u);
-	}
+	int N = compress(n);
+	waveletTree T(a+1, a+n+1, 1, N);
 
-	dfs(1);
-
-	waveletTree T(euler+1, euler+curT+1, 1, M);
-	while(m--) {
-		int v, k; scanf("%d%d", &v, &k);
-		printf("%d\n", T.solveG(k, t_in[v], t_out[v]));
+	while(q--) {
+		char op; scanf(" %c", &op);
+		if (op == 'Q') {
+			int l, r, k; scanf("%d%d%d", &l, &r, &k);
+			int ans = T.kthSmallest(k, l, r);
+			printf("%d\n", inv[ans]);
+		} else {
+			int i; scanf("%d", &i);
+			T.swapContiguous(i);
+		}
 	}
  
 	return 0;
