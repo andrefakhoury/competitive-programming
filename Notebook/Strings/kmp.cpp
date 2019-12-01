@@ -19,5 +19,8 @@ int main() {
 		if (s[i] == s[pi[i]]) pi[i]++;
 	}
 
+	for (int i : pi) printf("%d ", i);
+	printf("\n");
+
 	return 0;
 }
