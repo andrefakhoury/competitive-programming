@@ -3,39 +3,21 @@ using namespace std;
 
 #define pb push_back
 #define eb emplace_back
+#define fi first
+#define se second
 
 typedef long long ll;
 
 const int MAXN = 1e6 + 5;
 
-vector<int> a[MAXN];
-ll memo[MAXN];
-int n, N, k = 3;
+vector<int> a[MAXN], b[MAXN];
+int N, n;
 
-ll solve(int c) {
-	if (c > N) return 0;
-
-	cout << c << endl;
-
-	ll& ret = memo[c];
-	if (~ret) return ret;
-
-	for (int i = 0; i < min((int)a[c+1].size(), k); i++) {
-		ll cur = max(abs(a[c+1][i] - a[c].front()), abs(a[c+1][i] - a[c].back()));
-		ret = max(ret, cur + solve(c+1));
-	}
-
-	for (int i = a[c+1].size() - 1; i >= max(0, (int)a[c+1].size() - k); i--) {
-		ll cur = max(abs(a[c+1][i] - a[c].front()), abs(a[c+1][i] - a[c].back()));
-		ret = max(ret, cur + solve(c+1));
-	}
-
-	return ret;
+int solve(int c) {
+	
 }
 
 int main() {
-	memset(memo, -1, sizeof memo);
-
 	scanf("%d", &n);
 
 	set<int> all;
@@ -50,11 +32,13 @@ int main() {
 	map<int, int> mp;
 	for (int x : all) mp[x] = ++N;
 
-	for (auto p : inp) a[mp[p.first]].pb(p.second);
-	for (int i = 1; i <= N; i++) sort(a[i].begin(), a[i].end());
+	for (auto p : inp) b[mp[p.fi]].pb(p.se);
+	for (int i = 1; i <= N; i++) sort(b[i].begin(), b[i].end());
+	for (int i = 1; i <= N; i++) {
+		for (int j = 0; j < (int)b[i].size(); j++) {
+			if (j < 5 || j > (int)b[i].size() - 5) a[i].eb(b[i][j]);
+		}
+	}
 
-	cout << solve(1) << endl;
-
-
-
+	cout << solve(1) << '\n';
 }

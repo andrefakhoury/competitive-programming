@@ -191,5 +191,34 @@ Tem que achar quantas strings de tamanho `k` nao possuem a substring `s`
 
 ```
 dp[i][str] = quantas palavras de tamanho i tal que proibida nao ocorre em s[0..i-1]
+```
+
+# HASH
 
 ```
+f: string -> int
+```
+
+## Propriedades
+
+- Se s1 == s2, entao h(s1) == h(s2)
+- Se s1 != s2, entao h(s1) != h(s2)
+
+## Hash polinomial
+
+h(s) = sum(s_i * b^i) % M
+
+### Probabilidade de dar ruim
+
+P(x, y) = 1/M
+
+## Hash Acumulado
+
+s[l1..r1] == s[l2..r2] ? 
+
+h[r1] - h[l1] == h[r2] - r[l2] ?
+
+## Comparar duas substrings lexicograficamente
+
+Faz busca binaria em maior substring que seja igual, e depois compara os proximos caracteres
+
