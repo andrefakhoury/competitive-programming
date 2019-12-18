@@ -5,8 +5,6 @@ const int MAXN = 1e5 + 5;
 
 char s[MAXN];
 
-
-
 int main() {
 	scanf(" %s", s);
 	int n = strlen(s);
