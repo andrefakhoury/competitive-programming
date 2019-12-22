@@ -3,8 +3,6 @@ using namespace std;
 
 const int MAXN = 1e6 + 5;
 
-#define TOGGLE
-
 /** Wavelet Tree data structure. 1-based pls :) */
 struct waveletTree {
 	int lo, hi; // minimum and maximum element on array
@@ -103,7 +101,6 @@ struct waveletTree {
 	/** Swap elements a[i] and a[i+1] */
 	void swapContiguous(int i) {
 		if (lo == hi) return; // leaf node, no need to swap
-		int mi = (lo + hi) / 2;
 
 		bool iLeft = mapLeft[i] == mapLeft[i-1] + 1; // if a[i] <= mi
 		bool i1Left = mapLeft[i+1] == mapLeft[i] + 1; // if a[i+1] <= mi
@@ -197,7 +194,7 @@ int main() {
 			d = original[d];
  
 			int ans;
-			if (ind[d].size() < l) ans = -1;
+			if ((int)ind[d].size() < l) ans = -1;
 			else ans = ind[d][l-1];
  
 			printf("%d\n", ans);
