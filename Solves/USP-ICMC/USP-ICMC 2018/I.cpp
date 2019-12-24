@@ -1,71 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 1e5 + 5, MAXL = 21;
+#define pb push_back
+#define eb emplace_back
+#define mk make_pair
+#define fi first
+#define se second
 
+typedef long long ll;
+typedef pair<int, int> pii;
+
+const int INF = 0x3f3f3f3f;
+const int MAXN = 1e5 + 5;
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 vector<int> edges[MAXN];
-int par[MAXL][MAXN], level[MAXN];
+
+int curTime, t_in[MAXN], t_out[MAXN];
 
 void dfs(int u) {
-	for (int v : edges[u]) {
-		if (level[v] == -1) {
-			par[0][v] = u;
-			level[v] = level[u] + 1;
-			dfs(v);
-		}
-	}
-}
-
-void pre(int n, int root) {
-	memset(level, -1, sizeof level);
-	level[root] = 0;
-
-	dfs(root);
-
-	for (int i = 1; i < MAXL; i++)
-		for (int u = 1; u <= n; u++)
-			par[i][u] = par[i-1][par[i-1][u]];
-}
-
-int lca(int u, int v) {
-	if (level[u] < level[v]) swap(u, v);
-
-	for (int i = MAXL-1; i > -1; i--)
-		if (level[u] - (1 << i) >= level[v]) u = par[i][u];
-
-	if (u == v) return u;
-
-	for (int i = MAXL-1; i > -1; i--)
-		if (par[i][u] != par[i][v]) {
-			u = par[i][u];
-			v = par[i][v];
-		}
-
-	return par[0][u];
-}
-
-bool isChild(int children, int parent) {
-	return lca(children, parent) == parent;
+	t_in[u] = ++curTime;
+	for (int v : edges[u]) dfs(v);
+	t_out[u] = ++curTime;
 }
 
 int main() {
 	int n, q; scanf("%d%d", &n, &q);
 
-	int p = -1;
-	for (int i = 1; i <= n; i++) {
-		int u; scanf("%d", &u); u++;
-		if (u) edges[u].push_back(i);
-		else p = i;
+	vector<int> roots;
+	for (int u = 0; u < n; u++) {
+		int v; scanf("%d", &v);
+		if (v == -1) roots.pb(u);
+		else edges[v].pb(u);
 	}
 
-	pre(n, p);
+	for (int u : roots) dfs(u);
 
 	while(q--) {
-		int x, y; scanf("%d%d", &x, &y);
-		x++, y++;
-
-		bool ans = level[x] > level[y];
-		printf("%s\n", ans ? "Yes" : "No");
-		ans &= isChild(x, y);
+		int u, v; scanf("%d%d", &u, &v);
+		if (t_in[v] <= t_in[u] && t_out[v] >= t_out[u])
+			printf("Yes\n");
+		else
+			printf("No\n");
 	}
 }
