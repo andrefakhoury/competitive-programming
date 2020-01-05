@@ -1,75 +1,102 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define fi first
-#define se second
 #define pb push_back
 #define eb emplace_back
+#define mk make_pair
+#define fi first
+#define se second
 
-typedef pair<int, int> pii;
 typedef long long ll;
+typedef pair<int, int> pii;
 
-const int MAXN = 2e3 + 5;
+const int INF = 0x3f3f3f3f;
+const int MAXN = 2e3 + 1;
+const int MAXX = 999;
 
-char aux[50];
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-int mat[MAXN][MAXN];
-int ord[MAXN][MAXN];
+int a[MAXN][MAXN], n, m;
+int nxt[MAXN][MAXX]; // nxt[i][j] = row of jump from a[i][1] k times
 
-int ant(int i, int n) {
-	return i - 1 == 0 ? n : i - 1;
+inline int value_of(pii const& p) {
+	return a[p.fi][p.se];
 }
 
-int nxt(int i, int n) {
-	return i + 1 == n ? 1 : i + 1;
+inline pii move_next(int x, int y, int delta) {
+	y = y%m + 1;
+	x = (x - 1 + delta + n) % n + 1;
+	return {x, y};
 }
 
-void chooseNext(int& i, int& j, int n, int m) {
-	int M = max({mat[ant(i, n)][nxt(j, m)], mat[i][nxt(j, m)], mat[nxt(i, n)][nxt(j, m)]});
+inline pii next_block(int const& x, int const& y) {
+	pii ret_block = {0, 0};
 
-	if (M == mat[ant(i, n)][nxt(j, m)]) {
-		i = ant(i, n);
-	} else if (M == mat[i][nxt(j, m)]) {
-		i = i;
-	} else {
-		i = nxt(i, n);
+	for (int delta = -1; delta <= 1; delta++) {
+		pii cur_block = move_next(x, y, delta);
+		if (value_of(cur_block) > value_of(ret_block))
+			ret_block = cur_block;
 	}
 
-	j = nxt(j, m);
+	return ret_block;
+}
+
+inline int move_y(int y, int k) {
+	return (y-1+k)%m + 1;
+}
+
+int move_x(int const x, int const k) {
+	int i = x, j = 1;
+	for (int K = 1; K <= k; K++) {
+		pii xx = next_block(i, j);
+		i = xx.fi, j = xx.se;
+	}
+
+	return i;
 }
 
 int main() {
-	int n, m; scanf("%d%d", &n, &m);
-	for (int i = 1; i <= n; i++) for (int j = 1; j <= m; j++)
-		scanf("%d", &mat[i][j]);
-
-
-	memset(ord, -1, sizeof ord);
-	int i = 1, j = 1, N = -1;
-	while(ord[i][j] == -1) {
-		ord[i][j] = ++N;
-		chooseNext(i, j, n, m);
+	scanf("%d%d", &n, &m);
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			scanf("%d", &a[i][j]);
+		}
 	}
 
-	int q; scanf("%d", &q);
+	for (int i = 1; i <= n; i++) {
+		nxt[i][0] = i;
+		nxt[i][1] = next_block(i, 1).fi;
 
-	int cur = 0, x = 1, y = 1;
-	while(q--) {
-		scanf(" %s", aux);
-		if (aux[0] == 'm') {
+		int j = 2;
+		for (int x = 2, ok = 0; !ok && j != 1; x++) {
+			nxt[i][x] = next_block(nxt[i][x-1], move_y(1, x)).fi;
+			j++; if (j > m) j = 1, ok = 1;
+		}
+	}
+
+	int X = 1, Y = 1, Q; scanf("%d", &Q);
+	while(Q--) {
+		char op; scanf(" %c%*s", &op);
+
+		if (op == 'm') {
 			int k; scanf("%d", &k);
 
-			int J = (y + k - 1) % m + 1;
-			for (int I = 1; I <= N; I++) {
-				if (ord[I][J] == -1) continue;
-				if (ord[I][J] > )
+			while(k > 0 && X != 1) {
+				pii nx = next_block(X, Y);
+				X = nx.fi, Y = nx.se;
+				k--;
 			}
 
+			while(K > 0) {
 
+			}
+
+			printf("%d %d\n", X, Y);
 		} else {
-			int a, b, c; scanf("%d%d%d");
+			int i, j, x; scanf("%d%d%d", &i, &j, &x);
+			a[i][j] = x;
 		}
-
-
 	}
+
+	return 0;
 }
