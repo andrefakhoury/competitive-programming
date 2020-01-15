@@ -1,7 +1,4 @@
-#include <cstdio>
-#include <vector>
-#include <queue>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define pb push_back
@@ -16,13 +13,14 @@ typedef pair<int, int> pii;
 const ll INF = 0x3f3f3f3f3f3f3f3f;
 const int MAXN = 1e5 + 5;
 
+template<typename edge_t>
 struct Dinic {
-	const long long flow_inf = 1e18;
+	const edge_t flow_inf = 1e18;
 	
 	struct FlowEdge {
 		int v, u;
-		long long cap, flow = 0;
-		FlowEdge(int v, int u, long long cap) : v(v), u(u), cap(cap) {}
+		edge_t cap, flow = 0;
+		FlowEdge(int v, int u, edge_t cap) : v(v), u(u), cap(cap) {}
 	};
 
 	vector<FlowEdge> edges;
@@ -38,7 +36,7 @@ struct Dinic {
 		ptr.resize(n);
 	}
 
-	void add_edge(int v, int u, long long cap) {
+	void add_edge(int v, int u, edge_t cap) {
 		edges.emplace_back(v, u, cap);
 		edges.emplace_back(u, v, 0);
 		adj[v].push_back(m);
@@ -51,7 +49,7 @@ struct Dinic {
 			int v = q.front();
 			q.pop();
 			for (int id : adj[v]) {
-				if (edges[id].cap - edges[id].flow < 1)
+				if (edges[id].cap - edges[id].flow <= 0)
 					continue;
 				if (level[edges[id].u] != -1)
 					continue;
@@ -62,7 +60,7 @@ struct Dinic {
 		return level[t] != -1;
 	}
 
-	long long dfs(int v, long long pushed) {
+	edge_t dfs(int v, edge_t pushed) {
 		if (pushed == 0)
 			return 0;
 		if (v == t)
@@ -70,9 +68,9 @@ struct Dinic {
 		for (int& cid = ptr[v]; cid < (int)adj[v].size(); cid++) {
 			int id = adj[v][cid];
 			int u = edges[id].u;
-			if (level[v] + 1 != level[u] || edges[id].cap - edges[id].flow < 1)
+			if (level[v] + 1 != level[u] || edges[id].cap - edges[id].flow <= 0)
 				continue;
-			long long tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
+			edge_t tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
 			if (tr == 0)
 				continue;
 			edges[id].flow += tr;
@@ -82,8 +80,8 @@ struct Dinic {
 		return 0;
 	}
 
-	long long flow() {
-		long long f = 0;
+	edge_t flow() {
+		edge_t f = 0;
 		while (true) {
 			fill(level.begin(), level.end(), -1);
 			level[s] = 0;
@@ -91,7 +89,7 @@ struct Dinic {
 			if (!bfs())
 				break;
 			fill(ptr.begin(), ptr.end(), 0);
-			while (long long pushed = dfs(s, flow_inf)) {
+			while (edge_t pushed = dfs(s, flow_inf)) {
 				f += pushed;
 			}
 		}
@@ -99,18 +97,17 @@ struct Dinic {
 	}
 };
 
-
 int main() {
 	int n, m;
 	while(~scanf("%d%d", &m, &n)) {
-		Dinic dinic(n, 0, n-1);
+		Dinic<ll> f(n, 0, n-1);
 
 		for (int i = 0; i < m; i++) {
 			int u, v, w; scanf("%d%d%d", &u, &v, &w);
-			dinic.add_edge(u-1, v-1, w);
+			f.add_edge(u-1, v-1, w);
 		}
 
-		printf("%lld\n", dinic.flow());
+		printf("%lld\n", f.flow());
 	}
 
 	return 0;
