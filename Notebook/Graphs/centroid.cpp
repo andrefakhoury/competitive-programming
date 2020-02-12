@@ -3,35 +3,26 @@ using namespace std;
 
 const int MAXN = 1e5 + 5;
 
-// vector<int> edges[MAXN];
-// int sz[MAXN];
+vector<int> edges[MAXN];
+int sz[MAXN];
 
-// int dfs(int u, int p = -1) {
-// 	for (int v : edges[u]) {
-// 		if (v != p) sz[u] += dfs(v, u);
-// 	}
+int dfs_size(int u, int p) {
+	sz[u] = 1;
+	for (int v : edges[u])
+		if (v != p) sz[u] += dfs_size(v, u);
+	return sz[u];
+}
 
-// 	return sz[u] + 1;
-// }
+int dfs_cent(int u, int p, int qtt) {
+	for (int v : edges[u])
+		if (v != p && sz[v] > qtt/2) return dfs_cent(v, u, qtt);
+	return u;
+}
 
-// int centroid(int u, int p = -1) {
-// 	for (int v : edges[u]) {
-// 		if (v != p && sz[v] > n/2)
-// 			return centroid(v, u);
-// 	}
-// 	return u;	
-// }
-
-struct CentroidDecomposition {
-	vector<set<int>> tree;
-	vector<int> par, sz;
-
-	CentroidDecomposition() {
-		int n = tree.size();
-		par.resize(n);
-	}
-};
+inline int centroid(int u) {
+	return dfs_cent(u, u, dfs_size(u, u));
+}
 
 int main() {
-
+	
 }
