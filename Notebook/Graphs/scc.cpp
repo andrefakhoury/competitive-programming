@@ -34,9 +34,6 @@ void kosaraju(int n) {
 		if (!vis[i]) dfsOrder(i);
 	reverse(order.begin(), order.end());
 
-	for (int u : order) printf("%d ", u);
-	printf("\n");
-
 	int curColor = 0;
 	for (int u : order)
 		if (!color[u]) dfsColor(u, ++curColor);
