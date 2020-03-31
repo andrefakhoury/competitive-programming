@@ -26,16 +26,30 @@ template<class num> inline void rd(num &x) {
 }
 template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); rd(args...); }
 
-const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
+const int MAXN = 500 + 5, INF = 0x3f3f3f3f;
 
-const double PI = acos(-1.0);
+int a[MAXN][MAXN];
+
+int memo_bob[MAXN][MAXN];
+int solve_bob(int n, int m) {
+	memset(memo_bob, 0, sizeof memo_bob);
+	memo_bob[0][1] = a[1][1];
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			memo_bob[i][j] = max(memo_bob[i-1][j]&a[i][j], memo_bob[i][j-1]&a[i][j]);
+		}
+	}
+	return memo_bob[n][m];
+}
 
 int main() {
-	int T; rd(T);
-	while(T--) {
-		ll n, l, d, g; rd(n, l, d, g);
-		double x = l*l*n/4.0/(tan(PI/n));
-		x += g * n * d * l + g * g * PI * d * d;
-		printf("%.14lf\n", x);
-	}
+	int k; rd(k);
+
+	int x = k | (1 << 17);
+	int y = (1 << 17);
+
+	printf("3 3\n");
+	printf("%d %d %d\n", x, y, y);
+	printf("%d %d %d\n", k, x, y);
+	printf("%d %d %d\n", y, k, k);
 }

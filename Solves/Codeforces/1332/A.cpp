@@ -28,14 +28,43 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-const double PI = acos(-1.0);
+inline void _solve_() {
+	int a, b, c, d; rd(a, b, c, d);
+	int x, y; rd(x, y);
+	int x1, y1; rd(x1, y1);
+	int x2, y2; rd(x2, y2);
+
+	bool ans = true;
+	if (x1 != x2) {
+		if (a > b) {
+			a -= b;
+			ans &= (x - x1) >= a;
+		} else {
+			b -= a;
+			ans &= (x2 - x) >= b;
+		}
+	} else {
+		ans &= a == 0 && b == 0;
+	}
+
+	if (y1 != y2) {
+		if (c > d) {
+			c -= d;
+			ans &= (y - y1) >= c;
+		} else {
+			d -= c;
+			ans &= (y2 - y) >= d;
+
+		}
+	} else {
+		ans &= c == 0 && d == 0;
+	}
+
+	printf("%s\n", ans ? "YES" : "NO");
+}
 
 int main() {
-	int T; rd(T);
-	while(T--) {
-		ll n, l, d, g; rd(n, l, d, g);
-		double x = l*l*n/4.0/(tan(PI/n));
-		x += g * n * d * l + g * g * PI * d * d;
-		printf("%.14lf\n", x);
-	}
+	int __T__; rd(__T__);
+	while(__T__--) _solve_();
+	return 0;
 }

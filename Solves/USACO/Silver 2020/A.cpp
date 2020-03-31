@@ -1,3 +1,9 @@
+/*
+ID: fakhoury
+LANG: C++11
+TASK: socdist
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -28,14 +34,40 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-const double PI = acos(-1.0);
+vector<pair<ll, ll>> a;
+
+inline bool check(ll d, int n) {
+
+	ll last = -d;
+	for (int i = 0; n > 0 && i < (int)a.size(); i++) {
+		while(n > 0 && a[i].se - last >= d) {
+			n--;
+			last = max(a[i].fi, last + d);
+		}
+	}
+
+	return n <= 0;
+}
 
 int main() {
-	int T; rd(T);
-	while(T--) {
-		ll n, l, d, g; rd(n, l, d, g);
-		double x = l*l*n/4.0/(tan(PI/n));
-		x += g * n * d * l + g * g * PI * d * d;
-		printf("%.14lf\n", x);
-	}
+#ifndef LOCAL_PC
+	freopen("socdist.in", "r", stdin);
+    freopen("socdist.out", "w", stdout);
+#endif
+
+    int n, m; rd(n, m);
+    a.resize(m);
+    for (int i = 0; i < m; i++) {
+    	rd(a[i].fi, a[i].se);
+    }
+
+    sort(a.begin(), a.end());
+    ll lo = 1, hi = a.back().se + 100, mi;
+    while(lo < hi) {
+    	mi = (lo + hi + 1) / 2;
+    	if (check(mi, n)) lo = mi;
+    	else hi = mi-1;
+    }
+
+    printf("%lld\n", lo);	
 }

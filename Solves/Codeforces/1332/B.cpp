@@ -28,14 +28,46 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-const double PI = acos(-1.0);
+inline bool is_prime(int n) {
+	for (int i = 2; i*i <= n; i++) if (n%i == 0)
+		return false;
+	return true;
+}
+
+
+vector<int> primes;
+inline void _solve_() {
+	int n; rd(n);
+	vector<int> a(n);
+	vector<int> c(n);
+
+	for (int i = 0; i < n; i++) rd(a[i]);
+
+	int cnt = 0;
+	for (int p : primes) {
+		bool used = false;
+		cnt++;
+		for (int i = 0; i < n; i++) {
+			if (c[i]) continue;
+			if (a[i]%p == 0) {
+				c[i] = cnt;
+				used = true;
+			}
+		}
+		if (!used) cnt--;
+	}
+
+	printf("%d\n", cnt);
+	for (int i = 0; i < n; i++) {
+		printf("%d ", c[i]);
+	}
+	printf("\n");
+}
 
 int main() {
-	int T; rd(T);
-	while(T--) {
-		ll n, l, d, g; rd(n, l, d, g);
-		double x = l*l*n/4.0/(tan(PI/n));
-		x += g * n * d * l + g * g * PI * d * d;
-		printf("%.14lf\n", x);
-	}
+	for (int i = 2; i <= 1000; i++)
+		if (is_prime(i)) primes.pb(i);
+	int __T__; rd(__T__);
+	while(__T__--) _solve_();
+	return 0;
 }

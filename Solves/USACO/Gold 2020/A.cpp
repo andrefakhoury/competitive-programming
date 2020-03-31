@@ -1,3 +1,9 @@
+/*
+ID: fakhoury
+LANG: C++11
+TASK: haircut
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -28,14 +34,50 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-const double PI = acos(-1.0);
+int a[MAXN];
+
+ll bt[MAXN];
+ll ans[MAXN];
+inline void add(int x, int k) {
+	x++;
+	while(x < MAXN) {
+		bt[x] += k;
+		x += x&-x;
+	}
+}
+
+inline ll get(int x) {
+	x++;
+
+	ll ret = 0;
+	while(x > 0) {
+		ret += bt[x];
+		x -= x&-x;
+	}
+	return ret;
+}
+
+inline ll get(int l, int r) {
+	return get(r) - get(l-1);
+}
 
 int main() {
-	int T; rd(T);
-	while(T--) {
-		ll n, l, d, g; rd(n, l, d, g);
-		double x = l*l*n/4.0/(tan(PI/n));
-		x += g * n * d * l + g * g * PI * d * d;
-		printf("%.14lf\n", x);
+#ifndef LOCAL_PC
+	freopen("haircut.in", "r", stdin);
+	freopen("haircut.out", "w", stdout);
+#endif
+
+	int n; rd(n);
+	for (int i = 1; i <= n; i++) rd(a[i]);
+
+	for (int i = 1; i <= n; i++) {
+		ans[a[i]+1] += get(a[i]+1, n);
+		add(a[i], 1);
+	}
+
+	ll cur = 0;
+	for (int i = 0; i < n; i++) {
+		cur += ans[i];
+		printf("%lld\n", cur);
 	}
 }

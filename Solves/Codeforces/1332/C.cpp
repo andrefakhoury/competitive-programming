@@ -28,14 +28,40 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-const double PI = acos(-1.0);
+inline void _solve_() {
+	int n, k; cin >> n >> k;
+	string s; cin >> s;
+	int nk = n/k;
+
+	set<int> positions;
+	for (int i = 0, j = k-1; i <= j; i++, j--) {
+		map<char, set<int>> frq;
+
+		for (int cc = 0; cc < nk; cc++) {
+			frq[s[i+cc*k]].emplace(i+cc*k);
+			frq[s[j+cc*k]].emplace(j+cc*k);
+		}
+		char mfrq = s[i];
+		for (auto p : frq) {
+			if (p.se.size() > frq[mfrq].size()) {
+				mfrq = p.fi;
+			}
+		}
+
+		for (auto p : frq) {
+			if (p.fi == mfrq) continue;
+			for (auto x : p.se) {
+				positions.emplace(x);
+			}
+		}
+	}
+
+	cout << positions.size() << "\n";
+}
 
 int main() {
-	int T; rd(T);
-	while(T--) {
-		ll n, l, d, g; rd(n, l, d, g);
-		double x = l*l*n/4.0/(tan(PI/n));
-		x += g * n * d * l + g * g * PI * d * d;
-		printf("%.14lf\n", x);
-	}
+	ios::sync_with_stdio(false); cin.tie(NULL);
+	int __T__; cin >> __T__;
+	while(__T__--) _solve_();
+	return 0;
 }
