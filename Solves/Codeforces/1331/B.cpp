@@ -28,64 +28,13 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-const int MOD = 998244353;
-
-inline int add(int x, int y) {
-	x += y;
-	if (x >= MOD) x -= MOD;
-	return x;
-}
-
-inline int sub(int x, int y) {
-	x -= y;
-	if (x < 0) x += MOD;
-	return x;
-}
-
-inline int mul(int x, int y) {
-	return ll(x) * y % MOD;
-}
-
-inline int inv(int x) {
-	int y = MOD-2;
-	int ret = 1;
-	while(y) {
-		if (y&1) ret = mul(ret, x);
-		x = mul(x, x);
-		y /= 2;
-	}
-	return ret;
-}
-
-inline int divi(int x, int y) {
-	x %= MOD;
-	y %= MOD;
-	return mul(x, inv(y));
-}
-
-inline int fast_pow(int x, int y) {
-	x %= MOD;
-	y %= MOD;
-
-	int ret = 1;
-	while(y) {
-		if (y&1) ret = mul(ret, x);
-		x = mul(x, x);
-		y /= 2;
-	}
-	return ret;
-}
-
 int main() {
-	int n, m, L, R; rd(n, m, L, R);
-	int qtt = R - L + 1;
-	ll x = ll(n) * m;
-
-	int ans = fast_pow(qtt%MOD, x%MOD);
-
-	if (x%2 == 0) {
-		ans = divi(ans, 2);
+	int n; cin >> n;
+	vector<int> p;
+	for (int i = 2; i*i <= n; i++) {
+		if (n%i == 0) p.eb(i);
+		while(n%i == 0) n /= i;
 	}
-
-	printf("%d\n", ans);
+	if (n > 1) p.eb(n);
+	cout << p.front() << p.back() << "\n";
 }
