@@ -34,26 +34,38 @@ template <class T, class... Args> inline void rd(T& x, Args&... args) { rd(x); r
 
 const int MAXN = 1e4 + 5, INF = 0x3f3f3f3f;
 
-int m;
-vector<int> a;
+int MOD;
 bool comp[MAXN];
 
-inline ll lcm(ll x, ll y) {
-	return x / __gcd(x, y) * y % m;
+inline int add(int x, int y) {
+	x += y;
+	if (x >= MOD) x -= MOD;
+	return x;
 }
 
+inline int sub(int x, int y) {
+	x -= y;
+	if (x < 0) x += MOD;
+	return x;
+}
 
-int solve(int i, int n) {
-	if (n < 0) return 0;
-	if (i == (int) a.size()) return n;
+inline int mul(int x, int y) {
+	return ll(x) * y % MOD;
+}
 
-	int x = solve(i+1, n);
-	int y = solve(i+1, n - a[i]);
+inline int inv(int x) {
+	int y = MOD-2;
+	int ret = 1;
+	while(y) {
+		if (y&1) ret = mul(ret, x);
+		x = mul(x, x);
+		y /= 2;
+	}
+	return ret;
+}
 
-	int ans = max(x, lcm(y, a[i])) % m;
-	printf("%d %d: %d\n", x, y, ans);
-
-	return ans;
+inline int divi(int x, int y) {
+	return mul(x, inv(y));
 }
 
 int main() {
@@ -61,15 +73,20 @@ int main() {
 	freopen("exercise.in", "r", stdin);
 	freopen("exercise.out", "w", stdout);
 #endif
-	int n; rd(n);
-	rd(m);
+	int n; rd(n, MOD);
 
-	a.pb(1);
-	for (int i = 2; i <= n; i++) {
-		if (comp[i]) continue;
-		a.pb(i);
-		for (int j = i + i; j <= n; j += i) comp[j] = true;
+	vector<int> f(n+1);
+	iota(f.begin(), f.end(), 0);
+
+	for (int i = 1; i <= n; i++) {
+		for (int j = i + i; j <= n; j += i) {
+			f[j] = add(f[i], f[j]);
+		}
 	}
 
-	printf("%d\n", solve(0, n));
+	for (int i = 1; i <= n; i++) printf("%d ", f[i]);
+	printf("\n");
+
+	printf("%d\n", f[n]);
+	return 0;
 }
