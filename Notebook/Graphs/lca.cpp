@@ -9,14 +9,12 @@ int ans[MAXN][MAXL];
 int par[MAXN][MAXL]; // par[u][2^i]
 int level[MAXN];
 
-void dfs(int u) {
-	for (int v : edges[u]) {
-		if (level[v] == -1) {
-			par[v][0] = u;
-			ans[v][0] = 1; // weight of edge
-			level[v] = level[u] + 1;
-			dfs(v);
-		}
+void dfs_init(int u, int p=-1) {
+	for (int v : edges[u]) if (v != p) {
+		level[v] = level[u] + 1;
+		par[v][0] = u;
+		ans[v][0] = 1;
+		dfs_init(v, u);
 	}
 }
 
@@ -51,11 +49,10 @@ int lca(int u, int v) {
 
 /** Preprocess the levels and stuff */
 void pre(int n, int root) {
-	memset(level, -1, sizeof level);
 	memset(ans, 0x3f, sizeof ans);
- 
-	level[1] = 0;
-	dfs(1);
+	level[root] = 0;
+
+	dfs_init(root);
 	for (int i = 1; i < MAXL; i++) {
 		for (int u = 1; u <= n; u++) {
 			par[u][i] = par[par[u][i-1]][i-1];
