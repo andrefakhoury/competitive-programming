@@ -11,7 +11,7 @@ using namespace std;
 using ll = long long;
 using pii = pair<int, int>;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-#ifndef __linux
+#ifdef _WIN32
 #define getchar_unlocked _getchar_nolock
 #endif
 

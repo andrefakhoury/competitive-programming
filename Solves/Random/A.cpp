@@ -27,5 +27,5 @@ template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
 int main() {
-	//ios::sync_with_stdio(false); cin.tie(NULL);
+
 }

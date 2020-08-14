@@ -1,7 +1,5 @@
-#ifndef CP_GEOMETRY_HPP
-#define CP_GEOMETRY_HPP
-
 #include <bits/stdc++.h>
+using namespace std;
 
 /**
  * 2-Dimensional Point
@@ -41,26 +39,14 @@ inline Point<T, D> Point<T, D>::operator-(const Point<Tp, Dp> &rhs) {
 }
 
 template<typename T, typename D> template<typename Tp, typename Dp>
-inline Point<T, D> Point<T, D>::operator+(const Point<Tp, Dp> &rhs) {
-	return Point(x + rhs.x, y + rhs.y);
-}
+inline Point<T, D> Point<T, D>::operator+(const Point<Tp, Dp> &rhs) { return Point(x + rhs.x, y + rhs.y); }
 
 template<typename T, typename D> template<typename Tp>
-inline Point<T, D> Point<T, D>::operator/(Tp k) {
-	return Point<T, D>(x/k, y/k);
-}
+inline Point<T, D> Point<T, D>::operator/(Tp k) { return Point<T, D>(x/k, y/k); }
 
 template<typename T, typename D> template<typename Tp>
-inline Point<T, D> Point<T, D>::operator*(Tp k) {
-	return Point<T, D>(x*k, y*k);
-}
+inline Point<T, D> Point<T, D>::operator*(Tp k) { return Point<T, D>(x*k, y*k); }
 
-template <typename T, typename D> inline T len2(Point<T, D> const& p) {
-	return p.x * p.x + p.y * p.y;
-}
+template <typename T, typename D> inline T len2(Point<T, D> const& p) { return p.x * p.x + p.y * p.y; }
 
-template <typename T, typename D> inline D len2(Point<T, D> const& p) {
-	return sqrt(p.x * p.x + p.y * p.y);
-}
-
-#endif //CP_GEOMETRY_HPP
+template <typename T, typename D> inline D len2(Point<T, D> const& p) { return sqrt(static_cast<D>(p.x * p.x + p.y * p.y)); }
