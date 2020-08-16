@@ -24,40 +24,28 @@ template<class num> inline void rd(num& x) {
 	x = neg ? -x : x; }
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
-const int MAXN = 251, INF = 0x3f3f3f3f;
+const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
-int dist[MAXN][MAXN];
+bool check(int a, int b, int c) {
+	return a + b > c;
+}
+
+inline void _solve_(int __ntest__) {
+	int n; rd(n);
+	vector<int> a(n);
+	for (int& i : a) rd(i);
+
+	for (int i = 0; i < n; i++) {
+
+	}
+
+	if (!check(a[0], a[1], a[n-1])) printf("1 2 %d\n", n);
+	else puts("-1");
+}
 
 int main() {
-	int n, m; rd(n, m);
-	mset(dist, INF);
-
-	for (int i = 0; i < m; i++) {
-		int u, v, w; rd(u, v, w);
-		dist[u][v] = min(w, dist[u][v]);
-		dist[v][u] = min(w, dist[v][u]);
-	}
-
-	for (int u = 1; u <= n; u++) {
-		dist[u][u] = 0;
-	}
-
-	for (int k = 1; k <= n; k++) {
-		for (int u = 1; u <= n; u++) {
-			for (int v = 1; v <= n; v++) {
-				dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v]);
-			}
-		}
-	}
-
-	int ans = INF;
-	for (int u = 1; u <= n; u++) {
-		int cur = 0;
-		for (int v = 1; v <= n; v++) {
-			cur = max(cur, dist[u][v]);
-		}
-		ans = min(ans, cur);
-	}
-
-	printf("%d\n", ans);
+	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
+	int __T__; rd(__T__);
+	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
+	return 0;
 }

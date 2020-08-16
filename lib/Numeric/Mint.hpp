@@ -27,4 +27,4 @@ template <typename T> T inv(T a) {
 	return u;
 }
 
-template <typename T> T div(T x, T y) { return mul(x, inv(y)); }
+template <typename T> T divi(T x, T y) { return mul(x, inv(y)); }
