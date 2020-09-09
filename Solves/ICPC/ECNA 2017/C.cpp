@@ -25,13 +25,29 @@ template<class num> inline void rd(num& x) {
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
 const int MAXN = 3e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
-}
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	ios::sync_with_stdio(false); cin.tie(NULL);
+	string s; cin >> s;
+	int n = s.size();
+
+	string a = s.substr(0, n/2);
+	string b = s.substr(n/2);
+
+	auto rotate = [](string& s) {
+		int num = 0;
+		for (char c : s) num += c - 'A';
+		for (char& c : s) {
+			c = ((c - 'A') + num) % 26 + 'A';
+		}
+	};
+
+	rotate(a);
+	rotate(b);
+
+	for (int i = 0; i < n/2; i++) {
+		a[i] = (a[i] - 'A' + b[i] - 'A') % 26 + 'A';
+	}
+
+	cout << a << endl;
 }

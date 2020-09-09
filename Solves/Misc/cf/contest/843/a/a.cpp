@@ -24,14 +24,39 @@ template<class num> inline void rd(num& x) {
 	x = neg ? -x : x; }
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
-const int MAXN = 3e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
+const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
+
+int par[MAXN];
+int find(int x) {
+	return x == par[x] ? x : par[x] = find(par[x]);
+}
+
+void merge(int u, int v) {
+	u = find(u), v = find(v);
+	par[u] = v;
 }
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	int n; rd(n);
+	vector<int> a(n);
+	vector<int> all;
+	for (int& i : a) rd(i), all.pb(i);
+	sort(all.begin(), all.end());
+	all.erase(unique(all.begin(), all.end()), all.end());
+
+	for (int i = 0; i < n; i++) a[i] = lower_bound(all.begin(), all.end(), a[i]) - all.begin();
+	for (int i = 0; i < n; i++) par[i] = i;
+	for (int i = 0; i < n; i++) merge(i, a[i]);
+
+	map<int, vector<int>> ans;
+	for (int i = 0; i < n; i++)
+		ans[find(i)].push_back(i);
+
+	printf("%ld\n", ans.size());
+	for (auto p : ans) {
+		vector<int> v = p.second;
+		printf("%ld ", v.size());
+		for (int i : v) printf("%d ", i + 1);
+		printf("\n");
+	}
 }

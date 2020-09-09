@@ -24,14 +24,46 @@ template<class num> inline void rd(num& x) {
 	x = neg ? -x : x; }
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
-const int MAXN = 3e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
+const int MAXN = 5e4 + 5, INF = 0x3f3f3f3f;
+
+pii a[MAXN];
+
+inline pii ask(int u) {
+	if (a[u] != a[0]) return a[u];
+	printf("? %d\n", u);
+	fflush(stdout);
+	int x, y; scanf("%d%d", &x, &y);
+	a[u] = {x, y};
+	if (a[u] == mk(-1, -1))
+		exit(0);
+	return a[u];
+}
+
+inline void guess(int x) {
+	printf("! %d\n", x);
+	fflush(stdout);
+	exit(0);
 }
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	mset(a, -1);
+
+	int n, start, x; scanf("%d%d%d", &n, &start, &x);
+	vector<int> index(n);
+	iota(index.begin(), index.end(), 1);
+	shuffle(index.begin(), index.end(), rng);
+
+	ask(start);
+	for (int i = 0; i < min(900, n); i++) ask(index[i]);
+
+	int current = start;
+	for (int i = 1; i <= n; i++) if (a[i].fi != -1) {
+		if (a[i].fi <= x && a[i].fi > a[current].fi)
+			current = i;
+	}
+
+	for (int i = current; i != -1; i = a[i].se)
+		if (ask(i).fi >= x) guess(a[i].fi);
+
+	guess(-1);
 }

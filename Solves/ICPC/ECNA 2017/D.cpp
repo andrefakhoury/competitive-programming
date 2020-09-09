@@ -24,14 +24,36 @@ template<class num> inline void rd(num& x) {
 	x = neg ? -x : x; }
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
-const int MAXN = 3e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
-}
+const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int n, m; cin >> n >> m;
+	stack<int> st;
+	st.push(0);
+
+	auto get = [&]() {
+		string s; cin >> s;
+		if (s == "undo") {
+			cin >> s;
+			int x = stoi(s);
+			return -x;
+		} else {
+			int x = stoi(s);
+			return (x % n + n) % n;
+		}
+	};
+
+	while(m--) {
+		int c = get();
+		if (c >= 0) st.push((st.top() + c) % n);
+		else {
+			while(c++) {
+				st.pop();
+			}
+		}
+	}
+	cout << st.top() << "\n";
 }

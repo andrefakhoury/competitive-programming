@@ -24,14 +24,33 @@ template<class num> inline void rd(num& x) {
 	x = neg ? -x : x; }
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
-const int MAXN = 3e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
+const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
+
+int memo[101][101];
+int val[101];
+int a[101];
+int n;
+
+int solve(int i, int m) {
+	if (i >= n) return 0;
+	int& ret = memo[i][m];
+	if (~ret) return ret;
+
+	ret = min(val[m], a[i]) + solve(i+1, m+1);
+	ret = max(ret, solve(i+1, max(m-1, 0)));
+	ret = max(ret, solve(i+2, 0));
+
+	return ret;
 }
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	mset(memo, -1);
+
+	int m; rd(n, m);
+	for (int i = 0; i < n; i++) rd(a[i]);
+
+	val[0] = m;
+	for (int i = 1; i <= n; i++) val[i] = 2 * val[i-1] / 3;
+
+	printf("%d\n", solve(0, 0));
 }

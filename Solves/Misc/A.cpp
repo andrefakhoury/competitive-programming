@@ -1,12 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define pb push_back
+#define eb emplace_back
+#define mk make_pair
+#define fi first
+#define se second
+#define mset(a, b) memset(a, b, sizeof(a))
+#define DBG(x) cout << "[" << #x << "]: " << x << endl
+using ll = long long;
+using pii = pair<int, int>;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+#ifdef _WIN32
+#define getchar_unlocked _getchar_nolock
+#endif
+
+template<class Ty> Ty randint(Ty a, Ty b) { return uniform_int_distribution<Ty>(a, b)(rng); }
+template<class num> inline void rd(num& x) {
+	char c, neg = 0; while(isspace(c = getchar_unlocked()));
+	if(!isdigit(c)) neg = (c == '-'), x = 0;
+	else x = c - '0';
+	while(isdigit(c = getchar_unlocked())) x = (x << 3) + (x << 1) + c - '0';
+	x = neg ? -x : x; }
+template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
+
+const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
+
 /**
  * 2-Dimensional Point
  * @tparam T type of coordinates
  * @tparam D type of floating points (used in distances and stuff)
  */
-template <typename T=long long, typename D=double>
+template <typename T=int, typename D=double>
 class Point {
 public:
 	T x, y;
@@ -47,9 +72,8 @@ public:
 	template <typename Ty, typename Dp>
 	inline D len(Point<Ty, Dp> const& p) const { return sqrt(static_cast<D>(p.x * p.x + p.y * p.y)); }
 
-	inline bool operator<(Point const& rhs) const {
-		return make_pair(x, y) < make_pair(rhs.x, rhs.y);
-	}
+	inline bool operator<(Point const& rhs) const { return make_pair(x, y) < make_pair(rhs.x, rhs.y); }
+	inline bool operator==(Point const& rhs) const { return make_pair(x, y) == make_pair(rhs.x, rhs.y); }
 
 	// orthogonal projection
 	inline D proj(Point const& b) const { return static_cast<D>((*this)*b) / b.len2(); }
@@ -92,3 +116,40 @@ public:
 		return H;
 	}
 };
+
+int main() {
+	vector<Point<>> points(3);
+
+	for (auto& p : points) {
+		rd(p.x, p.y);
+	}
+
+	vector<Point<>> answer;
+	answer.reserve(3);
+	for (int x = -3000; x <= 3000; x++) {
+		for (int y = -3000; y <= 3000; y++) {
+			points.push_back({x, y});
+			if (points[0] == points[3] or points[1] == points[3] or points[2] == points[3]) {
+				points.pop_back();
+				continue;
+			}
+
+			bool ok = false;
+			sort(points.begin(), points.end());
+			if (((points[1] - points[0]) ^ (points[3] - points[2])) == 0 &&
+			    ((points[2] - points[0]) ^ (points[3] - points[1])) == 0) {
+					ok = true;
+				}
+			if (ok) {
+				answer.push_back({x, y});
+			}
+
+			points.erase(find(points.begin(), points.end(), Point<>{x, y}));
+		}
+	}
+
+	printf("%ld\n", answer.size());
+	for (auto& p : answer) {
+		printf("%d %d\n", p.x, p.y);
+	}
+}

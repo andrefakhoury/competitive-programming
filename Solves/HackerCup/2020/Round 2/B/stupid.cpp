@@ -24,40 +24,43 @@ template<class num> inline void rd(num& x) {
 	x = neg ? -x : x; }
 template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
 
-const int MAXN = 251, INF = 0x3f3f3f3f;
+const int MAXN = 100 + 5, INF = 0x3f3f3f3f;
 
-int dist[MAXN][MAXN];
+pair<double, int> prob[100][100]; // prob[i][match]
+
+void solve(vector<int> cur, double ac, double p, int n, int match) {
+
+	for (int p1 = 0; p1 < n; p1++) if (cur[p1]) {
+		prob[p1][match].first += ac;
+		prob[p1][match].second++;
+		for (int p2 = p1 + 1; p2 < n; p2++) if (cur[p2]) {
+			// batalha entre p1 e p2
+
+			cur[p1] = 0;
+			solve(cur, ac * p, p, n, match + 1);
+			cur[p1] = 1;
+			cur[p2] = 0;
+			solve(cur, ac * (1 - p), p, n, match + 1);
+			cur[p2] = 1;
+		}
+	}
+}
 
 int main() {
-	int n, m; rd(n, m);
-	mset(dist, INF);
+	int n; rd(n);
+	double p; scanf("%lf", &p);
 
-	for (int i = 0; i < m; i++) {
-		int u, v, w; rd(u, v, w);
-		dist[u][v] = min(w, dist[u][v]);
-		dist[v][u] = min(w, dist[v][u]);
-	}
+	vector<int> cur(n, 1);
+	solve(cur, 1, p, n, 1);
 
-	for (int u = 1; u <= n; u++) {
-		dist[u][u] = 0;
-	}
-
-	for (int k = 1; k <= n; k++) {
-		for (int u = 1; u <= n; u++) {
-			for (int v = 1; v <= n; v++) {
-				dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v]);
-			}
+	for (int i = 0; i < n; i++) {
+		double ans = 0;
+		for (int j = 1; j < n; j++) {
+			ans += j * prob[i][j].fi / prob[i][j].se;
+			printf("[%d %d] : %.3lf/%d = %.5lf\n", i, j, prob[i][j].fi, prob[i][j].se, prob[i][j].fi/prob[i][j].se);
 		}
+		printf(">>%.5lf\n", ans);
 	}
 
-	int ans = INF;
-	for (int u = 1; u <= n; u++) {
-		int cur = 0;
-		for (int v = 1; v <= n; v++) {
-			cur = max(cur, dist[u][v]);
-		}
-		ans = min(ans, cur);
-	}
 
-	printf("%d\n", ans);
 }
