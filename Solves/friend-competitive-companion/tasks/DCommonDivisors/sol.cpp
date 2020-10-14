@@ -63,12 +63,12 @@ vector<int> divisors(string const& s) { // return vector of indices i s.t. s[0..
 
 	vector<int> ans;
 	for (int sz = 1; sz <= n; sz++) if (n % sz == 0) {
-			Hash curHash = 0;
-			for (int i = 0; i < sz; i++) curHash += curPrime[i] * (s[i] - 'a' + 1);
-			Hash finalHash = 0;
-			for (int i = 0; i < n; i += sz) finalHash += curHash * curPrime[i];
-			if (finalHash == total) ans.pb(sz - 1);
-		}
+		Hash curHash = 0;
+		for (int i = 0; i < sz; i++) curHash += curPrime[i] * (s[i] - 'a' + 1);
+		Hash finalHash = 0;
+		for (int i = 0; i < n; i += sz) finalHash += curHash * curPrime[i];
+		if (finalHash == total) ans.pb(sz - 1);
+	}
 
 	return ans;
 }
