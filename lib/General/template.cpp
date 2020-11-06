@@ -22,10 +22,11 @@ template<class num> inline void rd(num& x) {
 	else x = c - '0';
 	while(isdigit(c = getchar_unlocked())) x = (x << 3) + (x << 1) + c - '0';
 	x = neg ? -x : x; }
-template <class... Args> inline void rd(Args&... args) { (rd(args), ...); }
+template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
 int main() {
-	//ios::sync_with_stdio(false); cin.tie(NULL);
+//	ios::sync_with_stdio(false); cin.tie(NULL);
+	
 }
