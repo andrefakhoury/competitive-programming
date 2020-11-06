@@ -7,11 +7,12 @@ using namespace std;
 #define fi first
 #define se second
 #define mset(a, b) memset((a), (b), sizeof(a))
-#define DBG(x) cerr << "[" << #x << "]: " << x << endl
+template<class T> void DBG(T&& x) { cerr << x << " "; }
+template<class T, class...Args> void DBG(T&& x, Args&&... args) { DBG(x); DBG(args...); }
+#define DBG(...) cerr << "[" << #__VA_ARGS__ << "]: "; DBG(__VA_ARGS__); cerr << endl 
 using ll = long long;
 using pii = pair<int, int>;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
 template<class Ty> Ty randint(Ty a, Ty b) { return uniform_int_distribution<Ty>(a, b)(rng); }
 template<class num> inline void rd(num& x) {
 	char c, neg = 0; while(isspace(c = getchar_unlocked()));
@@ -25,4 +26,6 @@ const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
 int main() {
 	//ios::sync_with_stdio(false); cin.tie(NULL);
+
+	return 0;
 }
