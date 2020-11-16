@@ -27,13 +27,33 @@ template<class num> inline void rd(num& x) {
 template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
-}
+const int N = 21;
+
+int pos[N];
+int bt[N];
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	auto ck = clock();
+
+	int n; rd(n);
+	vector<int> a(n);
+	for (int i = 0; i < n; i++) rd(a[i]), pos[a[i]] = 1;
+
+	vector<int> ord;
+	for (int i = 0; i < N; i++) if (pos[i]) ord.pb(i);
+
+	ll ans = LLONG_MAX;
+	while(double(clock() - ck) / CLOCKS_PER_SEC <= 3.7) {
+		shuffle(ord.begin(), ord.end(), rng);
+		for (int i = 0; i < (int) ord.size(); i++) pos[ord[i]] = i + 1;
+		mset(bt, 0);
+		ll cur = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = pos[a[i]] - 1; j > 0; j -= j&-j) cur += bt[j];
+			for (int j = pos[a[i]]; j < N; j += j&-j) bt[j]++;
+		}
+		ans = min(ans, cur);
+	}
+
+	printf("%lld\n", ans);
 }

@@ -27,13 +27,34 @@ template<class num> inline void rd(num& x) {
 template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
-}
+
+int a[MAXN];
+pii s[MAXN];
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	int n; rd(n);
+	for (int i = 1; i <= n; i++) {
+		rd(a[i]);
+		a[i] = a[i] < 0 ? 1 : 0;
+	}
+
+	pair<ll, ll> sum = {0, 0};
+	for (int i = n; i >= 1; i--) {
+		sum.fi++;
+		if (a[i]) swap(sum.fi, sum.se);
+	}
+
+
+	pair<ll, ll> ans = {0, 0};
+	for (int i = 1; i <= n; i++) {
+		ans.fi += sum.fi;
+		ans.se += sum.se;
+		if (a[i]) swap(sum.fi, sum.se);
+
+		sum.fi--;
+	}
+
+	swap(ans.fi, ans.se);
+
+	printf("%lld %lld\n", ans.fi, ans.se);
 }

@@ -27,13 +27,29 @@ template<class num> inline void rd(num& x) {
 template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
+
+inline bool solve(int x, int k1, int k2) {
+	int mini = x - 9 * k2;
+	int maxi = x + 9 * k1;
+	return (mini + maxi) / 2;
 }
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	ios::sync_with_stdio(false); cin.tie(NULL);
+	int n; cin >> n;
+	string s; cin >> s;
+
+	int x1 = 0, x2 = 0, k1 = 0, k2 = 0;
+	for (int i = 0; i < n/2; i++) {
+		if (s[i] == '?') k1++;
+		else x1 += s[i] - '0';
+	}
+
+	for (int i = n/2; i < n; i++) {
+		if (s[i] == '?') k2++;
+		else x2 += s[i] - '0';
+	}
+
+	if (solve(x1-x2, k1, k2)) cout << "Monocarp\n";
+	else cout << "Bicarp\n";
 }

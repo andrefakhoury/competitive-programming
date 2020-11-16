@@ -7,7 +7,9 @@ using namespace std;
 #define fi first
 #define se second
 #define mset(a, b) memset(a, b, sizeof(a))
-#define DBG(x) cout << "[" << #x << "]: " << x << endl
+template<class T> void DBG(T&& x) { cerr << x << " "; }
+template<class T, class...Args> void DBG(T&& x, Args&&... args) { DBG(x); DBG(args...); }
+#define DBG(...) cerr << "[" << #__VA_ARGS__ << "]: "; DBG(__VA_ARGS__); cerr << endl 
 using ll = long long;
 using pii = pair<int, int>;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());

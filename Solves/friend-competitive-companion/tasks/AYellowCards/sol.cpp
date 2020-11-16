@@ -27,13 +27,47 @@ template<class num> inline void rd(num& x) {
 template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
 
 const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
-inline void _solve_(int __ntest__) {
-	
-}
 
 int main() {
-	// ios::sync_with_stdio(false); cin.tie(NULL); int __T__; cin >> __T__;
-	int __T__; rd(__T__);
-	for (int __i__ = 1; __i__ <= __T__; __i__++) _solve_(__i__);
-	return 0;
+	int a1, a2; rd(a1, a2);
+	int k1, k2; rd(k1, k2);
+	int n; rd(n);
+
+	if (k1 > k2) {
+		swap(k1, k2);
+		swap(a1, a2);
+	}
+
+	// k1 <= k2;
+	auto go1 = [](int a1, int a2, int k1, int k2, int n) {
+		multiset<int> b1;
+		for (int i = 0; i < a1; i++) b1.insert(k1);
+		for (int i = 0; i < a2; i++) b1.insert(k2);
+
+		int ans = 0;
+		while(n--) {
+			int l = *b1.rbegin();
+			b1.erase(b1.find(l));
+			l--;
+			if (l == 0) {
+				ans++;
+			} else b1.insert(l);
+		}
+
+		return ans;
+	};
+
+	auto go2 = [](int a1, int a2, int k1, int k2, int n) {
+		int q1 = min(k1 * a1, n);
+		int ans = q1 / k1;
+		n -= q1;
+		int q2 = min(k2 * a2, n);
+		ans += q2 / k2;
+		return ans;
+	};
+
+	printf("%d %d\n", go1(a1, a2, k1, k2, n), go2(a1, a2, k1, k2, n));
+
+
+	
 }
