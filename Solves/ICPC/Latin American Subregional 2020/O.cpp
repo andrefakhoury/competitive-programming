@@ -52,37 +52,35 @@ int main() {
 	vector<ptl> d(n);
 	for (int i = 0; i < n; i++) d[i] = a[i+1] - a[i];
 
-	vector<double> degs(n);
-	for (int i = 0; i < n; i++) degs[i] = acos(d[i].x / d[i].len());
-	for (int i = 0; i < n; i++) DBG(i, degs[i]);
-
+	auto get = [&](ptd p) { return p.x / p.len(); };
 	auto go = [&](double deg) {
+		double cs = cos(deg), sn = sin(deg);
 		double ans = 0;
-		for (int i = 0; i < n; i++)
-			ans += max(cos(degs[i] + deg), 0.) * d[i].len();
+		for (int i = 0; i < n; i++) {
+			double nx = cs * d[i].x + sn * d[i].y;
+			if (nx <= 1e-9) continue;
+			double ny = cs * d[i].y - sn * d[i].x;
+			ans += get(ptd(nx, ny)) * d[i].len();
+		}
 		return ans;
 	};
 
-//	auto get = [&](ptd p) { return p.x / p.len(); };
-//	auto gol = [&](double deg) {
-//		double cs = cos(deg), sn = sin(deg);
-//		double ans = 0;
-//		for (int i = 0; i < n; i++) {
-//			double nx = cs * d[i].x + sn * d[i].y;
-//			if (nx <= 1e-9) continue;
-//			double ny = cs * d[i].y - sn * d[i].x;
-//			ans += get(ptd(nx, ny)) * d[i].len();
-//		}
-//		return ans;
-//	};
 
-	double lo = 0, hi = 2 * acos(-1.0), m1, m2;
-	while(hi - lo > 1e-15) {
-		m1 = lo + (hi - lo) / 3.;
-		m2 = lo + 2. * (hi - lo) / 3.;
-		if (go(m1) < go(m2)) hi = m2;
-		else lo = m1;
+	int QT = 2;
+	double L[] = {0., 0.1};
+	double R[] = {2 * acos(-1.0), 1.};
+
+	double ans = 1e18;
+	for (int i = 0; i < QT; i++) {
+		double lo = L[i], hi = R[i], m1, m2;
+		while(hi - lo > 1e-15) {
+			m1 = lo + (hi - lo) / 3.;
+			m2 = lo + 2. * (hi - lo) / 3.;
+			if (go(m1) < go(m2)) hi = m2;
+			else lo = m1;
+		}
+		ans = min(ans, go(lo));
 	}
-	DBG(lo, go(lo));
-	cout << go(lo) << "\n";
+
+	cout << ans << "\n";
 }

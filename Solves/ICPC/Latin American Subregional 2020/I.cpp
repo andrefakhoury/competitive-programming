@@ -14,6 +14,9 @@ using ll = long long;
 using pii = pair<int, int>;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 template<class Ty> Ty randint(Ty a, Ty b) { return uniform_int_distribution<Ty>(a, b)(rng); }
+#ifdef _WIN32
+#define getchar_unlocked _getchar_nolock
+#endif
 template<class num> inline void rd(num& x) {
 	char c, neg = 0; while(isspace(c = getchar_unlocked()));
 	if(!isdigit(c)) neg = (c == '-'), x = 0;
