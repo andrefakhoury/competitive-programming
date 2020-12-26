@@ -1,5 +1,0 @@
-n, m, k = list(input().split(' '))
- n = int(n)
-m = int(m)
-k = int(k)
- print("Yes" if m >= n and k >= n else "No")
