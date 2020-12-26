@@ -1,0 +1,1 @@
+/usr/bin/c++  -g -fsanitize=address,undefined   CMakeFiles/competitive_programming.dir/main.cpp.o  -o competitive_programming 

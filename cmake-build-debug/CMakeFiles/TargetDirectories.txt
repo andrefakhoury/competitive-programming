@@ -1,0 +1,4 @@
+/home/fakhoury/CLionProjects/competitive-programming/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/fakhoury/CLionProjects/competitive-programming/cmake-build-debug/CMakeFiles/ATask.dir
+/home/fakhoury/CLionProjects/competitive-programming/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/fakhoury/CLionProjects/competitive-programming/cmake-build-debug/CMakeFiles/competitive_programming.dir

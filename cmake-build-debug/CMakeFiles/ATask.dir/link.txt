@@ -1,0 +1,1 @@
+/usr/bin/c++  -g -fsanitize=address,undefined   CMakeFiles/ATask.dir/solves/tasks/ATask/ATask.cpp.o  -o ../solves/tasks/ATask/ATask 
