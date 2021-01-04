@@ -1,9 +1,4 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-template <typename T>
-class Frac {
-public:
+template <typename T> struct Frac {
 	T num, den;
 	Frac() : num{0}, den{1} {}
 
@@ -51,7 +46,6 @@ public:
 	Frac& operator/=(Frac const& frac) { return (*this) = (*this) / frac; }
 };
 
-template <typename T>
-std::ostream& operator<<(std::ostream& stream, const Frac<T>& frac) {
+template <typename T> std::ostream& operator<<(std::ostream& stream, const Frac<T>& frac) {
 	return stream << frac.num << "/" << frac.den;
 }
