@@ -22,15 +22,22 @@ template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { p
 #define print(...) print(__VA_ARGS__), print('\n')
 
 inline void run_test(int test_number) {
+	int n; rd(n);
+	string s; rd(s);
 
+	for (int i = 0, prev = -1; i < n; i++) {
+		for (int j = 1; j >= 0; j--) {
+			if (j + s[i] - '0' != prev) {
+				prev = j + s[i] - '0';
+				cout << j;
+				break;
+			}
+		}
+	}
+	cout << "\n";
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
 	rd(n_tests);

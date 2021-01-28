@@ -7,17 +7,17 @@ using namespace std;
 #define fi first
 #define se second
 #define mset(a, b) memset(a, b, sizeof(a))
-template<class T> void DBG(T&& x) { cerr << x << " "; }
-template<class T, class...Args> void DBG(T&& x, Args&&... args) { DBG(x); DBG(args...); }
-#define DBG(...) cerr << "[" << #__VA_ARGS__ << "]: "; DBG(__VA_ARGS__); cerr << endl 
 using ll = long long;
 using pii = pair<int, int>;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+template<class Ty> Ty randint(Ty a, Ty b) { return uniform_int_distribution<Ty>(a, b)(rng); }
 #ifdef _WIN32
 #define getchar_unlocked _getchar_nolock
 #endif
 
-template<class Ty> Ty randint(Ty a, Ty b) { return uniform_int_distribution<Ty>(a, b)(rng); }
+template<class T> void DBG(T&& x) { cerr << x << " "; }
+template<class T, class...Args> void DBG(T&& x, Args&&... args) { DBG(x); DBG(args...); }
+#define DBG(...) { cerr << "[" << #__VA_ARGS__ << "]: "; DBG(__VA_ARGS__); cerr << endl; }
 template<class num> inline void rd(num& x) {
 	char c, neg = 0; while(isspace(c = getchar_unlocked()));
 	if(!isdigit(c)) neg = (c == '-'), x = 0;

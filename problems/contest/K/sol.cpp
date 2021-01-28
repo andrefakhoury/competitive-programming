@@ -21,18 +21,28 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
+inline void run_test() {
+	ll n, m, k;
+	rd(n, m, k);
 
+	ll ans = min({n, m, k});
+	n -= ans;
+	m -= ans;
+	k -= ans;
+	ans += min(n/2, k);
+	print(ans);
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
+
+#ifndef LOCAL_PC
+	freopen("katryoshka.in", "r", stdin);
+#endif
+
+	int T; rd(T);
+	for (int cs = 1; cs <= T; cs++) {
+		cout << "Case " << cs << ": ";
+		run_test();
+	}
 }

@@ -1,29 +1,17 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-template <typename T>
-struct CoordCompression {
-	vector<T> allValues;
-
-	CoordCompression(vector<T> const& original) {
-		this->allValues = original;
-		sort(allValues.begin(), allValues.end());
-		allValues.erase(unique(allValues.begin(), allValues.end()), allValues.end());
+namespace CoordCompression {
+	template<typename T>
+	inline void compress(vector<T>& v) {
+		sort(v.begin(), v.end());
+		v.erase(unique(v.begin(), v.end()), v.end());
 	}
 
-	inline bool hasValue(T val) {
-		return binary_search(allValues.begin(), allValues.end(), val);
+	template<typename T>
+	inline size_t get_index(vector<T>& v, T const&& val) {
+		return lower_bound(v.begin(), v.end(), val) - v.begin();
 	}
 
-	inline int getCompressed(T val) {
-		return lower_bound(allValues.begin(), allValues.end(), val) - allValues.begin();
+	template<typename T>
+	inline T get_original(vector<T>& v, size_t const& val) {
+		return v[val];
 	}
-
-	inline T& operator[](size_t position) {
-		return allValues[position];
-	}
-
-	inline T& at(size_t position) {
-		return allValues[position];
-	}
-};
+}

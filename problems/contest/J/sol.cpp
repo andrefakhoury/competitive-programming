@@ -21,18 +21,49 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
+const int MAXN = 501;
 
+const ll INF = 2e18;
+
+ll p[MAXN];
+ll memo[MAXN][MAXN];
+
+inline void run_test() {
+	int N; rd(N);
+	for (int i = 1; i <= N; i++) rd(p[i]);
+
+	for (int n = 0; n <= N; n++)
+		for (int m = 0; m <= N; m++)
+			memo[n][m] = INF;
+	memo[0][0] = 0;
+
+	for (int n = 1; n <= N; n++) {
+		for (int m = 1; m <= N; m++) {
+			ll& ret = memo[n][m];
+			for (int len = 1; len <= n; len++) {
+				ret = min(ret, memo[n - len][m - 1] + p[len]);
+			}
+		}
+	}
+
+	int q; rd(q);
+	while(q--) {
+		int n, m; rd(n, m);
+		if (memo[n][m] < INF) print(memo[n][m]);
+		else print("impossible");
+	}
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
+
+#ifndef LOCAL_PC
+	freopen("jacking.in", "r", stdin);
+#endif
+
+	int T; rd(T);
+	for (int cs = 1; cs <= T; cs++) {
+		cout << "Case " << cs << ":\n";
+		run_test();
+	}
 }

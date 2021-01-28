@@ -1,14 +1,15 @@
-#include <bits/stdc++.h>
-
 /** Binary Indexed Tree, aka Fenwick Tree */
-template<typename T>
-class BIT {
-public:
+template<typename T> struct BIT {
 	std::vector<T> bt;
 	int n;
 
 	BIT(int n) : n{n} {
 		bt.resize(n + 2);
+	}
+
+	inline void init(int sz) {
+		n = sz;
+		bt.assign(n + 2, 0);
 	}
 
 	inline void update(int i, T k) {

@@ -21,18 +21,36 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
+inline void run_test() {
+	ll A, B; rd(A, B);
 
+	ll ans = -1;
+	for (ll i = A; i <= B; i++) {
+		string s = to_string(i);
+
+		string s1 = s.substr(0, s.size()/2);
+		string s2 = s.substr(s.size()/2);
+		ll d1 = stoll(s1), d2 = stoll(s2);
+		DBG(d1, d2, gcd(d1, d2));
+		if (d2 > 0 && gcd(d1, d2) > 1) {
+			ans = i;
+		}
+	}
+
+	if (ans == -1) print("impossible");
+	else print(ans);
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
+
+#ifndef LOCAL_PC
+	freopen("halfnice.in", "r", stdin);
+#endif
+
+	int T; rd(T);
+	for (int cs = 1; cs <= T; cs++) {
+		cout << "Case " << cs << ": ";
+		run_test();
+	}
 }

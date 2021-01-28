@@ -21,18 +21,29 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
+const int MAXN = 2e5 + 5;
+int a[MAXN];
+
 inline void run_test(int test_number) {
+	int n; rd(n);
+	for (int i = 1; i <= n; i++) {
+		rd(a[i]);
+	}
+
+	for (int len = 1; len <= n; len++) {
+
+	}
 
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
-	rd(n_tests);
 	for (int i = 1; i <= n_tests; i++) run_test(i);
 }
+// [           ]
+//     |     |
+//    (sum[r] - sum[l - 1]) / (r - l + 1) >= k
+//   sum[r] - sum[l-1] >= k * (r - l + 1)
+//   (sum[r] - sum[l-1]) / k >= (r - l + 1);
+// r - l + 1

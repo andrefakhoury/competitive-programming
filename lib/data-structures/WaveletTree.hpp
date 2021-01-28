@@ -1,8 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-const int MAXN = 1e6 + 5;
-
 /** Wavelet Tree data structure. Input array is 0 based */
 struct waveletTree {
 	int lo, hi, mi; // minimum, maximum and (lo+hi)/2 element on array
@@ -108,67 +103,3 @@ struct waveletTree {
 		if (R) delete R;
 	}
 };
-
-int a[MAXN], b[MAXN], n, q;
-map<int, int> original, mapTo;
-map<int, vector<int> > ind;
-
-int compress() {
-	set<int> all;
-	for (int i = 1; i <= n; i++) all.insert(a[i]);
-
-	int cur = 0;
-	for (int i : all) {
-		mapTo[i] = ++cur;
-		original[cur] = i;
-	}
-
-	for (int i = 1; i <= n; i++) a[i] = mapTo[a[i]];
-
-	return cur;
-}
-
-int main() {
-	scanf("%d%d", &n, &q);
-	for (int i = 1; i <= n; i++) {
-		scanf("%d", a+i);
-		b[i] = a[i];
-		ind[a[i]].push_back(i - 1);
-	}
-
-	int N = compress();
-	waveletTree T(a+1, a+n+1, 1, N);
-
-	while(q--) {
-		int op; scanf("%d", &op);
-		if (op == 0) {
-			int k, i, l; scanf("%d%d%d", &i, &l, &k);
-
-			int d = T.kthSmallest(k, 1, i + 1);
-			d = original[d];
-
-			int ans;
-			if ((int)ind[d].size() < l) ans = -1;
-			else ans = ind[d][l-1];
-
-			printf("%d\n", ans);
-		} else {
-			int i; scanf("%d", &i);
-			T.swapContiguous(++i);
-
-			// agora, precisa trocar os valores de ind[b[i]] e ind[b[i+1]] tambem
-			// basta acha-los e somar/subtrair 1
-			auto it = lower_bound(ind[b[i]].begin(), ind[b[i]].end(), i-1) - ind[b[i]].begin();
-			ind[b[i]][it]++;
-
-			it = lower_bound(ind[b[i+1]].begin(), ind[b[i+1]].end(), i) - ind[b[i+1]].begin();
-			ind[b[i+1]][it]--;
-
-			// swap no array original tambem
-			swap(b[i], b[i+1]);
-		}
-
-	}
-
-	return 0;
-}

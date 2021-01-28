@@ -1,8 +1,5 @@
-#include <bits/stdc++.h>
-
 /** Disjoint Set Union, aka Union Find */
-class DSU {
-public:
+struct DSU {
 	int n;
 	std::vector<int> par;
 	std::vector<int> sz;

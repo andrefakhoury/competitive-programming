@@ -21,18 +21,47 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
+const int MAXN = 201;
+const int MAXX = 2e3 + 1;
+int n, m, q;
 
+int f[MAXN][MAXN][MAXX];
+
+inline void run_test() {
+	rd(n, m, q);
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			int x; rd(x);
+			for (int k = 1; k < MAXX; k++) {
+				f[i][j][k] = (k == x ? 1 : 0) + f[i-1][j][k] + f[i][j-1][k] - f[i-1][j-1][k];
+			}
+		}
+	}
+	while(q--) {
+		int a, b, c, d; rd(a, b, c, d);
+		int len = (c - a + 1) * (d - b + 1), cur = 0;
+		if (len % 2 == 0) len = len / 2 + 1;
+		else len = (len + 1) / 2;
+		for (int x = 1; x < MAXX; x++) {
+			cur += f[c][d][x] - f[c][b-1][x] - f[a-1][d][x] + f[a-1][b-1][x];
+			if (cur >= len) {
+				print(x);
+				break;
+			}
+		}
+	}
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
+
+#ifndef LOCAL_PC
+	freopen("important.in", "r", stdin);
+#endif
+
+	int T; rd(T);
+	for (int cs = 1; cs <= T; cs++) {
+		cout << "Case " << cs << ":\n";
+		run_test();
+	}
 }

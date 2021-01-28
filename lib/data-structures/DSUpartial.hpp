@@ -1,7 +1,4 @@
-#include <bits/stdc++.h>
-
-class DSU_partial {
-public:
+struct DSU_partial {
 	int n, time;
 	std::vector<int> par, sz, tim;
 

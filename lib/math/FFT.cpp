@@ -1,18 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-#ifdef _WIN32
-#define getchar_unlocked _getchar_nolock
-#endif
-template<class num> inline void rd(num& x) {
-	char c, neg = 0; while(isspace(c = getchar_unlocked()));
-	if(!isdigit(c)) neg = (c == '-'), x = 0;
-	else x = c - '0';
-	while(isdigit(c = getchar_unlocked())) x = (x << 3) + (x << 1) + c - '0';
-	x = neg ? -x : x; }
-template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
-
 namespace FFT {
 	const double PI = acos(-1);
 
@@ -29,7 +14,7 @@ namespace FFT {
 		base& operator+=(base const& b) { return (real += b.real, imag += b.imag), *this; }
 		base& operator-=(base const& b) { return (real -= b.real, imag -= b.imag), *this; }
 		base& operator/=(double const b) { return (real /= b), *this; }
-	}; // if you don't feel like coding this struct, use `using base=complex<double>;`
+	}; // if you don't want to code this struct, use `using base=complex<double>;`
 
 	inline void fft(vector<base>& a, bool invert) {
 		int n = a.size();
@@ -68,20 +53,5 @@ namespace FFT {
 		vector<ll> ans(n);
 		for (int i = 0; i < n; i++) ans[i] = llround(ca[i].real);
 		return ans;
-	}
-}
-
-int main() {
-	int t; rd(t);
-	vector<ll> a, b, ans;
-	while(t--) {
-		int n; rd(n);
-		a.resize(n + 1), b.resize(n + 1);
-		for (int i = 0; i <= n; i++) rd(a[i]);
-		for (int i = 0; i <= n; i++) rd(b[i]);
-		ans = FFT::multiply(a, b);
-		for (int i = 0; i < n + n + 1; i++)
-			printf("%lld ", ans[i]);
-		printf("\n");
 	}
 }

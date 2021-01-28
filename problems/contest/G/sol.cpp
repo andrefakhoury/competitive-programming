@@ -22,7 +22,26 @@ template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { p
 #define print(...) print(__VA_ARGS__), print('\n')
 
 inline void run_test(int test_number) {
+	int n; rd(n);
 
+	const int N = 2e5;
+	vector<int> f(N + 1);
+	for (int i = 0; i < n; i++) {
+		int x; rd(x);
+		f[x]++;
+	}
+
+	int ans = n;
+	for (int i = N; i >= 1; i--) {
+		int cur = f[i];
+		for (int j = i + i; j <= N; j += i) {
+			cur = max(cur, f[i] + f[j]);
+		}
+		f[i] = cur;
+		ans = min(ans, n - cur);
+	}
+
+	print(ans);
 }
 
 int main() {

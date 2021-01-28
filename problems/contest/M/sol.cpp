@@ -22,17 +22,50 @@ template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { p
 #define print(...) print(__VA_ARGS__), print('\n')
 
 inline void run_test(int test_number) {
+	string s; cin >> s;
+	vector<int> a(500);
+	for (char i = '1'; i <= '9'; i++) rd(a[i]);
+
+	int n = s.size();
+	string ans;
+
+	int j = 0;
+	for (int i = 0; i < n; i++) {
+		for (char d = '9'; d >= '1'; d--) {
+			bool can = true;
+
+			int l = j;
+			while(l < n && s[l] != d) l++;
+			if (l == n) continue;
+
+			// deleto todos de [j, l]
+
+			vector<int> nx_a = a;
+			for (int k = j; k < l; k++) {
+				nx_a[s[k]]--;
+				can &= nx_a[s[k]] >= 0;
+			}
+			int cnt_eq = 0;
+			for (int k = l + 1; k < n; k++) {
+				if (s[k] == d) cnt_eq++;
+			}
+
+			can &= nx_a[d] <= cnt_eq;
+
+			if (can) {
+				ans += d;
+				j = l + 1;
+				a = nx_a;
+				break;
+			}
+		}
+	}
+	print(ans);
 
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
-	rd(n_tests);
 	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

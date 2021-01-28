@@ -1,8 +1,5 @@
-#include <bits/stdc++.h>
-
 template <typename T, class F = std::function<T(const T&, const T&)>>
-class SparseTable {
-public:
+struct SparseTable {
 	int n;
 	F func;
 	std::vector<std::vector<T>> mat;

@@ -1,14 +1,10 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 /**
  * 2-Dimensional Point
  * @tparam T type of coordinates
  * @tparam D type of floating points (used in distances and stuff)
  */
 template <typename T=long long, typename D=double>
-class Point {
-public:
+struct Point {
 	T x, y;
 
 	static constexpr D EPS = static_cast<D>(1e-9);
@@ -36,7 +32,7 @@ public:
 	inline Point<T, D> operator*(Tp const& k) const { return Point<T, D>(x*k, y*k); }
 
 	template<typename Tp, typename Dp> // cross product
-	inline T operator^(Point<Tp, Dp> const& rhs) const { return x * rhs.y - y * rhs.x; }
+inline T operator^(Point<Tp, Dp> const& rhs) const { return x * rhs.y - y * rhs.x; }
 
 	template<typename Tp, typename Dp> // dot product
 	inline T operator*(Point<Tp, Dp> const& rhs) const { return x * rhs.x + y * rhs.y; }
@@ -87,6 +83,8 @@ public:
 			while (k >= t && ((H[k-1]-H[k-2])^(p[i]-H[k-2])) <= T{}) k--;
 			H[k++] = p[i];
 		}
+
+	
 
 		H.resize(k-1);
 		return H;

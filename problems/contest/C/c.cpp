@@ -21,18 +21,47 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
+struct Parabola {
+	ll a, b, c;
+	Parabola() {}
 
+	void read() {
+		rd(a, b, c);
+	}
+
+	template <typename T>
+	T eval(T x) {
+		return a * x * x + b * x + c;
+	}
+};
+
+inline void run_test(int test_number) {
+	int n; rd(n);
+	vector<Parabola> a(n);
+	for (int i = 0; i < n; i++) a[i].read();
+
+	int q; rd(q);
+	for (int i = 0; i < q; i++) {
+		ll x; rd(x);
+
+		pii best = {a[0].eval(x), 0};
+		for (int j = 0; j < n; j++) {
+			best = max(best, pii(a[j].eval(x), j));
+		}
+
+		print(best.se, best.fi);
+	}
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
+
+#ifndef LOCAL_PC
+	freopen("parabolas.in", "r", stdin);
+#endif
+	int n_tests; cin >> n_tests;
+	for (int i = 1; i <= n_tests; i++) {
+		cout << "Case " << i << ":\n";
+		run_test(i);
+	}
 }
