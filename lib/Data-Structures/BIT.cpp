@@ -25,6 +25,7 @@ template<typename T> struct BIT {
 	}
 
 	inline T query(int l, int r) {
+		if (l > r) return 0;
 		return query(r) - query(l-1);
 	}
 };

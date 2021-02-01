@@ -21,29 +21,62 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-const int MAXN = 2e5 + 5;
+const int MAXN = 3e5 + 5;
 int a[MAXN];
 
 inline void run_test(int test_number) {
-	int n; rd(n);
+	int n, q; rd(n, q);
+	for (int i = 1; i <= n; i++) rd(a[i]);
+
+	auto find_group = [](int x) {
+		if (x == 1) return 0;
+		if (x & 1) return 1;
+		return 2;
+	};
+
+	ll ans = 0;
+	set<int> idx[3]; // [0]: 1, [1]: 1 setado, [2]: 1 nao setado
 	for (int i = 1; i <= n; i++) {
-		rd(a[i]);
+		idx[find_group(a[i])].insert(i);
+		ans += a[i];
 	}
 
-	for (int len = 1; len <= n; len++) {
+	auto go = [&](int l, int r, int old, int op) {
+		vector<int> to_erase;
+		for (auto it = idx[old].lower_bound(l); it != idx[old].end() && *it <= r; it++) {
+			int new_a;
+			if (op == 1) new_a = a[*it] | (a[*it] - 1);
+			else new_a = a[*it] ^ (a[*it] - 1);
 
+			ans += new_a - a[*it];
+			idx[find_group(new_a)].insert(*it);
+			a[*it] = new_a;
+
+			to_erase.push_back(*it);
+		}
+
+		for (int x : to_erase) idx[old].erase(x);
+	};
+
+	while(q--) {
+		int op, l, r; rd(op, l, r);
+		if (op == 1) go(l, r, 2, 1);
+		else {
+			go(l, r, 1, 2);
+			go(l, r, 2, 2);
+		}
+
+		print(ans);
 	}
-
 }
 
 int main() {
+
+#ifndef LOCAL_PC
+	freopen("orxor.in", "r", stdin);
+#endif
+
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
 	for (int i = 1; i <= n_tests; i++) run_test(i);
 }
-// [           ]
-//     |     |
-//    (sum[r] - sum[l - 1]) / (r - l + 1) >= k
-//   sum[r] - sum[l-1] >= k * (r - l + 1)
-//   (sum[r] - sum[l-1]) / k >= (r - l + 1);
-// r - l + 1

@@ -21,49 +21,65 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-const int MAXN = 501;
+int n;
+string _s;
 
-const ll INF = 2e18;
+ll solve3(char a, int fa, char c) {
+	string s = _s;
 
-ll p[MAXN];
-ll memo[MAXN][MAXN];
+	int idb = -1;
+	for (int i = 0; i < n; i++) {
+		if (s[i] == 'b') idb = i;
+	}
 
-inline void run_test() {
-	int N; rd(N);
-	for (int i = 1; i <= N; i++) rd(p[i]);
+	ll ans = 0;
+	if (idb != fa) {
+		ans++;
+		swap(s[idb], s[fa]);
+	}
 
-	for (int n = 0; n <= N; n++)
-		for (int m = 0; m <= N; m++)
-			memo[n][m] = INF;
-	memo[0][0] = 0;
-
-	for (int n = 1; n <= N; n++) {
-		for (int m = 1; m <= N; m++) {
-			ll& ret = memo[n][m];
-			for (int len = 1; len <= n; len++) {
-				ret = min(ret, memo[n - len][m - 1] + p[len]);
-			}
+	int a_w = 0, c_w = 0;
+	for (int i = 0; i < n; i++) {
+		if (s[i] == a) {
+			a_w += i >= fa;
+		} else if (s[i] == c) {
+			c_w += i <= fa;
 		}
 	}
 
-	int q; rd(q);
-	while(q--) {
-		int n, m; rd(n, m);
-		if (memo[n][m] < INF) print(memo[n][m]);
-		else print("impossible");
+	ans += a_w;
+	return ans;
+}
+
+inline void run_test(int test_number) {
+	rd(n, _s);
+
+	string s = _s;
+
+	int f[3] = {};
+	for (char c : s) f[c-'a']++;
+
+	ll ans = 0;
+	if (f[0] && f[1] && f[2]) {
+		ll a1 = solve3('a', f[0], 'c');
+		ll a2 = solve3('c', f[2], 'a');
+		ans = min(a1, a2);
+	} else if (f[0] && f[2]) {
+		ans = -1;
+	} else {
+		ans = 0;
 	}
+
+	print(ans);
 }
 
 int main() {
-	ios::sync_with_stdio(false); cin.tie(nullptr);
 
 #ifndef LOCAL_PC
-	freopen("jacking.in", "r", stdin);
+	freopen("abc.in", "r", stdin);
 #endif
 
-	int T; rd(T);
-	for (int cs = 1; cs <= T; cs++) {
-		cout << "Case " << cs << ":\n";
-		run_test();
-	}
+	ios::sync_with_stdio(false); cin.tie(nullptr);
+	int n_tests = 1;
+	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

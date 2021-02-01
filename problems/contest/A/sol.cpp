@@ -25,19 +25,26 @@ inline void run_test(int test_number) {
 	int n; rd(n);
 	string s; rd(s);
 
-	for (int i = 0, prev = -1; i < n; i++) {
-		for (int j = 1; j >= 0; j--) {
-			if (j + s[i] - '0' != prev) {
-				prev = j + s[i] - '0';
-				cout << j;
+	int ans = n;
+	for (int i = 0; i < n; i++) {
+		int cur = 0;
+		for (int j = i; j < n; j++) {
+			if (s[j] == cur + 'A') cur++;
+			if (cur == 26) {
+				ans = min(ans, j - i + 1);
 				break;
 			}
 		}
 	}
-	cout << "\n";
+	print(ans);
 }
 
 int main() {
+
+#ifndef LOCAL_PC
+	freopen("collectingofficer.in", "r", stdin);
+#endif
+
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
 	rd(n_tests);

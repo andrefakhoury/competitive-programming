@@ -22,10 +22,10 @@ template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { p
 #define print(...) print(__VA_ARGS__), print('\n')
 
 /** ==== GEOMETRY NOTEBOOK ========================================================================================== */
+const double EPS = 1e-12;
+template<typename T> inline char sign(T x) { return abs(x) < EPS ? 0 : x > 0 ? 1 : -1; }
 template<typename T> struct Point {
 	T x, y;
-
-	static constexpr double EPS = 1e-12;
 
 	Point() : x(), y() {}
 	Point(T x, T y) : x(x), y(y) {}
@@ -52,11 +52,10 @@ template<typename T> struct Point {
 	template<typename Tp> inline T dist2(Point<Tp> const& p) const { return (*this - p).len2();  }
 	template<typename Tp> inline double dist(Point<Tp> const& p) const { return hypot(x - p.x, y - p.y); }
 
-	template<typename Tp> inline T dot(Point<Tp> const& p) const { return x * p.x + y * p.y; }
-	template<typename Tp> inline T cross(Point<Tp> const& p) const { return x * p.y - y * p.x; }
+	template<typename Tp> inline T dot(Point<Tp> const& p) const { return x * p.x + y * p.y; }    // |u| * |v| * cos(alpha)
+	template<typename Tp> inline T cross(Point<Tp> const& p) const { return x * p.y - y * p.x; }  // |u| * |v| * sin(alpha)
+	template<typename Tp1, typename Tp2> inline T dot(Point<Tp1> const& a, Point<Tp2> const& b) const { return (a - *this).dot(b - *this); }
 	template<typename Tp1, typename Tp2> inline T cross(Point<Tp1> const& a, Point<Tp2> const& b) const { return (a - *this).cross(b - *this); }
-
-	template <typename Tp> inline static char sign(Tp x) { return abs(x) < EPS ? 0 : x > 0 ? 1 : -1; }
 
 	/** Orientation of (*this) according to segment AB. 0: collinear, 1: right, -1: left */
 	inline char orientation(Point const& a, Point const& b) const { return sign((*this - b).cross(b - a)); }
@@ -67,7 +66,7 @@ template<typename T> struct Point {
 
 	/** Distance from (*this) to segment AB */
 	inline double dist_to_segment(Point const& a, Point const& b) const {
-		Point p = *this;
+		Point<T> p = *this;
 		if (a.dist2(b) <= EPS) return p.dist(a);
 		Point<double> ap = p - a, ab = b - a;
 		// if projection doesnt lie on segment, the minimum distance will be to A or B
@@ -137,8 +136,8 @@ template<typename T> bool segments_intersect_1d(T a, T b, T c, T d) {
 template <typename T> bool segments_intersect(Point<T> const& a, Point<T> const& b, Point<T> const& c, Point<T> const& d) {
 	if (c.cross(a, d) == 0 && c.cross(b, d) == 0)
 		return segments_intersect_1d(a.x, b.x, c.x, d.x) && segments_intersect_1d(a.y, b.y, c.y, d.y);
-	return Point<T>::sign(a.cross(b, c)) != Point<T>::sign(a.cross(b, d)) &&
-		   Point<T>::sign(c.cross(d, a)) != Point<T>::sign(c.cross(d, b));
+	return sign(a.cross(b, c)) != sign(a.cross(b, d)) &&
+		   sign(c.cross(d, a)) != sign(c.cross(d, b));
 }
 
 /** Check if point p is inside polygon. Return: 0: outside, 1: inside, 2: boundary.

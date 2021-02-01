@@ -21,34 +21,24 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
+ll ans = 0;
+
 inline void run_test(int test_number) {
-	int n; rd(n);
-
-	const int N = 2e5;
-	vector<int> f(N + 1);
-	for (int i = 0; i < n; i++) {
-		int x; rd(x);
-		f[x]++;
+	ll l, r; rd(l, r);
+	if (l != r) {
+		ans = 1;
+	} else {
+		ans = gcd(ans, l);
 	}
-
-	int ans = n;
-	for (int i = N; i >= 1; i--) {
-		int cur = f[i];
-		for (int j = i + i; j <= N; j += i) {
-			cur = max(cur, f[i] + f[j]);
-		}
-		f[i] = cur;
-		ans = min(ans, n - cur);
-	}
-
 	print(ans);
+
 }
 
 int main() {
 
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
+#ifndef LOCAL_PC
+	freopen("gcd.in", "r", stdin);
+#endif
 
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;

@@ -21,64 +21,58 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-struct Parabola {
-	ll a, b, c;
-	inline void read() { rd(a, b, c); }
-	inline ll eval(ll x) const { return a * x * x + b * x + c; }
-};
+const int MAXN = 1e5, LOG = 31;
+int n, a[MAXN];
+set<int> active[31];
+set<int> allx;
 
-inline void run_test(int test_number) {
-	int n; rd(n);
-	vector<Parabola> a(n);
-	for (int i = 0; i < n; i++) a[i].read();
+int vis[MAXN];
 
-	const ll X = 1e5;
-	const int N = X + X + 1;
-	vector<int> better(N);
+vector<int> ans;
 
-	auto get_better = [&](int i, int x) {
-		int& b = better[x + X];
-		if(a[i].eval(x) > a[b].eval(x)) b = i;
-	};
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) if (i != j) {
-			ll A = a[i].a - a[j].a, B = a[i].b - a[j].b, C = a[i].c - a[j].c;
-			if (A) {
-				ll delta = B * B - 4 * A * C;
-				if (delta > 0) {
-					double x1 = (-1.0 * B + sqrt(delta)) / A / 2;
-					double x2 = (-1.0 * B - sqrt(delta)) / A / 2;
-					auto go = [&](ll x) { get_better(i, clamp(x, -X, X)); };
-					auto gogo = [&](ll x) { go(x-1), go(x), go(x+1); };
-					gogo(llround(x1)), gogo(llround(x2));
-				}
-			}
+void solve(int u) {
+	vis[u] = 1;
+	ans.push_back(a[u]);
+	allx.erase(u);
+	for (int b = 0; b < LOG; b++) if (a[u] & (1 << b)) {
+		active[b].erase(u);
+	}
+	int mini = n;
+	for (int i = 0; i < LOG; i++) if (a[u] & (1 << i)) {
+		if (active[i].size()) {
+			mini = min(mini, *active[i].begin());
 		}
 	}
+	if (mini != n) solve(mini);
+	if (allx.size()) solve(*allx.begin());
+}
 
-	for (int i = 0; i < n; i++) get_better(i, -X), get_better(i, X);
-	for (int i = 1; i < N; i++) get_better(better[i - 1], i - X);
-	for (int i = N-2; i >= 0; i--) get_better(better[i + 1], i - X);
 
-	int q; rd(q);
-	for (int i = 0; i < q; i++) {
-		int x; rd(x);
-		int& b = better[x + X];
-		print(b, a[b].eval(x));
+inline void run_test(int test_number) {
+	rd(n);
+	for (int i = 0; i < n; i++) {
+		rd(a[i]);
+		for (int b = 0; b < LOG; b++) if (a[i] & (1 << b)) {
+			active[b].insert(i);
+		}
+		allx.insert(i);
 	}
+
+	solve(0);
+
+	for (int i : ans) cout << i << " ";
+	cout << "\n";
+
+
 }
 
 int main() {
+
 #ifndef LOCAL_PC
-	freopen("parabolas.in", "r", stdin);
+	freopen("sorting.in", "r", stdin);
 #endif
 
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) {
-		cout << "Case " << i << ":\n";
-		run_test(i);
-	}
+	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

@@ -7,7 +7,8 @@ struct waveletTree {
 #define ML(i) (mp[i]) /* original mapLeft */
 #define MR(i) (i - mp[i] - 1) /* original mapRight */
 
-	/** *beg points to the first element, *end points to after the last element (just like stl default functions). Elements in range [lo..hi] */
+	/** *beg points to the first element, *end points to after the last element (just like stl default functions)
+	  * Array values are between range [lo..hi] */
 	waveletTree(int *beg, int *end, int lo, int hi) { // O(nlogA)
 		L = R = NULL;
 		this->lo = lo;

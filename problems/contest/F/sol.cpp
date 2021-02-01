@@ -21,77 +21,68 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-template <typename T>
-struct Point {
-	T x, y;
+const ll MOD = 1e9 + 7;
 
-	static constexpr double EPS = 1e-12;
+inline ll run_test(int test_number) {
+	ll s1, s2, l, r; rd(s1, s2, l, r);
+	if (s1 == s2) return 0;
+	if (s1 > s2) swap(s1, s2);
+	s1 = __builtin_ctzll(s1);
+	s2 = __builtin_ctzll(s2);
 
-	Point() : x(), y() {}
-	Point(T x, T y) : x(x), y(y) {}
+	auto getQtt = [](ll n, int bit)->ll {
+		ll gp1 = 1ll << bit, gp2 = gp1 << 1ll;
+		return ((n + 1) / gp2) * gp1 + max(0ll, (n + 1) % gp2 - gp1);
+	};
 
-	Point operator+(Point const& p) const { return Point<T>(x + p.x, y + p.y); }
-	Point operator-(Point const& p) const { return Point<T>(x - p.x, y - p.y); }
-	template <typename Tp> Point<T> operator*(Tp const& p) const { return Point<T>(x * p, y * p); }
-	template <typename Tp> Point<T> operator/(Tp const& p) const { return Point<T>(x / p, y / p); }
+	auto get0 = [&getQtt](ll n, int bit) { return n < 0 ? 0 : n - getQtt(n, bit) + 1; };
+	auto get1 = [&getQtt](ll n, int bit) { return n < 0 ? 0 : getQtt(n, bit); };
+	auto get0lr = [&](ll l, ll r, int bit) { return l > r ? 0 : get0(r, bit) - get0(l-1, bit); };
+	auto get1lr = [&](ll l, ll r, int bit) { return l > r ? 0 : get1(r, bit) - get1(l-1, bit); };
 
-	bool operator<(Point const& p) const { return x == p.x ? y < p.y : x < p.x; }
-	inline T dot(Point const& p) const { return x * p.x + y * p.y; }
-	inline T cross(Point const& p) const { return x * p.y - y * p.x; }
+	auto gogo1 = [&](ll n, int b1, int b2)->ll { // b1 > b2
+		if (n < 0) return 0;
 
-	inline T len2() const { return x * x + y * y; }
-	inline double len() const { return hypot(x, y); }
-	inline T dist2(Point const& p) const { return (p - *this).len();  }
-	inline double dist(Point const& p) const { return hypot(x - p.x, y - p.y); }
-};
+		ll gp1 = 1ll << b1, gp2 = gp1 << 1ll;
+		ll qt_groups = (n + 1) / gp2;
+		ll ans = qt_groups * get0(gp1, b2);
+		ans += get0lr(qt_groups * gp2 + gp1 - 1, n, b2);
+		return ans;
+	};
 
-template <typename T> istream& operator>>(istream& in, Point<T>& p) { return in >> p.x >> p.y; }
-template <typename T> ostream& operator<<(ostream& out, Point<T>& p) { return out << p.x << ' ' << p.y; }
-using pt = Point<double>;
+	auto gogo2 = [&](ll n, int b1, int b2)->ll { // b1 > b2
+		if (n < 0) return 0;
 
-inline void run_test() {
-	cout << fixed << setprecision(7);
+		ll gp1 = 1ll << b1, gp2 = gp1 << 1ll;
+		ll qt_groups = (n + 1) / gp2;
+		ll ans = qt_groups * get1(gp1, b2);
+		ans += get1lr(qt_groups * gp2 - 1, n, b2);
+		return ans;
+	};
 
-	int n; rd(n);
-	vector<pt> p(n);
-	for (int i = 0; i < n; i++) rd(p[i]);
+	auto get_qtt1 = [&gogo1](ll l, ll r, int b1, int b2) { return gogo1(r, b1, b2) - gogo1(l-1, b1, b2); };
+	auto get_qtt2 = [&gogo2](ll l, ll r, int b1, int b2) { return gogo2(r, b1, b2) - gogo2(l-1, b1, b2); };
 
-	int q; rd(q);
+	ll ans = 0;
+	for (int i = 0; i <= 43; i++) {
+		ll qtt = get_qtt1(l, r, i + s2 - s1, i) + get_qtt2(l, r, i + s2 - s1, i);
+		__int128 x = 1ll << (i + s2 - s1);
 
-	while(q--) {
-		pt p1, p2; rd(p1, p2);
-		pair<double, pt> ans = {1e12, pt{}};
-
-		auto f = [&p1, &p2](pt const& p) {
-			return p.dist(p1) + p.dist(p2);
-		};
-
-		for (int i = 0, j = n - 1; i < n; j = i, i++) {
-			pt lo = p[i], hi = p[j], m1, m2;
-			for (int ck = 1; ck <= 50; ck++) {
-				m1 = lo + (hi - lo) / 3.0;
-				m2 = lo + (hi - lo) * 2.0 / 3.0;
-				if (f(m1) < f(m2)) hi = m2;
-				else lo = m1;
-			}
-			ans = min(ans, mk(f(lo), lo));
-		}
-
-		cout << ans.fi << " " << ans.se << "\n";
+		ans += qtt * x % MOD;
+		ans %= MOD;
 	}
 
+	return ans;
 }
 
 int main() {
-	ios::sync_with_stdio(false); cin.tie(nullptr);
-
 #ifndef LOCAL_PC
-	freopen("flags.in", "r", stdin);
+	freopen("geometry.in", "r", stdin);
 #endif
 
-	int T; rd(T);
-	for (int cs = 1; cs <= T; cs++) {
-		cout << "Case " << cs << ":\n";
-		run_test();
-	}
+	ios::sync_with_stdio(false); cin.tie(nullptr);
+	int n_tests = 1;
+	rd(n_tests);
+	for (int i = 1; i <= n_tests; i++) print(run_test(i));
 }
+
