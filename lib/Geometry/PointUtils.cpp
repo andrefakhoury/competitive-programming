@@ -1,5 +1,16 @@
 // Uses struct Point declared in Point.cpp
 
+/** Functions:
+    - shoelace2 (area of polygon)
+    - closest_pair_distance2 (minimum distance between 2 points)
+    - segments_intersect (whether 2 segments intersect)
+    - in_polygon (whether point is inside polygon)
+    - is_clockwise (polyon is in clockwise or counter-clockwise order)
+    - count_lattice_points (count lattice points on boundary and interior of polygon)
+    - convex_hull (convex hull of polygon)
+*/
+
+
 /** returns 2 * area(polygon) */
 template<typename T> T shoelace2(vector<Point<T>> const& p) {
 	T ans = 0; int n = p.size();

@@ -42,7 +42,8 @@ namespace FFT {
 		if (invert) for (int i = 0; i < n; i++) a[i] /= n;
 	}
 
-	template<typename T> inline vector<T> multiply(vector<T> const& a, vector<T> const& b) {
+	template<typename T>
+	inline vector<T> multiply(vector<T> const& a, vector<T> const& b) {
 		vector<base> ca(a.begin(), a.end()), cb(b.begin(), b.end());
 		int n = 1;
 		while(n < (int) (a.size() + b.size())) n <<= 1;

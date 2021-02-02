@@ -1,5 +1,6 @@
 /** Binary Indexed Tree, aka Fenwick Tree */
-template<typename T> struct BIT {
+template<typename T>
+struct BIT {
 	std::vector<T> bt;
 	int n;
 
