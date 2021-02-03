@@ -82,6 +82,7 @@ namespace FFT {
 inline void run_test(int test_number) {
 	int n; rd(n);
 	vector<ll> a(n + 1), b(n + 1);
+
 	for (ll& i : a) rd(i);
 	for (ll& i : b) rd(i);
 	vector<ll> ans = FFT::multiply(a, b);
