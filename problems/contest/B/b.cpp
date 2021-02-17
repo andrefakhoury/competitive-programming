@@ -21,29 +21,48 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
-	int n; rd(n);
-	int q[3] = {};
-	for (int i = 0; i < n; i++) {
-		int x; rd(x);
-		q[x%3]++;
+ll solve(ll n, ll k) {
+	ll ans = -1;
+
+	if (n % 2 == 0) {
+		k--;
+		ans = 1 + (k % n);
+	} else {
+		k--;
+		ll turns = k / n;
+		ll expected = k % n;
+
+		ll szCycle = n / 2;
+		ll turn2 = turns == 0 ? 0 : 1 + turns - (turns + szCycle - 1) / szCycle;
+		ll turn3 = turns == 0 ? 0 : (turns + szCycle - 1) / szCycle - 1;
+		expected += 2 * turn2;
+		expected += 3 * turn3;
+
+		set<int> pos;
+		pos.insert(((n - 1 - turns) % n + n) % n);
+		pos.insert(((n/2 - turns) % n + n) % n);
+		if (turns > 0 && turns % szCycle == 0) pos.insert(0), pos.insert(n - 1), pos.insert(n/2);
+		for (int p : pos) expected += k % n >= p;
+
+		ans = 1 + expected % n;
 	}
-	int cur = n / 3;
+	return ans;
+}
 
-	ll ans = 0;
-	for (int it = 0; it < 100; it++) {
-		int i = it % 3;
-		if (q[i] > cur) {
-			int qtt = q[i] - cur;
-			ans += qtt;
-			q[i] = cur;
-			q[(i + 1) % 3] += qtt;
-		}
+void brute(ll n) {
+	auto nx = [n](ll p) {
+		return p % n + 1;
+	};
+	auto pv = [n](ll p) {
+		return p - 1 == 0 ? n : p - 1;
+	};
+
+	for (int pos = 1, ot = n, turn = 0; turn <= 100; turn++) {
+		print(turn % n + 1, pos);
+		pos = nx(pos);
+		ot = pv(ot);
+		if (pos == ot) pos = nx(pos);
 	}
-
-	print(ans);
-
-
 }
 
 int main() {
@@ -55,5 +74,5 @@ int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
 	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
+	brute(n_tests);
 }

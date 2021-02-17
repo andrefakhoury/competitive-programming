@@ -21,58 +21,36 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-const int MAXN = 1e5, LOG = 31;
-int n, a[MAXN];
-set<int> active[31];
-set<int> allx;
-
-int vis[MAXN];
-
-vector<int> ans;
-
-void solve(int u) {
-	vis[u] = 1;
-	ans.push_back(a[u]);
-	allx.erase(u);
-	for (int b = 0; b < LOG; b++) if (a[u] & (1 << b)) {
-		active[b].erase(u);
-	}
-	int mini = n;
-	for (int i = 0; i < LOG; i++) if (a[u] & (1 << i)) {
-		if (active[i].size()) {
-			mini = min(mini, *active[i].begin());
-		}
-	}
-	if (mini != n) solve(mini);
-	if (allx.size()) solve(*allx.begin());
-}
-
-
 inline void run_test(int test_number) {
-	rd(n);
-	for (int i = 0; i < n; i++) {
-		rd(a[i]);
-		for (int b = 0; b < LOG; b++) if (a[i] & (1 << b)) {
-			active[b].insert(i);
+	ll n; rd(n);
+
+	vector<ll> all;
+	for (ll i = 1; i <= 2e4; i++) all.push_back(i * i * i);
+
+	auto check = [&all](ll n) {
+		return n > 0 && binary_search(all.begin(), all.end(), n);
+	};
+
+	for (ll a = 1; a * a * a <= n; a++) {
+		ll b = n - a * a * a;
+		if (check(b)) {
+			print("YES");
+			return;
 		}
-		allx.insert(i);
+
 	}
 
-	solve(0);
-
-	for (int i : ans) cout << i << " ";
-	cout << "\n";
-
-
+	print("NO");
 }
 
 int main() {
 
-#ifndef LOCAL_PC
-	freopen("sorting.in", "r", stdin);
-#endif
+//#ifndef LOCAL_PC
+//	freopen("FILE.in", "r", stdin);
+//#endif
 
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
+	rd(n_tests);
 	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

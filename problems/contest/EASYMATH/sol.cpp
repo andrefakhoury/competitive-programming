@@ -22,36 +22,39 @@ template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { p
 #define print(...) print(__VA_ARGS__), print('\n')
 
 inline void run_test(int test_number) {
-	int n; rd(n);
-	int q[3] = {};
-	for (int i = 0; i < n; i++) {
-		int x; rd(x);
-		q[x%3]++;
-	}
-	int cur = n / 3;
+	ll l, r, a, d; rd(l, r, a, d);
 
-	ll ans = 0;
-	for (int it = 0; it < 100; it++) {
-		int i = it % 3;
-		if (q[i] > cur) {
-			int qtt = q[i] - cur;
-			ans += qtt;
-			q[i] = cur;
-			q[(i + 1) % 3] += qtt;
+	ll c[5];
+	for (int i = 0; i < 5; i++) c[i] = a + i * d;
+
+	vector<vector<int>> all{
+			{0}, {1}, {2}, {3}, {4},
+			{0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4},
+			{0, 1, 2}, {0, 1, 3}, {0, 1, 4}, {0, 2, 3}, {0, 2, 4}, {0, 3, 4}, {1, 2, 3}, {1, 2, 4}, {1, 3, 4}, {2, 3, 4},
+			{0, 1, 2, 3}, {0, 1, 2, 4}, {0, 1, 3, 4}, {0, 2, 3, 4}, {1, 2, 3, 4},
+			{0, 1, 2, 3, 4}
+	};
+
+	auto solve = [&c, &all](ll n) {
+		ll sum = 0;
+		for (auto const& a : all) {
+			ll g = 0;
+			for (int i : a) g = gcd(g, c[i]);
+			ll cur = n - n / g;
+			if (a.size() % 2) sum -= cur;
+			else sum += cur;
 		}
-	}
 
-	print(ans);
+		for (int i = 0; i < 5; i++) cerr << c[i] << " ";
+		cerr << ": ";
+		DBG(n, sum);
+		return n - sum;
 
-
+	};
+	print(solve(r) - solve(l - 1));
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
 	rd(n_tests);

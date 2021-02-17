@@ -21,83 +21,33 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-const int MOD = 1e9 + 7;
-int add(int x, int y) {
-	x += y;
-	if (x >= MOD) x -= MOD;
-	return x;
-}
-
-int sub(int x, int y) {
-	x -= y;
-	if (x < 0) x += MOD;
-	return x;
-}
-
-int mul(int x, int y) {
-	return 1ll * x * y % MOD;
-}
-
-const int MAXN = 5e3 + 5;
-int a[MAXN];
-int qtt[MAXN]; // qtt[i] is the number of times i appear on a path
-int memo[MAXN][MAXN];
-
 inline void run_test(int test_number) {
-	int n, k, q; rd(n, k, q);
-	for (int i = 1; i <= n; i++) rd(a[i]);
+	int n; rd(n);
+	vector<int> a(n);
+	for (int i = 0; i < n; i++) rd(a[i]);
+	sort(a.rbegin(), a.rend());
+	// qts vezes o segundo pirata pegou um bau maior que ele em rodadas anteriores
 
-	int ans = 0;
-
-	for (int i = 1; i <= n; i++) memo[i][0] = 1;
-	for (int s = 1; s <= k; s++) {
-		for (int i = 1; i <= n; i++) {
-			for (int j : {i - 1, i + 1}) if (j >= 1 && j <= n) {
-				memo[i][s] = add(memo[i][s], memo[j][s-1]);
-				qtt[i] = add(qtt[i], memo[j][s-1]);
-				qtt[j] = add(qtt[j], memo[i][s-1]);
-			}
-			DBG(i, s, memo[i][s]);
+	vector<vector<double>> p(n, vector<double>(n));
+	vector<double> s(n); // prob do primeiro cara pegar i
+	for (int i = 0; i < n; i++) {
+		double cur_sum = 0;
+		for (int j = 0; j < i; j++) {
+			int left = n - 2 * j - 1;
+			if (left > 0) p[i][j] = (1.0 - cur_sum) * (1.0 / left);
+			cur_sum += p[i][j];
 		}
+		s[i] = 1.0 - cur_sum;
 	}
 
-	vector<pii> qry(q);
-	vector<int> aa(n + 1);
-
-	for (int i = 1; i <= n; i++) aa[i] = a[i];
-	for (int i = 0; i < q; i++) rd(qry[i].fi, qry[i].se);
-
-	vector<int> qtt = {0, 6, 9, 11, 9, 6};
-	for (int x1 = 1; x1 <= 10; x1++) {
-		for (int x2 = x1; x2 <= 12; x2++) {
-			for (int x3 = x2; x3 <= 20; x3++) {
-				vector<int> a = aa;
-				vector<int> qtt = {0, x1, x2, x3, x2, x1};
-				ans = 0;
-
-
-				for (int i = 1; i <= n; i++) {
-					ans = add(ans, mul(a[i], qtt[i]));
-				}
-				
-				vector<int> anse = {157,147,207,227,227};
-				vector<int> curas;
-
-				for (int i = 1; i <= q; i++) {
-					int id, val; id = qry[i-1].fi, val = qry[i-1].se;
-					ans = sub(ans, mul(qtt[id], a[id]));
-					a[id] = val;
-					ans = add(ans, mul(qtt[id], a[id]));
-					// print(ans);
-					curas.pb(ans);
-				}
-				if (curas == anse) {
-					DBG(x1, x2, x3);
-				}
-			}
-		}
+	double ans1 = 0, ans2 = 0;
+	for (int i = 0; i < n; i++) {
+		ans1 += s[i] * a[i];
+		ans2 += (1.0 - s[i]) * a[i];
 	}
 
+	cout << fixed << setprecision(15);
+	print(ans1, ans2);
 }
 
 int main() {

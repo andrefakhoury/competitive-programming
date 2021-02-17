@@ -22,38 +22,12 @@ template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { p
 #define print(...) print(__VA_ARGS__), print('\n')
 
 inline void run_test(int test_number) {
-	int n; rd(n);
-	int q[3] = {};
-	for (int i = 0; i < n; i++) {
-		int x; rd(x);
-		q[x%3]++;
-	}
-	int cur = n / 3;
-
-	ll ans = 0;
-	for (int it = 0; it < 100; it++) {
-		int i = it % 3;
-		if (q[i] > cur) {
-			int qtt = q[i] - cur;
-			ans += qtt;
-			q[i] = cur;
-			q[(i + 1) % 3] += qtt;
-		}
-	}
-
-	print(ans);
 
 
 }
 
 int main() {
-
-//#ifndef LOCAL_PC
-//	freopen("FILE.in", "r", stdin);
-//#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
-	rd(n_tests);
 	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

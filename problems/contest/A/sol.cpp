@@ -19,34 +19,18 @@ template<class num> inline void rd(num& x) { cin >> x; }
 template <class Ty, class... Args> inline void rd(Ty& x, Args&... args) { rd(x); rd(args...); }
 template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
-#define print(...) print(__VA_ARGS__), print('\n')
+#define print(...) { print(__VA_ARGS__); print('\n'); }
 
-inline void run_test(int test_number) {
-	int n; rd(n);
-	string s; rd(s);
-
-	int ans = n;
-	for (int i = 0; i < n; i++) {
-		int cur = 0;
-		for (int j = i; j < n; j++) {
-			if (s[j] == cur + 'A') cur++;
-			if (cur == 26) {
-				ans = min(ans, j - i + 1);
-				break;
-			}
-		}
-	}
-	print(ans);
-}
+const int MAXN = 2e5 + 5, INF = 0x3f3f3f3f;
 
 int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int m, n; rd(m, n);
 
-#ifndef LOCAL_PC
-	freopen("collectingofficer.in", "r", stdin);
-#endif
+	double ans = 0;
+	vector<double> pot(m + 1);
+	for (int i = 0; i <= m; i++) pot[i] = pow(double(i) / m, n);
+    for (int i = 1; i <= m; i++) ans += i * (pot[i] - pot[i-1]);
+    cout << fixed << setprecision(12) << ans << "\n";
 
-	ios::sync_with_stdio(false); cin.tie(nullptr);
-	int n_tests = 1;
-	rd(n_tests);
-	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

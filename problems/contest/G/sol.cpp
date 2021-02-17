@@ -21,24 +21,75 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-ll ans = 0;
-
 inline void run_test(int test_number) {
-	ll l, r; rd(l, r);
-	if (l != r) {
-		ans = 1;
-	} else {
-		ans = gcd(ans, l);
-	}
-	print(ans);
+	int n, q; rd(n, q);
+	vector<int> a(n);
+	for (int i = 0; i < n; i++) rd(a[i]);
 
+	vector<ll> sum(n + 1);
+	ll mx = a[0];
+	__int128 tot = 0;
+	for (int i = 0; i < n; i++) {
+		sum[i + 1] = sum[i] + a[i];
+		tot += a[i];
+		mx = max(mx, sum[i + 1]);
+	}
+
+	const ll INF = 1e15;
+	const int BKSZ = sqrt(n) + 2;
+	const int QTBK = (n + BKSZ - 1) / BKSZ;
+	vector<pair<ll, ll>> block(QTBK, make_pair(0, -INF));
+	for (int i = 0; i < n; i++) {
+		block[i / BKSZ].fi += a[i];
+		block[i / BKSZ].se = max(block[i / BKSZ].se, block[i / BKSZ].fi);
+	}
+
+	auto full_rot = [&](ll x)->ll {
+		if (tot <= 0) return mx >= x ? 0 : -1;
+		ll lo = 0, hi = 1e9, mi;
+		while(lo < hi) {
+			mi = (lo + hi) / 2;
+			if (tot * mi + mx >= x) hi = mi;
+			else lo = mi + 1;
+		}
+		return lo;
+	};
+
+	auto query = [&](ll x)->ll {
+		ll rot = full_rot(x);
+		if (rot == -1) return -1;
+
+		// primeiro cara X tal que tot * rot + X >= x
+		ll prev_sum = 0;
+		for (int bk = 0; bk < QTBK; bk++) {
+			if (tot * rot + prev_sum + block[bk].se >= x) {
+				for (int i = bk * BKSZ; i / BKSZ == bk; i++) {
+					if (tot * rot + sum[i + 1] >= x) {
+						return rot * n + i;
+					}
+				}
+				return -1;
+
+			}
+			prev_sum += block[bk].fi;
+		}
+		return -1;
+	};
+
+
+
+	while(q--) {
+		ll x; rd(x);
+		cout << query(x) << " ";
+	}
+	cout << "\n";
 }
 
 int main() {
 
-#ifndef LOCAL_PC
-	freopen("gcd.in", "r", stdin);
-#endif
+//#ifndef LOCAL_PC
+//	freopen("FILE.in", "r", stdin);
+//#endif
 
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;

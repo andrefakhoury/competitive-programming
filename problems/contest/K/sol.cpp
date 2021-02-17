@@ -21,28 +21,44 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test() {
-	ll n, m, k;
-	rd(n, m, k);
+const int MAXN = 6e4 + 5;
 
-	ll ans = min({n, m, k});
-	n -= ans;
-	m -= ans;
-	k -= ans;
-	ans += min(n/2, k);
-	print(ans);
+bitset<MAXN> vis[63][63];
+int n, a[63];
+
+vector<pii> all;
+void go(int i, int k, int d) {
+	if (d >= MAXN || vis[i][k][d]) return;
+	vis[i][k][d] = true;
+
+	if (i < n) {
+		go(i + 1, k, d);
+		go(i + 1, k + 1, d + a[i]);
+	} else if (k) all.eb(k, d);
+}
+
+
+inline void run_test(int test_number) {
+	int d; rd(n, d);
+	for (int i = 0; i < n; i++) rd(a[i]);
+
+	all.reserve(n * d);
+	go(0, 0, 0);
+
+	double ans = -1;
+	for (auto [k, x] : all) {
+		if (x + 10 >= d && x - 5 * (k - 1) <= d) {
+			double cur = (10 + x - d) / (k + 1.0);
+			ans = max(ans, clamp(cur, 0., 5.));
+		}
+	}
+
+	if (ans >= 0) cout << fixed << setprecision(10) << ans << "\n";
+	else cout << "impossible\n";
 }
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-
-#ifndef LOCAL_PC
-	freopen("katryoshka.in", "r", stdin);
-#endif
-
-	int T; rd(T);
-	for (int cs = 1; cs <= T; cs++) {
-		cout << "Case " << cs << ": ";
-		run_test();
-	}
+	int n_tests = 1;
+	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

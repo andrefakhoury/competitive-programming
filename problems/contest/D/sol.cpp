@@ -21,72 +21,36 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-const int MAXN = 2e3 + 1;
+const int MAXN = 105;
+int a[MAXN];
+int ans[MAXN];
 
-vector<int> edges[MAXN];
-int dist[MAXN][MAXN];
-
-void bfs(int s) {
-	mset(dist[s], 0x3f);
-	dist[s][s] = 0;
-	vector<int> qu = {s};
-	for (int i = 0; i < (int) qu.size(); i++) {
-		int u = qu[i];
-		for (int v : edges[u]) if (dist[s][v] > dist[s][u] + 1) {
-			dist[s][v] = dist[s][u] + 1;
-			qu.push_back(v);
-		}
-	}
+void solve(int l, int r, int d) {
+	if (l > r) return;
+	int id = max_element(a+l, a+r+1) - a;
+	ans[id] = d;
+	solve(l, id - 1, d + 1);
+	solve(id + 1, r, d + 1);
 }
 
 inline void run_test(int test_number) {
-	int n, m, q; rd(n, m, q);
-	for (int i = 0; i < m; i++) {
-		int u, v; rd(u, v);
-		edges[u].pb(v);
-		edges[v].pb(u);
+	int n; rd(n);
+	for (int i = 0; i < n; i++) rd(a[i]);
+	solve(0, n-1, 0);
+	for (int i = 0; i < n; i++) {
+		cout << ans[i] << " ";
 	}
-
-	for (int i = 1; i <= n; i++) bfs(i);
-
-	vector<pii> bomb(q);
-	for (int i = 0; i < q; i++) rd(bomb[i].fi, bomb[i].se);
-
-	auto check = [&](int last_day) {
-		for (int i = 1; i < q; i++) {
-			int cur_d = dist[bomb[i-1].se][bomb[i].se];
-			if (last_day + cur_d > bomb[i].fi) return false;
-			last_day += cur_d;
-		}
-		return true;
-	};
-
-	int lo = 0, hi = bomb[0].fi, mi;
-	while(lo < hi) {
-		mi = (lo + hi + 1) / 2;
-		if (check(mi)) lo = mi;
-		else hi = mi - 1;
-	}
-
-	if (!check(0)) {
-		print(0);
-		return;
-	}
-
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		ans += dist[i][bomb[0].se] <= lo;
-	}
-	print(ans);
+	cout << "\n";
 }
 
 int main() {
 
-#ifndef LOCAL_PC
-	freopen("ysys.in", "r", stdin);
-#endif
+//#ifndef LOCAL_PC
+//	freopen("FILE.in", "r", stdin);
+//#endif
 
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
+	rd(n_tests);
 	for (int i = 1; i <= n_tests; i++) run_test(i);
 }

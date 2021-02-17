@@ -21,32 +21,87 @@ template<class num> inline void print(num&& x) { cout << x; }
 template <class Ty, class... Args> inline void print(Ty&& x, Args&&... args) { print(x); print(' '); print(args...); }
 #define print(...) print(__VA_ARGS__), print('\n')
 
-inline void run_test(int test_number) {
-	string s; rd(s);
+const int N = 505;
+const int X = 1e6 + 6;
 
-	auto check = [&s](int n) {
-		int qtd = (n / 9) + (n % 9 ? 1 : 0);
-		if (qtd != (int) s.size()) return qtd < (int) s.size();
-		string s1 = string(n/9, '9');
-		if (n % 9) s1.insert(s1.begin(), (n % 9) + '0');
-		return s1 <= s;
-	};
+int n, m, q;
+int a[N][N];
+vector<pii> pos[X];
 
-	int lo = 1, hi = 1e6, mi;
+int par[N*N], sz[N*N], tim[N*N];
+
+int get(int i, int j) {
+	return i * m + j;
+}
+int find(int x, int t) {
+	if (par[x] == x || tim[x] > t) return x;
+	return find(par[x], t);
+}
+void merge(int u, int v, int t) {
+	u = find(u, t);
+	v = find(v, t);
+	if (u == v) return;
+	if (sz[u] > sz[v]) swap(u, v);
+	par[u] = v;
+	tim[u] = t;
+	sz[v] += sz[u];
+}
+bool valid(int i, int j) {
+	return i >= 0 && i < n && j >= 0 && j < m;
+}
+void add(int i1, int j1, int i2, int j2, int x) {
+	if (valid(i1, j1) && valid(i2, j2)) merge(get(i1, j1), get(i2, j2), x);
+}
+int solve(int i1, int j1, int i2, int j2) {
+	int u = get(i1, j1);
+	int v = get(i2, j2);
+
+	int lo = max(a[i1][j1], a[i2][j2]), hi = X-1, mi;
+
 	while(lo < hi) {
-		mi = (lo + hi + 1) / 2;
-		if (check(mi)) lo = mi;
-		else hi = mi - 1;
+		mi = (lo + hi) / 2;
+		if (find(u, mi) == find(v, mi)) hi = mi;
+		else lo = mi + 1;
 	}
-	print(lo);
+	return lo;
+}
+
+inline void run_test(int test_number) {
+	rd(n, m, q);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			rd(a[i][j]);
+			pos[a[i][j]].eb(i, j);
+			tim[get(i, j)] = a[i][j];
+		}
+	}
+
+	for (int i = 0; i < N * N; i++) {
+		par[i] = i;
+		sz[i] = 1;
+	}
+
+	const int dx[4] = {1, -1, 0, 0};
+	const int dy[4] = {0, 0, 1, -1};
+
+	for (int x = 0; x < X; x++) {
+		for (auto p : pos[x]) {
+			int i = p.fi, j = p.se;
+			for (int k = 0; k < 4; k++) {
+				int i2 = i + dx[k], j2 = j + dy[k];
+				if (valid(i2, j2) && a[i2][j2] <= x)
+					add(i, j, i2, j2, x);
+			}
+		}
+	}
+
+	for (int i = 0; i < q; i++) {
+		int i1, j1, i2, j2; rd(i1, j1, i2, j2);
+		print(solve(i1-1, j1-1, i2-1, j2-1));
+	}
 }
 
 int main() {
-
-#ifndef LOCAL_PC
-	freopen("lis.in", "r", stdin);
-#endif
-
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	int n_tests = 1;
 	for (int i = 1; i <= n_tests; i++) run_test(i);
