@@ -1,5 +1,4 @@
-// const int MOD = 998244353;
-const int MOD = 1e9 + 7;
+const int MOD = 998244353;
 struct mint {
 	int v;
 	mint() : v{} {}
@@ -12,9 +11,9 @@ struct mint {
 		return r;
 	}
 	mint inv() const { return fpow(*this, MOD - 2); }
-	mint operator+(mint const& m) const { return m.v + v >= MOD ? m.v + v - MOD : m.v + v; }
-	mint operator-(mint const& m) const { return m.v - v < 0 ? m.v - v + MOD : m.v - v; }
-	mint operator*(mint const& m) const { return (long long) m.v * v % MOD; }
+	mint operator+(mint const& m) const { return v + m.v >= MOD ? v + m.v - MOD : v + m.v; }
+	mint operator-(mint const& m) const { return v - m.v < 0 ? v - m.v + MOD : v - m.v; }
+	mint operator*(mint const& m) const { return (long long) v * m.v % MOD; }
 	mint operator/(mint const& m) const { return (*this) * m.inv(); }
 	mint operator^(long long m) const { return fpow(*this, m); }
 	mint& operator+=(mint const& m) { return (*this) = (*this) + m; }
@@ -22,7 +21,3 @@ struct mint {
 	mint& operator*=(mint const& m) { return (*this) = (*this) * m; }
 	mint& operator/=(mint const& m) { return (*this) = (*this) / m; }
 };
-
-// BE CAREFUL, m.v is INT, overflow is possible on input!
-istream& operator>>(istream& in, mint& m) { in >> m.v; m.go(); return in; }
-ostream& operator<<(ostream& out, mint m) { return out << m.v; }
