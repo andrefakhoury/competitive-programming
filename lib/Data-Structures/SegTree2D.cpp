@@ -14,7 +14,7 @@ struct Seg2D {
 	int n, m;
 	vector<vector<Node>> seg;
 
-	Seg2D(int n, int m) : n(n), m(m) { // size of each dimension must be 2^(1 + ceil(log2 n)). Be careful with MLE
+	Seg2D(int n, int m) : n(n), m(m) { // size of SegX must be 2^(1 + ceil(log2 n)). SegY is iterative, so 2*m
 		seg = vector<vector<Node>>(1 << (32 - __builtin_clz(n - 1) + 1), vector<Node>(2 * m + 1));
 	}
 
