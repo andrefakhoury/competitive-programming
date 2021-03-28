@@ -57,6 +57,22 @@ template<typename T> struct Point {
 		Point<T> AB = b - a, AP = (*this) - a;
 		return sign(AB.cross(AP)) == 0 && AB.dot(AP) >= 0 && AB.dot(AP) <= AB.len2();
 	}
+
+	/** Rotate current vector rotated counter-clockwise by alpha (in radians) */
+	inline Point<double> rotate(double alpha) {
+		Point<double> ans;
+		ans.x = cos(alpha) * x - sin(alpha) * y;
+		ans.y = sin(alpha) * x + cos(alpha) * y;
+		return ans;
+	}
+
+	/** Returns resized version of current vector with length len */
+	inline Point<double> resize(double len) {
+		Point<double> ans = *this;
+		ans /= ans.len();
+		ans *= len;
+		return ans;
+	}
 };
 
 template<typename T> istream& operator>>(istream& in, Point<T>& p) { return in >> p.x >> p.y; }
