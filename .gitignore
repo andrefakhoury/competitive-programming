@@ -1,0 +1,11 @@
+# CLion and JHelper information
+.DS_Store
+.idea
+cmake-build-debug
+CMakeLists.txt
+output
+tasks
+testrunner
+run.template
+submission.template
+task.template
