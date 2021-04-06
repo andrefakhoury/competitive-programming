@@ -77,5 +77,4 @@ template<typename T> struct Point {
 
 template<typename T> istream& operator>>(istream& in, Point<T>& p) { return in >> p.x >> p.y; }
 template<typename T> ostream& operator<<(ostream& out, Point<T>& p) { return out << p.x << ' ' << p.y; }
-using pt = Point<ll>;
 /** ==== GEOMETRY NOTEBOOK ========================================================================================== */

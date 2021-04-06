@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 struct Hash {
 	static constexpr int MOD[2] = {(int) 1e9+7, (int) 1e9+9};
 	int val[2];
@@ -73,38 +70,3 @@ ostream& operator<<(ostream& out, Hash const& h) {
 }
 
 #define hash UISHDUIAHSDU
-
-int main() {
-	ios::sync_with_stdio(false); cin.tie(NULL);
-	string s; cin >> s;
-	int n = s.size();
-	s += s;
-
-	Hash primes(31, 29);
-	vector<Hash> hash = Hash::calculateHashVector(s, primes);
-	vector<Hash> power = Hash::calculatePowerVector(primes, n);
-
-	// lexicographically compares two substrings: s[A..A+n] and s[B..B+n]
-	auto cmp = [&](int const A, int const B) {
-		if (s[A] != s[B]) return s[A] < s[B];
-		Hash h1, h2;
-		int lo = 2, hi = n, mi;
-
-		while(lo < hi) {
-			mi = (lo + hi) / 2;
-			h1 = hash[A + mi - 1] - (A ? hash[A - 1] : 0);
-			h2 = hash[B + mi - 1] - (B ? hash[B - 1] : 0);
-			if (A < B) h1 *= power[B - A];
-			else h2 *= power[A - B];
-
-			if (h1 != h2) hi = mi;
-			else lo = mi + 1;
-		}
-		return s[A+hi-1] < s[B+hi-1];
-	};
-
-	vector<int> a(n);
-	iota(a.begin(), a.end(), 0);
-	nth_element(a.begin(), a.begin(), a.end(), cmp);
-	cout << s.substr(a[0], n) << "\n";
-}
