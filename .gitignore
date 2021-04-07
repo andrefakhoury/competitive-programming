@@ -9,3 +9,7 @@ testrunner
 run.template
 submission.template
 task.template
+
+# Another files
+problems/output
+problems/contest
