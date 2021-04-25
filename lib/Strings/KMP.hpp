@@ -8,6 +8,5 @@ std::vector<int> prefixKMP(T const& v) {
 			pi[i] = pi[pi[i]-1];
 		if (v[i] == v[pi[i]]) pi[i]++;
 	}
-
 	return pi;
 }

@@ -6,11 +6,16 @@ struct TwoSat {
 	// N is the amount of VERTICES!!! n = 2 * VARIABLES!!!
 	TwoSat(int n) : n(n), edges(n), reved(n) {}
  
-	inline int getPos(int i) { return i + i; }
-	inline int getNeg(int i) { return i + i + 1; }
+ 	// i is variable, return vertex id
+	inline static int pos(int i) { return i + i; }
+	inline static int neg(int i) { return i + i + 1; }
+	inline static int getNot(int i) { return i ^ 1; }
+
 	inline void addEdge(int u, int v) { // 0-based pls!
 		edges[u].push_back(v);
+		edges[getNot(v)].push_back(getNot(u));
 		reved[v].push_back(u);
+		reved[getNot(u)].push_back(getNot(v));
 	}
  
 	void dfsOrder(int u, vector<int>& vis, vector<int>& order) {
@@ -19,6 +24,7 @@ struct TwoSat {
 				dfsOrder(v, vis, order);
 		order.pb(u);
 	}
+
 	void dfsSCC(int u, int c, vector<int>& comp) {
 		comp[u] = c;
 		for (int v : reved[u]) if (!comp[v])
