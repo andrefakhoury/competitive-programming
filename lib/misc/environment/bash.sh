@@ -4,10 +4,17 @@ C_BLUE="\e[1;34m";
 C_BOLD="\e[1;39m";
 C_RESET="\e[0m";
 
+export CPPFLAGS="-Wall -std=c++17 -DLOCAL_PC -fsanitize=address,undefined -ggdb3"
+
 if [ $# -eq 0 ]; then
     EXEC_FILE="sol"
 else
-    EXEC_FILE="$1"
+    if [[ $1 == -* ]]; then
+        EXEC_FILE="sol"
+        export CPPFLAGS="-static -Wall -DLOCAL_PC -O2 -std=gnu++17"
+    else
+        EXEC_FILE="$1"
+    fi
 fi
 
 if ! [ -e ${EXEC_FILE}.cpp ]; then
@@ -15,7 +22,7 @@ if ! [ -e ${EXEC_FILE}.cpp ]; then
     exit 1
 fi
 
-(make "${EXEC_FILE}") > /dev/null;
+make "${EXEC_FILE}";
 if ! [ $? -eq 0 ]; then
     echo "Compilation error."
     exit 1
