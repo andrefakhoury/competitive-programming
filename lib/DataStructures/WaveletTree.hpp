@@ -14,14 +14,17 @@ struct waveletTree {
 		this->lo = lo;
 		this->hi = hi;
 		this->mi = (lo + hi) / 2;
-		if (beg >= end) return; // no elements to insert
 
 		mp.reserve(end - beg + 1);
 		mp.push_back(0);
-		for (auto it = beg; it != end; it++)
+		for (auto it = beg; it != end; it++) {
 			mp.push_back(mp.back() + ((*it) <= mi));
+		}
+
 		if (lo != hi) {
-			auto pivot = stable_partition(beg, end, f); // split the vector
+			auto pivot = stable_partition(beg, end, [&](int x) {
+				return x <= mi;
+			}); // split the vector
 			L = new waveletTree(beg, pivot, lo, mi);
 			R = new waveletTree(pivot, end, mi + 1, hi);
 		}
